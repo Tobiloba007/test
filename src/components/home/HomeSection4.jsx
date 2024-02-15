@@ -37,7 +37,7 @@ const HomeSection4 = () => {
 
   return (
     <div className='flex flex-col items-center justify-center w-full py-14 px-6 font-poppins md:px-10 lg:flex-row-reverse lg:items-start lg:justify-between 
-    lg:py-24 lg:px-14 xl:px-20'>
+    lg:py-20 lg:px-14 xl:px-24'>
 
         <div className='flex flex-col items-center justify-start w-full lg:w-[50%] lg:items-end'>
             <div className='flex flex-row items-center justify-center w-full lg:w-[80%] lg:mr-3 xl:mr-7'>

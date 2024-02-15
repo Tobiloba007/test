@@ -70,7 +70,7 @@ const Navbar = () => {
 
     {/* MOBILE AND TABS LINKS */}
     { open && 
-    <div className='flex flex-col items-center justify-start mt-10'>
+    <div className='flex flex-col items-center justify-start mt-10 z-[500]'>
          <p className='text-sm text-black my-6'>
              Explore
          </p>

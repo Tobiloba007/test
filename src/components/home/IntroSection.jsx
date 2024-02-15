@@ -5,15 +5,19 @@ import { IoStar } from "react-icons/io5";
 import truck from '../../assets/icons/truck.svg'
 import shield from '../../assets/icons/shield.svg'
 import wallet from '../../assets/icons/wallet.svg'
+import background from '../../assets/images/intro-bg.jpeg'
+import Navbar from '../general/Navbar';
 
 
 
 const IntroSection = () => {
   return (
-    <div className='flex flex-col items-center justify-start w-full font-poppins z-20 pb-36 md:pb-1'>
+    <div className='flex flex-col items-center justify-start w-full font-poppins z-20 bg-cover bg-center'  
+    style={{ backgroundImage: `url(${background})`}}>
+     <Navbar />
         {/* INTRO TOP */}
         <div className='flex flex-col items-center justify-center w-full mt-12 lg:mt-8 px-6'>
-            <div className='flex flex-row items-center justify-between w-[160px] h-8 rounded-[30px] bg-transparent border-b-[1.4px] z-50 
+            <div className='flex flex-row items-center justify-between w-[160px] h-8 rounded-[30px] bg-transparent border-b-[1.4px] 
             border-white px-3 shadow-inner md:w-[165px] xl:w-[190px] xl:px-5'>
                   <p className='text-white text-[10px] font-light z-50 xl:text-[11px]'>
                       Secure
@@ -88,7 +92,7 @@ const IntroSection = () => {
 
 
                 {/* INTRO BOTTOM */}
-        <div className='flex flex-col items-center justify-start w-full h-[20rem] bg-white mt-5 rounded-t-[35px] z-[100] px-6 pt-8 md:h-80 
+        <div className='flex flex-col items-center justify-start w-full pb-12 bg-white mt-5 rounded-t-[35px] px-6 pt-8 md:h-80 
         lg:px-16 lg:mt-6 xl:px-44 xl:h-[24.5rem] xl:mt-7'>
             <p className='text-[#000000] text-[14px] font-medium text-center lg:text-[15px] xl:text-[17px]'>
                    Uncover a World of Advantages
