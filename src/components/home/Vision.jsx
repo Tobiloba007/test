@@ -20,6 +20,7 @@ const Vision = () => {
                     commitment to setting a good example by prioritising responsible sourcing to meet the ever-increasing demand for essential metals.
               </p>
         </div>
+        
         </div>
 
     </div>

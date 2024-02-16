@@ -3,6 +3,7 @@ import logo1 from '../../assets/images/obaLogo.svg'
 import logo2 from '../../assets/images/obaLogo2.svg'
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseOutline } from "react-icons/io5";
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
@@ -12,31 +13,30 @@ const Navbar = () => {
         setOpen(!open)
     }
 
+    const navigate = useNavigate();
+
   return (
     <div className={`flex flex-col items-center justify-start w-full lg:flex-row lg:items-center ${open && 'bg-white h-[100vh] fixed z-50'}`}>
     <div className={`flex flex-row items-start justify-between w-full px-6 pt-3 lg:items-center lg:px-14 xl:px-20`}>
         <div className='flex flex-row items-center justify-start'>
                {/* OBA LOGO */}
-            <img className='h-16 w-16 z-50 md:h-[70px] md:w-[70px] xl:h-[80px] xl:w-[80px]'
-            src={open ? logo2 : logo1} alt="Oba Logo" />
+                <img onClick={()=>navigate('/')} className='h-16 w-16 z-50 md:h-[70px] md:w-[70px] xl:h-[80px] xl:w-[80px]'
+                src={open ? logo2 : logo1} alt="Oba Logo" />
 
                {/* WEB MIDDLE LINKS */}
             <div className='hidden lg:flex flex-row items-center justify-between ml-14 z-50 lg:ml-12 xl:ml-20'>
-                <p className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
-                    Explore
-                </p>
-                <p className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
-                    FAQs
-                </p>
-                <p className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
-                    Reviews
-                </p>
-                <p className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
-                    About
-                </p>
-                <p className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
-                    Admin Login
-                </p>
+                <Link to='/' className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
+                    Our Metals
+                </Link>
+                <Link to='/' className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
+                    Locations
+                </Link>
+                <Link to='/about' className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
+                    About OAT
+                </Link>
+                <Link to='/' className='text-[12px] font-light text-white px-5 xl:text-sm xl:px-7'>
+                    Support
+                </Link>
             </div>
         </div>
 
@@ -71,21 +71,18 @@ const Navbar = () => {
     {/* MOBILE AND TABS LINKS */}
     { open && 
     <div className='flex flex-col items-center justify-start mt-10 z-[500]'>
-         <p className='text-sm text-black my-6'>
-             Explore
-         </p>
-         <p className='text-sm text-black my-6'>
-             FAQs
-         </p>
-         <p className='text-sm text-black my-6'>
-             Reviews
-         </p>
-         <p className='text-sm text-black my-6'>
-             About
-         </p>
-         <p className='text-sm text-black my-6'>
-             Admin Login
-         </p>
+         <Link to='/' className='text-sm text-black my-6'>
+               Our Metals
+         </Link>
+         <Link to='/' className='text-sm text-black my-6'>
+               Locations
+         </Link>
+         <Link to='/about' className='text-sm text-black my-6'>
+               About OAT
+         </Link>
+         <Link to='/' className='text-sm text-black my-6'>
+                Support
+         </Link>
 
          <div className='flex flex-col items-center justify-center w-full mt-8'>
              <button className='h-12 w-48 text-center bg-black text-white rounded-[34px] text-[13px] font-medium md:w-72'>
