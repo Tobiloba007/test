@@ -5,21 +5,25 @@ import { IoStar } from "react-icons/io5";
 import truck from '../../assets/icons/truck.svg'
 import shield from '../../assets/icons/shield.svg'
 import wallet from '../../assets/icons/wallet.svg'
-import background from '../../assets/images/intro-bg.jpeg'
+import background from '../../assets/images/intro-bg.svg'
 import Navbar from '../general/Navbar';
+import logo from '../../assets/images/obaLogo.svg'
+import { Link } from 'react-router-dom';
+
 
 
 
 const IntroSection = () => {
   return (
-    <div className='flex flex-col items-center justify-start w-full font-poppins z-20 bg-cover bg-center'  
+    <div className='flex flex-col items-center justify-start w-full font-poppins z-20 bg-cover bg-center pt-3'  
     style={{ backgroundImage: `url(${background})`}}>
-     <Navbar />
+    <div className='absolute top-0 h-full w-full bg-[#000000] opacity-30'></div>
+     <Navbar logo={logo} text2={'#FFFFFF'} />
         {/* INTRO TOP */}
-        <div className='flex flex-col items-center justify-center w-full mt-12 lg:mt-8 px-6'>
-            <div className='flex flex-row items-center justify-between w-[160px] h-8 rounded-[30px] bg-transparent border-b-[1.4px] 
+        <div className='flex flex-col items-center justify-center w-full mt-12 lg:mt-8 px-6 z-30'>
+            <div className='flex flex-row items-center justify-between w-[160px] h-9 rounded-[30px] backdrop-blur-sm border-b-[1px] 
             border-white px-3 shadow-inner md:w-[165px] xl:w-[190px] xl:px-5'>
-                  <p className='text-white text-[10px] font-light z-50 xl:text-[11px]'>
+                  <p className='text-white text-[10px] font-light z-50 xl:text-[11px]'> 
                       Secure
                   </p>
                   <MdOutlineKeyboardArrowRight className='text-white h-3 w-3 z-50 xl:h-4.5 xl:w-4.5' />
@@ -43,19 +47,20 @@ const IntroSection = () => {
             </div>
 
             <div className='flex flex-row flex-wrap items-center justify-center w-full mt-7 md:mt-6 lg:mt-8'>
-                <div className='flex flex-row items-center justify-center w-[150px] h-12 bg-white rounded-[30px] mt-3 ml-3 md:h-10 lg:h-12 lg:w-[170px]'>
+                <div className='flex flex-row items-center justify-center w-[150px] h-10 bg-white rounded-[30px] mt-3 ml-3 md:h-10 lg:h-12 lg:w-[170px]'>
                       <p className='text-black text-[11px] font-normal lg:text-[12px]'>
                           Buy Commodities
                       </p>
                       <HiMiniArrowRight className='ml-1 h-4 w-4 text-black lg:ml-2' />
                 </div>
 
-                <div className='flex flex-row items-center justify-center w-[150px] h-12 bg-black rounded-[30px] mt-3 ml-3 md:h-10 md:ml-6 lg:h-12 lg:w-[170px] xl:ml-7'>
+                <Link to={{ pathname: '/about', search: '?sectionId=learn-more'}}
+                 className='flex flex-row items-center justify-center w-[150px] h-10 bg-black rounded-[30px] mt-3 ml-3 md:h-10 md:ml-6 lg:h-12 lg:w-[170px] xl:ml-7'>
                       <p className='text-white text-[11px] font-normal'>
                            Sell a Commodity
                       </p>
                       <HiMiniArrowRight className='ml-1 h-4 w-4 text-white lg:ml-2' />
-                </div>
+                </Link>
             </div>
 
             <div className='flex flex-wrap flex-row items-center justify-center w-full mt-6 md:mt-7 lg:mt-8'>
@@ -92,7 +97,7 @@ const IntroSection = () => {
 
 
                 {/* INTRO BOTTOM */}
-        <div className='flex flex-col items-center justify-start w-full pb-12 bg-white mt-5 rounded-t-[35px] px-6 pt-8 md:h-80 
+        <div className='flex flex-col items-center justify-start w-full pb-12 bg-white mt-5 rounded-t-[35px] px-6 pt-8 z-30 md:h-80 
         lg:px-16 lg:mt-6 xl:px-44 xl:h-[24.5rem] xl:mt-7'>
             <p className='text-[#000000] text-[14px] font-medium text-center lg:text-[15px] xl:text-[17px]'>
                    Uncover a World of Advantages

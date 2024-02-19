@@ -33,7 +33,7 @@ const Faq = () => {
     }
 
   return (
-    <div className='flex flex-col items-center justify-center w-full font-poppins bg-[#292929] py-20 px-5 md:px-10 lg:px-40 lg:py-24 xl:py-28'>
+    <div id='faq' className='flex flex-col items-center justify-center w-full font-poppins bg-[#292929] py-20 px-5 md:px-10 lg:px-40 lg:py-24 xl:py-28'>
         <p className='text-base text-white font-medium text-center lg:text-lg xl:text-xl'>
             FREQUENTLY ASKED QUESTIONS
         </p>
