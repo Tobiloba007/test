@@ -1,5 +1,6 @@
 import React from 'react'
 import map from '../../assets/images/map.svg'
+import { Link } from 'react-router-dom'
 
 const HomeSection5 = () => {
   return (
@@ -13,12 +14,12 @@ const HomeSection5 = () => {
             <p className='text-xs font-light text-center mt-5 leading-5 text-[#D0D5DC] lg:text-[13px] xl:text-[15px] xl:mt-6'>
                   Discover Available Metric Tons Accross States.
             </p>
-            <div className='flex items-center justify-center w-full md:justify-start'>
+            <Link to={{ pathname: '/locations', search: '?sectionId=location'}} className='flex items-center justify-center w-full md:justify-start'>
                <button className='text-center h-10 w-[45%] text-xs rounded-3xl text-white bg-[#2196F3] mt-8 md:text-[11px] md:h-9 lg:w-[40%] 
                lg:text-[12px] lg:h-10 xl:mt-9 xl:h-11 xl:text-[14px] xl:w-[35%]'>
                     Explore Locations
                </button>
-            </div>
+            </Link>
         </div>
 
         <div className='flex flex-row items-center justify-start w-full mt-20 md:mt-0 md:justify-start lg:w-[50%]'>

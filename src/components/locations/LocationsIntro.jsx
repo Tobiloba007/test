@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../general/Navbar'
 import logo from '../../assets/images/obaLogo2.svg'
+import logo2 from '../../assets/images/obaLogo2.svg'
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { IoWallet } from "react-icons/io5";
 import { TbMailFilled } from "react-icons/tb";
@@ -32,7 +33,7 @@ const LocationsIntro = () => {
   return (
     <div className='flex flex-col items-center justify-start w-full font-poppins'>
          <div className={`flex flex-row items-center justify-center absolute top-0 w-full bg-white h-20 shadow-md lg:h-24`}>
-             <Navbar logo={logo} text2={'#101828'} locations={'#2196F3'} />
+             <Navbar logo={logo} logo2={logo2} text2={'#101828'} locations={'#2196F3'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
          </div>
 
          <div className='flex flex-col items-center justify-start w-full mt-36 px-5 pb-12 md:px-10 md:pb-16 md:mt-40 lg:flex-row lg:mt-44 lg:px-14 lg:items-start xl:mt-56 

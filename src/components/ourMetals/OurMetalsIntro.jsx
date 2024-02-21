@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../general/Navbar'
 import background from '../../assets/images/intro-bg.svg'
 import logo from '../../assets/images/obaLogo.svg'
+import logo2 from '../../assets/images/obaLogo2.svg'
 import metal1 from '../../assets/images/Metal1.svg'
 import metal2 from '../../assets/images/Metal2.svg'
 import metal3 from '../../assets/images/Metal3.svg'
@@ -41,7 +42,7 @@ const OurMetalsIntro = () => {
     style={{ backgroundImage: `url(${background})`}}>
     <div className='absolute top-0 h-[16rem] w-full bg-[#000000] opacity-50'></div>
     <div className='flex flex-row items-center justify-center absolute top-0 w-full pt-3 z-30'>
-         <Navbar logo={logo} text2={'#FFFFFF'} metal={'#2196F3'} />
+         <Navbar logo={logo} logo2={logo2} text2={'#FFFFFF'} metal={'#2196F3'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
     </div>
 
      <div className='flex flex-col items-center justify-center w-full mt-14 z-20 xl:mt-20 px-5 md:px-10 lg:px-14 xl:px-20'>

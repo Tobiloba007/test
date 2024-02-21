@@ -36,9 +36,9 @@ const Footer = () => {
                      <Link to={{ pathname: '/', search: '?sectionId=faq'}} className='text-[12px] font-normal text-[#FFFFFF] mt-5 xl:text-[14px] xl:mt-6'>
                         FAQ's
                      </Link>
-                     <p className='text-[12px] font-normal text-[#FFFFFF] mt-5 xl:text-[14px] xl:mt-6'>
+                     <Link to={{ pathname: '/locations', search: '?sectionId=location'}} className='text-[12px] font-normal text-[#FFFFFF] mt-5 xl:text-[14px] xl:mt-6'>
                         Explore
-                     </p>
+                     </Link>
                </div>
 
 

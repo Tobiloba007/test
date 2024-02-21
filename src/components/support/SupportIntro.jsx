@@ -10,7 +10,7 @@ const SupportIntro = () => {
   return (
     <div className='flex flex-col items-center justify-start w-full font-poppins'>
            <div className={`flex flex-row items-center justify-center absolute top-0 w-full bg-white h-20 shadow-md lg:h-24`}>
-                <Navbar logo={logo} text2={'#101828'} support={'#2196F3'} />
+                <Navbar logo={logo} logo2={logo} text2={'#101828'} support={'#2196F3'} regBackground={'#2196F3'} reg={'#FFFFFF'}  />
            </div>
 
            <div className='flex flex-col items-start justify-start w-full mt-36 lg:flex-row-reverse lg:mt-24 lg:px-0 lg:items-center'>

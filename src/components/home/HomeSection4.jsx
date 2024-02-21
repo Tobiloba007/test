@@ -3,6 +3,7 @@ import circle from '../../assets/icons/circle.svg'
 import { MdOutlineAdd } from "react-icons/md";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import metal from '../../assets/images/metalDisplay.svg'
+import { Link } from 'react-router-dom';
 
 
 const HomeSection4 = () => {
@@ -83,12 +84,12 @@ const HomeSection4 = () => {
             </div>
 
             <div className='flex flex-row items-center justify-center w-full'>
-               <div className='flex flex-row items-center justify-center w-[165px] border-[1.5px] border-[#CDD2D9] h-12 rounded-[15px] mt-12 md:h-11 lg:ml-12 xl:h-12 xl:w-[185px] xl:ml-16'>
+               <Link to='/login' className='flex flex-row items-center justify-center w-[165px] border-[1.5px] border-[#CDD2D9] h-12 rounded-[15px] mt-12 md:h-11 lg:ml-12 xl:h-12 xl:w-[185px] xl:ml-16'>
                        <p className='text-[12px] font-medium text-[#0F1828] md:font-normal xl:text-[13px]'>
                              Buy Commodities
                        </p>
                        <IoArrowForwardSharp className='ml-2' />
-               </div>
+               </Link>
             </div>
 
         </div>

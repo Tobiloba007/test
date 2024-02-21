@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import logo2 from '../../assets/images/obaLogo2.svg'
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseOutline } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,12 +16,12 @@ const Navbar = (props) => {
 
 
   return (
-    <div className={`flex flex-col items-center justify-start w-full lg:flex-row lg:items-center ${open && 'bg-white h-[100vh] fixed top-0 z-50'}`}>
+    <div className={`flex flex-col items-center justify-start w-full lg:flex-row lg:items-center ${open && `bg-[${props.reg}] h-[100vh] fixed top-0 z-50`}`}>
     <div className={`flex flex-row items-center justify-between w-full px-6 lg:items-center lg:px-14 xl:px-20`}>
-        <div className={`flex flex-row items-center justify-start ${open && 'mt-5'}`}>
+        <div className={`flex flex-row items-center justify-start ${open && 'mt-2'}`}>
                {/* OBA LOGO */}
                 <img onClick={()=>navigate('/')} className='h-16 w-16 z-50 cursor-pointer md:h-[70px] md:w-[70px] xl:h-[80px] xl:w-[80px]'
-                src={open ? logo2 : props.logo} alt="Oba Logo" />
+                src={open ? props.logo2 : props.logo} alt="Oba Logo" />
 
                {/* WEB MIDDLE LINKS */}
             <div className='hidden lg:flex flex-row items-center justify-between ml-14 z-50 lg:ml-12 xl:ml-20'>
@@ -58,7 +57,7 @@ const Navbar = (props) => {
 
 
         {/* HAMBURGER TO ONLY SHOW ON MOBILE AND TABS */}
-        <div className={`flex items-center justify-center h-9 w-9 border-[1px] border-white bg-white rounded-md mt-5 z-50 lg:hidden ${open && 'bg-transparent border-none'}`}>
+        <div className={`flex items-center justify-center h-9 w-9 border-[1px] border-white bg-white rounded-md mt-1 z-50 lg:hidden ${open && 'bg-transparent border-none'}`}>
             {
                 open
                 ?<IoCloseOutline onClick={handleOpen} className='h-7 w-7' />
@@ -68,13 +67,13 @@ const Navbar = (props) => {
 
          {/* WEB */}
         <div className='hidden lg:flex flex-row items-center justify-center z-50'>
-            <button className={`h-9 w-24 text-center bg-[#2196F3] text-white rounded-[34px] text-[11px] font-normal xl:text-[12px] xl:h-10 xl:w-28`}>
+            <Link to='/register' className={`h-9 w-24 flex items-center justify-center bg-[${props.regBackground}] text-[${props.reg}] rounded-[34px] text-[11px] font-normal xl:text-[12px] xl:h-10 xl:w-28`}>
                  Get Started
-            </button>
+            </Link>
 
-            <button className={`w-20 text-center rounded-[34px] text-[11px] font-normal text-[${props.text2}] xl:text-[12px] xl:w-24`}>
+            <Link to='/login' className={`w-20 flex items-center justify-center rounded-[34px] text-[11px] font-normal text-[${props.text2}] xl:text-[12px] xl:w-24`}>
                  Sign in
-            </button>
+            </Link>
         </div>
 
     </div>
@@ -83,40 +82,40 @@ const Navbar = (props) => {
     { open && 
     <div className='flex flex-col items-center justify-start mt-10 z-[500]'>
          <div className='flex flex-col items-center justify-center my-6'>
-                <Link to='/our-metals' className='text-sm text-black pb-1'>
+                <Link to='/our-metals' className={`text-sm text-[${props.link}] pb-1`}>
                       Our Metals
                 </Link>
                 <div className={`w-[85px] h-[1.6px] bg-[${props.metal}] rounded-xl`}></div>
          </div>
 
          <div className='flex flex-col items-center justify-center my-6'>
-                <Link to='/locations' className='text-sm text-black pb-1'>
+                <Link to='/locations' className={`text-sm text-[${props.link}] pb-1`}>
                       Locations
                 </Link>
                 <div className={`w-[85px] h-[1.6px] bg-[${props.locations}] rounded-xl`}></div>
          </div>
 
-         <div className='flex flex-col items-center justify-center my-6'>
-                <Link to='/about' className='text-sm text-black pb-1'>
+         <div className={`flex flex-col items-center justify-center my-6`}>
+                <Link to='/about' className={`text-sm text-[${props.link}] pb-1`}>
                       About OAT
                 </Link>
                 <div className={`w-[85px] h-[1.6px] bg-[${props.about}] rounded-xl`}></div>
          </div>
 
-         <div className='flex flex-col items-center justify-center my-6'>
-                <Link to='/support' className='text-sm text-black pb-1'>
+         <div className={`flex flex-col items-center justify-center my-6`}>
+                <Link to='/support' className={`text-sm text-[${props.link}] pb-1`}>
                        Support
                 </Link>
                 <div className={`w-[85px] h-[1.6px] bg-[${props.support}] rounded-xl`}></div>
          </div>
 
-         <div className='flex flex-col items-center justify-center w-full mt-8'>
-             <button className='h-12 w-48 text-center bg-[#2196F3] text-white rounded-[34px] text-[13px] font-medium md:w-72'>
+         <div className={`flex flex-col items-center justify-center w-full mt-8`}>
+             <Link to='/register' className={`h-12 w-48 flex items-center justify-center bg-[#2196F3] text-white rounded-[34px] text-[13px] font-medium md:w-72`}>
                   Get Started
-             </button>
-             <button className='h-12 w-48 text-center bg-white text-black rounded-[34px] text-[13px] font-medium mt-5 shadow-md md:w-96 md:mt-6'>
+             </Link>
+             <Link to='/login' className={`h-12 w-48 flex items-center justify-center bg-white text-black rounded-[34px] text-[13px] font-medium mt-5 shadow-md md:w-96 md:mt-6`}>
                      Sign in
-             </button>
+             </Link>
          </div>
      </div>
     }

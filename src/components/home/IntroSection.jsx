@@ -8,6 +8,7 @@ import wallet from '../../assets/icons/wallet.svg'
 import background from '../../assets/images/intro-bg.svg'
 import Navbar from '../general/Navbar';
 import logo from '../../assets/images/obaLogo.svg'
+import logo2 from '../../assets/images/obaLogo2.svg'
 import { Link } from 'react-router-dom';
 
 
@@ -18,7 +19,7 @@ const IntroSection = () => {
     <div className='flex flex-col items-center justify-start w-full font-poppins z-20 bg-cover bg-center pt-3'  
     style={{ backgroundImage: `url(${background})`}}>
     <div className='absolute top-0 h-full w-full bg-[#000000] opacity-30'></div>
-     <Navbar logo={logo} text2={'#FFFFFF'} />
+     <Navbar logo={logo} logo2={logo2} text2={'#FFFFFF'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
         {/* INTRO TOP */}
         <div className='flex flex-col items-center justify-center w-full mt-12 lg:mt-8 px-6 z-30'>
             <div className='flex flex-row items-center justify-between w-[160px] h-9 rounded-[30px] backdrop-blur-sm border-b-[1px] 
@@ -47,15 +48,15 @@ const IntroSection = () => {
             </div>
 
             <div className='flex flex-row flex-wrap items-center justify-center w-full mt-7 md:mt-6 lg:mt-8'>
-                <div className='flex flex-row items-center justify-center w-[150px] h-10 bg-white rounded-[30px] mt-3 ml-3 md:h-10 lg:h-12 lg:w-[170px]'>
+                <Link to='/login' className='flex flex-row items-center justify-center w-[150px] h-10 bg-white rounded-[30px] mt-3 ml-3 md:h-10 lg:h-12 lg:w-[170px]'>
                       <p className='text-black text-[11px] font-normal lg:text-[12px]'>
                           Buy Commodities
                       </p>
                       <HiMiniArrowRight className='ml-1 h-4 w-4 text-black lg:ml-2' />
-                </div>
+                </Link>
 
-                <Link to={{ pathname: '/about', search: '?sectionId=learn-more'}}
-                 className='flex flex-row items-center justify-center w-[150px] h-10 bg-black rounded-[30px] mt-3 ml-3 md:h-10 md:ml-6 lg:h-12 lg:w-[170px] xl:ml-7'>
+                <Link to='/login'
+                 className='flex flex-row items-center justify-center w-[150px] h-10 bg-black rounded-[30px]  mt-3 ml-3 md:h-10 md:ml-6 lg:h-12 lg:w-[170px] xl:ml-7'>
                       <p className='text-white text-[11px] font-normal'>
                            Sell a Commodity
                       </p>

@@ -13,13 +13,16 @@ import { useLocation } from 'react-router-dom'
 const Home = () => {
   const location = useLocation();
   const sectionId = new URLSearchParams(location.search).get('sectionId');
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [sectionId]);
+    window.scrollTo(0, 0);
+  }, [sectionId, pathname]);
+
 
   return (
     <div id='home-top'>

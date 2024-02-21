@@ -1,5 +1,6 @@
 import React from 'react'
 import background from '../../assets/images/background2.svg'
+import { Link } from 'react-router-dom'
 
 const HomeSection6 = () => {
   return (
@@ -12,10 +13,10 @@ const HomeSection6 = () => {
             <p className='text-[9px] font-light text-[#CED3D9] pt-3 lg:text-[10px] xl:text-[14px] xl:pt-4'>
                 Join OAT's Platform for Effortless Resource Showcase and Sales, Redefining the Future of Global Trade.
             </p>
-            <button className='text-[10px] font-normal h-9 w-[125px] rounded-3xl text-center bg-[#2196F3] mt-7 text-white xl:mt-9 xl:h-11 
+            <Link to='/register' className='flex items-center justify-center text-[10px] font-normal h-9 w-[125px] rounded-3xl text-center bg-[#2196F3] mt-7 text-white xl:mt-9 xl:h-11 
             xl:w-[150px] xl:text-xs'>
                    Get Started
-            </button>
+            </Link>
         </div>
 
         <div className='flex flex-col items-center justify-end h-full md:w-[75%] xl:w-[78%]'>

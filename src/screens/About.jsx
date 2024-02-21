@@ -7,23 +7,17 @@ import Footer from '../components/general/Footer'
 import { useLocation } from 'react-router-dom'
 
 const About = () => {
-  const location = useLocation();
-  const sectionId = new URLSearchParams(location.search).get('sectionId');
+  const { pathname } = useLocation();
 
-  useEffect(() => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [sectionId]);
+     useEffect(() => {
+       window.scrollTo(0, 0);
+     }, [pathname]);
 
   return (
     <div>
        <AboutIntro />
        <AboutSection2 />
-       <div id='learn-more'>
-           <AboutValue />
-       </div>
+       <AboutValue />
        <AboutMission />
        <Footer />
     </div>

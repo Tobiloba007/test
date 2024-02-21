@@ -1,5 +1,6 @@
 import React from 'react'
 import image from '../../assets/images/image2.svg'
+import { Link } from 'react-router-dom'
 
 
 const HomeSection7 = () => {
@@ -15,10 +16,10 @@ const HomeSection7 = () => {
                   Join OAT's platform for Effortless Resource Showcase and Sales, Redefining the Future of Global Trade.
             </p>
             <div className='flex items-center justify-center w-full md:justify-start'>
-               <button className='text-center h-10 w-[55%] text-xs rounded-3xl text-white bg-[#2196F3] mt-6 md:text-[11px] md:h-9 md:w-[40%] lg:w-[40%] 
+               <Link to='/register' className='flex justify-center items-center text-center h-10 w-[55%] text-xs rounded-3xl text-white bg-[#2196F3] mt-6 md:text-[11px] md:h-9 md:w-[40%] lg:w-[40%] 
                lg:text-[12px] lg:h-10 xl:mt-9 xl:h-11 xl:text-[14px] xl:w-[40%]'>
                     Get Started
-               </button>
+               </Link>
             </div>
         </div>
 

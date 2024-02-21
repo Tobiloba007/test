@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../general/Navbar'
 import background from '../../assets/images/vision-bg.svg'
 import logo from '../../assets/images/obaLogo.svg'
+import logo2 from '../../assets/images/obaLogo2.svg'
 
 const AboutIntro = () => {
   return (
@@ -9,7 +10,7 @@ const AboutIntro = () => {
     style={{ backgroundImage: `url(${background})`}}>
     <div className='absolute top-0 h-screen w-full bg-[#000000] opacity-10'></div>
     <div className='flex flex-row items-center justify-center absolute top-0 w-full pt-3'>
-         <Navbar logo={logo} text2={'#FFFFFF'} linkTexts={'#FFFFFF'} about={'#2196F3'}/>
+         <Navbar logo={logo} logo2={logo2} text2={'#FFFFFF'} linkTexts={'#FFFFFF'} about={'#2196F3'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
     </div>
 
      <div className='flex flex-col items-start justify-center w-full mt-14 z-30 xl:mt-20 px-5 md:px-10 lg:px-14 xl:px-20'>
