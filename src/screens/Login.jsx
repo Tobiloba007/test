@@ -3,7 +3,7 @@ import logo from '../assets/images/obaLogo.svg'
 import oatLogo from '../assets/images/obaLogo2.svg'
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import image2 from '../assets/images/sign-up-bg.png'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/general/Navbar';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -21,10 +21,14 @@ const Login = () => {
       window.scrollTo(0, 0);
     }, [pathname]);
 
+    const navigate = useNavigate()
+
 
     const handleSubmit = (event) => {
         setLoading(true)
-        event.preventDefault();
+        navigate('/select-role')
+        event.preventDefault()
+
     }
 
     const validationSchema = yup.object().shape({
