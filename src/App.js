@@ -8,6 +8,8 @@ import RegForm from "./screens/registration/RegForm";
 import Verification from "./screens/registration/Verification";
 import Login from "./screens/Login";
 import SelectRole from "./screens/SelectRole";
+import BuyerDashboard from "./screens/dashboards/BuyerDashboard";
+import SellerDashboard from "./screens/dashboards/SellerDashboard";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             <Route path="/verification" Component={Verification} />
             <Route path="/login" Component={Login} />
             <Route path="/select-role" Component={SelectRole} />
+            <Route path="/buyer-dashboard" Component={BuyerDashboard} />
+            <Route path="/seller-dashboard" Component={SellerDashboard} />
          </Routes>
     </Router>
   );

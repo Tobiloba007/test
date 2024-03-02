@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom'
 
 const HomeSection7 = () => {
   return (
-    <div className='flex flex-col items-center justify-center w-full bg-white px-5 h-[15rem] md:flex-row md:items-center lg:justify-between 
+    <div className='flex flex-col items-center justify-center w-full max-w-screen-2xl bg-white px-5 h-[15rem] md:flex-row md:items-center lg:justify-between 
     md:px-10 md:pb-0 lg:px-40 xl:px-80 xl:h-[18.5rem]'>
+
         <div className='flex flex-col items-center justify-start w-full md:items-start md:w-[60%] md:justify-center lg:w-[60%] xl:w-[100%]'>
             <p className='text-2xl text-[#c] font-semibold text-center md:text-start md:text-[23px] lg:text-[26px] lg:leading-10 xl:text-[37px] 
              xl:leading-[45px] '>
@@ -23,10 +24,12 @@ const HomeSection7 = () => {
             </div>
         </div>
 
+
         <div className='hidden md:flex items-center justify-start w-[50%] -mt-14'>
-          <img className='w-[200px] h-[296px] absolute right-20 lg:right-36 xl:right-80 xl:w-[245px] xl:h-[353px]'
+          <img className='w-[200px] h-[296px] absolute right-10 lg:right-36 xl:right-20 xl:w-[35%] xl:h-[353px] 2xl:w-[60%]'
           src={image} alt="thumbs up" />
         </div>
+
     </div>
   )
 }

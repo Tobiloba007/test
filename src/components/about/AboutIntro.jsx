@@ -8,7 +8,7 @@ const AboutIntro = () => {
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen font-poppins z-20 bg-cover bg-center'  
     style={{ backgroundImage: `url(${background})`}}>
-    <div className='absolute top-0 h-screen w-full bg-[#000000] opacity-10'></div>
+    <div className='absolute top-0 h-screen w-full mx-auto max-w-screen-2xl bg-[#000000] opacity-10'></div>
     <div className='flex flex-row items-center justify-center absolute top-0 w-full pt-3'>
          <Navbar logo={logo} logo2={logo2} text2={'#FFFFFF'} linkTexts={'#FFFFFF'} about={'#2196F3'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
     </div>

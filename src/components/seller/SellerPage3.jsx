@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
+import Draggable from 'react-draggable';
+
 
 
 
 const SellerPage3 = ({setCount}) => {
+
     const slideInVariants = {
         hidden: { x: '-100%' },
         visible: { x: 0 },
@@ -25,6 +28,26 @@ const SellerPage3 = ({setCount}) => {
       const handleChange = (event) => {
         setTextValue(event.target.value);
       };
+
+
+
+   const [position, setPosition] = useState({ x: 0, y: 0 });
+   const [drag, setDrag] = useState(0);
+
+  const handleDrag = (e, ui) => {
+    // Calculate the percentage based on the drag position
+    const percentageX = (ui.x / 290) * 100;
+    setDrag(Math.floor(percentageX))
+    console.log('drag', drag);
+
+    // Update the position state (only updating the x-axis)
+    setPosition({ x: ui.x, y: 0 });
+
+    // Display the percentage or use it as needed
+    console.log(`X Percentage: ${percentageX.toFixed(2)}%`);
+
+    console.log(position.x);
+  };
 
   return (
     <motion.div
@@ -52,6 +75,30 @@ const SellerPage3 = ({setCount}) => {
         <p className='text-xs text-[#667085] font-normal text-center mt-1 md:text-xs md:w-[65%] md:text-start lg:w-full lg:text-start xl:text-sm'>
                Choose the percentage of purity of the commodity you are listing
         </p>
+        <div className='flex flex-col items-center justify-start w-[300px] mt-5'>
+            <p className='text-lg font-semibold text-[#D15F1E] md:text-2xl'>
+                {drag}%
+            </p>
+            <div className='relative flex flex-row items-center justify-start w-full bg-[#D0D5DD] h-[10px] rounded-md mt-4 lg:h-3'>
+               <div className={`flex items-center justify-start`}>
+               <Draggable
+               axis="x" // Allow dragging only along the x-axis
+               bounds={{ left: 0, right: 290 }} // Adjust the bounds as needed
+               defaultPosition={{ x: 0, y: 0 }}
+               position={position}
+               onStop={(e, ui) => handleDrag(e, ui)}
+               >
+               <div className={`w-7 h-7 bg-[#EEEEEE] border-[1px] border-[#DDDDDD] shadow-2xl rounded-full md:w-8 md:h-8 xl:h-9 xl:w-9`}></div>
+               </Draggable>
+               </div>
+               <div className={`absolute bg-[#2196F3] h-full rounded-md w-[${drag}px]`}></div>
+               
+            </div>
+            <p className='text-[10px] font-normal text-[#000000] mt-6 md:text-sm'>
+                      Slide to Adjust
+            </p>
+        </div>
+
     </div>
 
            {/* COMPOSITION */}

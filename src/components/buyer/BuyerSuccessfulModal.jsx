@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const BuyerSuccessfulModal = () => {
   return (
-    <div className='absolute flex flex-row items-center justify-center w-full h-full px-8 pt-60 md:pt-0'>
+    <div className='absolute flex flex-row items-center justify-center w-full h-full z-50 px-8 pt-60 md:pt-0'>
 
             <div className='flex flex-col items-center justify-start w-full bg-white shadow-lg rounded-lg pt-10 px-4 pb-4 md:w-[50%] lg:w-[40%] lg:px-5 xl:w-[28%]'>
                   <GoCheckCircleFill className='text-[40px] text-[#09D945]' />
@@ -49,7 +49,7 @@ const BuyerSuccessfulModal = () => {
                        </div>
 
                        <div className='flex flex-row items-center justify-between w-full mt-8'>
-                             <Link className='flex items-center justify-center text-[10px] h-12 w-[48.5%] bg-black text-white rounded-sm lg:text-xs lg:font-medium'>
+                             <Link to='/buyer-dashboard' className='flex items-center justify-center text-[10px] h-12 w-[48.5%] bg-black text-white rounded-sm lg:text-xs lg:font-medium'>
                                     Go to Dashboard
                              </Link>
                              <Link to='/' className='flex items-center justify-center text-[10px] h-12 w-[48.5%] bg-white text-black rounded-sm border-[1px] border-[#A4A4A4] lg:text-xs lg:font-medium'>

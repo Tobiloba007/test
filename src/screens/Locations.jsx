@@ -11,7 +11,7 @@ const Locations = () => {
   }, [pathname]);
 
   return (
-    <div id='location'>
+    <div id='location' className='flex flex-col items-center justify-start mx-auto max-w-screen-2xl'>
         <LocationsIntro />
         <Footer />
     </div>

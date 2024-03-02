@@ -13,7 +13,7 @@ const Support = () => {
   }, [pathname]);
 
   return (
-    <div>
+    <div className='flex flex-col items-center justify-start mx-auto max-w-screen-2xl'>
         <SupportIntro />
         <Faq />
         <SupportSection3 />

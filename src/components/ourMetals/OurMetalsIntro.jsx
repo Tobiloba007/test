@@ -38,9 +38,9 @@ const OurMetalsIntro = () => {
 
   return (
     <>
-    <div className='flex flex-col items-center justify-center w-full h-[16rem] font-poppins z-20 bg-cover bg-center'  
+    <div className='flex flex-col items-center justify-center w-full mx-auto max-w-screen-2xl h-[16rem] font-poppins z-20 bg-cover bg-center'  
     style={{ backgroundImage: `url(${background})`}}>
-    <div className='absolute top-0 h-[16rem] w-full bg-[#000000] opacity-50'></div>
+    <div className='absolute top-0 h-[16rem] w-full mx-auto max-w-screen-2xl bg-[#000000] opacity-50'></div>
     <div className='flex flex-row items-center justify-center absolute top-0 w-full pt-3 z-30'>
          <Navbar logo={logo} logo2={logo2} text2={'#FFFFFF'} metal={'#2196F3'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
     </div>

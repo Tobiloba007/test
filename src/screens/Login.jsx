@@ -7,6 +7,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/general/Navbar';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../features/authentication/AuthActions';
 
 
 
@@ -14,7 +16,10 @@ import * as yup from 'yup';
 const Login = () => {
     const [show, setShow] = useState(false);
     const { pathname } = useLocation();
-    const [loading, setLoading] = useState(false);
+
+    const [error, setError] = useState(false);
+    const loading = useSelector((state) => state.auth.loading)
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -24,11 +29,9 @@ const Login = () => {
     const navigate = useNavigate()
 
 
-    const handleSubmit = (event) => {
-        setLoading(true)
-        navigate('/select-role')
-        event.preventDefault()
-
+    const handleSubmit = (values) => {
+      dispatch(login(values, setError, navigate))
+      console.log(values)
     }
 
     const validationSchema = yup.object().shape({
@@ -37,18 +40,18 @@ const Login = () => {
     });
 
   return (
-    <div className='flex flex-col items-center justify-start w-full font-poppins'>
-        <div className={`flex flex-row items-center justify-center absolute top-0 w-full bg-black h-20 shadow-md lg:h-24`}>
+    <div className='flex flex-col items-center justify-start w-full font-poppins mx-auto max-w-screen-2xl'>
+        <div className={`flex flex-row items-center justify-center w-full bg-black h-20 z-50 fixed top-0 shadow-md lg:h-20`}>
             <Navbar logo={logo} logo2={logo} text2={'#FFFFFF'} regBackground={'#FFFFFF'} reg={'#000000'} link={'#FFFFFF'} />
         </div>
 
-        <div className='flex items-start justify-center w-full h-full lg:justify-between'>
-        <div className='flex flex-col items-center justify-center w-full mt-28 px-5 pb-10 md:w-[60%] lg:w-[50%] lg:px-24 xl:px-44 xl:mt-56'>
-              <div className='flex flex-col items-center justify-start w-full lg:mt-8'>
-                   <img className='h-20 w-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28'
+        <div className='flex items-start justify-center w-full h-full lg:justify-between lg:items-center'>
+        <div className='flex flex-col items-center justify-center w-full mt-28 px-5 md:w-[60%] lg:w-[50%] lg:mt-32 lg:px-24 xl:px-44'>
+              <div className='flex flex-col items-center justify-start w-full'>
+                   <img className='h-16 w-16 lg:hidden xl:flex xl:w-20 xl:h-20'
                    src={oatLogo} alt='Oat_Logo' />
               </div>
-              <div className='flex flex-col items-start w-full mt-8 lg:mt-6'>
+              <div className='flex flex-col items-start w-full mt-5 lg:mt-6'>
                    <p className='text-xl text-[#0F1828] font-semibold'>
                          Log in
                    </p>
@@ -115,9 +118,11 @@ const Login = () => {
                             </p>
                     </div>
 
+                    <div className='text-xs text-medium text-red-500 mt-8 xl:text-sm'>{error}</div>
 
                     <button onClick={handleSubmit}
-                    className='flex flex-row items-center justify-center h-12 w-full bg-black text-white text-sm rounded-sm font-medium mt-7 lg:h-14 lg:mt-10'>
+                    type='submit'
+                    className='flex flex-row items-center justify-center h-12 w-full bg-black text-white text-sm rounded-sm font-medium lg:h-14 lg:mt-2'>
                     { loading
                         ?<div className="relative flex items-center justify-center w-7 h-7 border-4 border-gray-500 border-solid rounded-full">
                            <div className="absolute w-7 h-7 border-t-4 border-white border-solid rounded-full animate-spin"></div>
@@ -126,7 +131,7 @@ const Login = () => {
                        }
                     </button>
 
-                    <div className='flex items-center justify-center w-full mt-5'>
+                    <div className='flex items-center justify-center w-full mt-5 pb-6'>
                           <p className='text-xs text-[#667085] font-medium mt-2'>
                                   Don't have an account? <Link to='/register' className='text-[#D15F1E]'>Sign up</Link>
                           </p>
@@ -137,8 +142,8 @@ const Login = () => {
               </Formik>
         </div>
 
-        <div className='hidden lg:flex flex-1 items-start justify-center w-[50%]'>
-             <img className='w-full'
+        <div className='hidden lg:flex flex-1 items-start justify-center w-[50%] h-screen'>
+             <img className='w-full h-full'
              src={image2} alt='signUp_image' />
         </div>
 

@@ -25,7 +25,7 @@ const Home = () => {
 
 
   return (
-    <div id='home-top'>
+    <div id='home-top' className='flex flex-col items-center justify-start mx-auto max-w-screen-2xl'>
         <IntroSection />
         <TrustedBy />
         <Vision />

@@ -16,7 +16,7 @@ const Navbar = (props) => {
 
 
   return (
-    <div className={`flex flex-col items-center justify-start w-full lg:flex-row lg:items-center ${open && `bg-[${props.reg}] h-[100vh] fixed top-0 z-50`}`}>
+    <div className={`flex flex-col items-center justify-start w-full mx-auto max-w-screen-2xl lg:flex-row lg:items-center ${open && `bg-[${props.reg}] h-[100vh] fixed top-0 z-50`}`}>
     <div className={`flex flex-row items-center justify-between w-full px-6 lg:items-center lg:px-14 xl:px-20`}>
         <div className={`flex flex-row items-center justify-start ${open && 'mt-2'}`}>
                {/* OBA LOGO */}

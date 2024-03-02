@@ -11,7 +11,7 @@ const OurMetals = () => {
   }, [pathname]);
   
   return (
-    <div>
+    <div className='flex flex-col items-center justify-start mx-auto max-w-screen-2xl'>
          <OurMetalsIntro />
          <Footer />
     </div>

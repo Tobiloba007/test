@@ -18,7 +18,7 @@ const IntroSection = () => {
   return (
     <div className='flex flex-col items-center justify-start w-full font-poppins z-20 bg-cover bg-center pt-3'  
     style={{ backgroundImage: `url(${background})`}}>
-    <div className='absolute top-0 h-full w-full bg-[#000000] opacity-30'></div>
+    <div className='absolute top-0 h-full w-full max-w-screen-2xl bg-[#000000] opacity-30'></div>
      <Navbar logo={logo} logo2={logo2} text2={'#FFFFFF'} regBackground={'#2196F3'} reg={'#FFFFFF'} />
         {/* INTRO TOP */}
         <div className='flex flex-col items-center justify-center w-full mt-12 lg:mt-8 px-6 z-30'>
