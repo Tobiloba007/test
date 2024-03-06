@@ -71,7 +71,7 @@ const Login = () => {
                          <p className='text-xs text-[#344054] font-medium mt-2'>
                                Email
                          </p>
-                         <input className={`h-11 w-full border-[1.5px] border-gray-300 rounded-lg mt-1 pl-4 text-xs text-[#0F1828] ${errors.email && 'border-red-600'} ${!errors.email && values.email  && 'border-[#2196F3]'}`}
+                         <input className={`h-11 w-full border-[1.5px] border-gray-300 rounded-lg mt-1 pl-4 text-xs outline-black text-[#0F1828] ${errors.email && 'border-red-600'} ${!errors.email && values.email  && 'border-[#2196F3]'}`}
                          placeholder='example@example.com' 
                          type='email'
                          onChange={handleChange('email')}
@@ -85,7 +85,7 @@ const Login = () => {
                          <p className='text-xs text-[#344054] font-medium mt-2'>
                                Password
                          </p>
-                         <input className={`h-11 w-full border-[1.5px] border-gray-300 rounded-lg mt-1 pl-4 text-xs text-[#0F1828] ${errors.password && 'border-red-600'} ${!errors.password && values.password  && 'border-[#2196F3]'}`}
+                         <input className={`h-11 w-full border-[1.5px] border-gray-300 rounded-lg mt-1 pl-4 text-xs outline-black text-[#0F1828] ${errors.password && 'border-red-600'} ${!errors.password && values.password  && 'border-[#2196F3]'}`}
                          placeholder='Honda etc.' 
                          type={show ? 'text' : 'password'}
                          onChange={handleChange('password')}
@@ -113,16 +113,17 @@ const Login = () => {
                                          Remember me
                                   </p>
                             </div>
-                            <p className='text-[11px] text-[#2196F3] font-semibold ml-2 mt-1'>
+                            <Link to='/recoverPassword' className='text-[11px] text-[#2196F3] font-semibold ml-2 mt-1'>
                                    Forgot password?
-                            </p>
+                            </Link>
                     </div>
 
-                    <div className='text-xs text-medium text-red-500 mt-8 xl:text-sm'>{error}</div>
+                    <div className='text-xs text-medium text-red-500 mt-8 mb-1 xl:text-sm'>{error}</div>
 
                     <button onClick={handleSubmit}
+                    disabled={!isValid}
                     type='submit'
-                    className='flex flex-row items-center justify-center h-12 w-full bg-black text-white text-sm rounded-sm font-medium lg:h-14 lg:mt-2'>
+                    className={`flex flex-row items-center justify-center h-12 w-full bg-[#2196F3] text-white text-sm rounded-md font-medium lg:h-14 lg:mt-2 ${!isValid | loading &&  'bg-[#d5e6f5]'}`}>
                     { loading
                         ?<div className="relative flex items-center justify-center w-7 h-7 border-4 border-gray-500 border-solid rounded-full">
                            <div className="absolute w-7 h-7 border-t-4 border-white border-solid rounded-full animate-spin"></div>
@@ -133,7 +134,7 @@ const Login = () => {
 
                     <div className='flex items-center justify-center w-full mt-5 pb-6'>
                           <p className='text-xs text-[#667085] font-medium mt-2'>
-                                  Don't have an account? <Link to='/register' className='text-[#D15F1E]'>Sign up</Link>
+                                  Don't have an account? <Link to='/register' className='text-[#2196F3]'>Sign up</Link>
                           </p>
                     </div>
 

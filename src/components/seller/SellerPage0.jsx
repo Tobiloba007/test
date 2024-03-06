@@ -6,7 +6,7 @@ import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 
-const BuyerPage2 = ({setCount}) => {
+const SellerPage0 = ({setCount}) => {
   const [dropdowm, setDropdown] = useState(false);
   const [select, setSelect] = useState('Select Location')
 
@@ -23,8 +23,8 @@ const BuyerPage2 = ({setCount}) => {
       };
       
     const handleSubmit = () => {
-       const setLocation = {'location': select}
-       setCount(3)
+       const setLocation = {'Location': select}
+       setCount(2)
        dispatch(setUserRequest(setLocation))
      }
 
@@ -37,10 +37,10 @@ const BuyerPage2 = ({setCount}) => {
     className='flex flex-col items-center justify-center w-full mt-20 md:px-12 lg:px-10 lg:items-start lg:mt-10 xl:px-28'>
           <div className='flex flex-col items-center justify-center w-full md:flex-row-reverse lg:justify-end'>
               <p className='text-xs text-black font-normal mb-1 md:mb-0 md:ml-4 md:text-sm'>
-                     30% Complete
+                     10% Complete
               </p>
               <div className='flex items-center justify-start w-[80%] h-[5px] rounded-2xl bg-[#dddddd] md:h-[7px] lg:w-[60%] xl:w-[75%]'>
-                    <div className='flex items-center justify-start w-[30%] h-full rounded-full bg-green-500'></div>
+                    <div className='flex items-center justify-start w-[10%] h-full rounded-full bg-green-500'></div>
               </div>
           </div>
 
@@ -93,4 +93,4 @@ const BuyerPage2 = ({setCount}) => {
   )
 }
 
-export default BuyerPage2
+export default SellerPage0

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 const BuyerPage4 = ({setCount}) => {
@@ -12,6 +14,10 @@ const BuyerPage4 = ({setCount}) => {
       const [select, setSelect] = useState(null);
       const [counter, setCounter] = useState(1);
       const [showDefinition, setShowDefinition] = useState(false);
+
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
 
       const handleSelect = (item) => {
         setSelect(item)
@@ -45,6 +51,13 @@ const BuyerPage4 = ({setCount}) => {
         if(counter >= 2){
             setCounter(counter -1)
         }
+      }
+
+      const handleSubmit = () => {
+        setCount(5)
+        const values = {'quantity': counter, 'ore_type': select}
+        const combinedValues2 = {...values, ...userRequests}
+        dispatch(setUserRequest(combinedValues2))
       }
 
   return (
@@ -96,10 +109,10 @@ const BuyerPage4 = ({setCount}) => {
                        </p>
                        {ores.map((item) => {
                         return (
-                            <div key={item.id} onClick={()=>handleSelect(item.id)}
+                            <div key={item.id} onClick={()=>handleSelect(item.name)}
                             className='flex flex-row items-center justify-start w-full mt-4'>
                                   <div className='flex items-center justify-center  h-5 w-5 rounded-full  border-[2px] border-[#A4A4A4] bg-white'>
-                                            <div className={`h-4 w-5 rounded-full ${select === item.id ? 'bg-green-600' : 'bg-white'}`}></div>
+                                            <div className={`h-4 w-5 rounded-full ${select === item.name ? 'bg-green-600' : 'bg-white'}`}></div>
                                   </div>
                                   <p className='text-center text-base font-light text-[#667085] ml-6'>
                                        {item.name}
@@ -134,7 +147,7 @@ const BuyerPage4 = ({setCount}) => {
             </div>
         }
 
-        <button onClick={() => setCount(5)}
+        <button onClick={handleSubmit}
         disabled={select === null}
             className={`text-center text-sm font-normal text-white ${select === null ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
                                     Next

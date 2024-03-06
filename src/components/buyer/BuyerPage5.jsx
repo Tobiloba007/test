@@ -1,14 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 const BuyerPage5 = ({setCount}) => {
+
     const slideInVariants = {
         hidden: { x: '-100%' },
         visible: { x: 0 },
       };
 
       const frequency = ['This a one-off purchase request', 'This a monthly purchase request', 'This is an annual purchase request', 'Monthly, but with varying requirements', 'Annually, but with varying Requirements']
+
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
+
+      const handleSubmit = (item) => {
+        const values = {'order_frequency': item}
+        const combinedValues3 = {...values, ...userRequests}
+        dispatch(setUserRequest(combinedValues3))
+        setCount(6)
+      }
 
 
   return (
@@ -38,7 +53,7 @@ const BuyerPage5 = ({setCount}) => {
     </div>
     {frequency.map((item, index) => {
         return(
-            <button key={index} onClick={()=>setCount(6)}
+            <button key={index} onClick={()=>handleSubmit(item)}
                     className='text-center h-12 w-[90%] border-[1px] border-[#A4A4A4] rounded-lg mt-6 px-2 text-xs font-semibold hover:bg-black hover:text-white md:h-11
                      md:w-[45%] lg:w-[70%] xl:w-[72%] xl:h-12 xl:text-sm'>
                           {item}

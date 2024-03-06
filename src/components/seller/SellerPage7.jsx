@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
+import { useNavigate } from 'react-router-dom';
+import { sellerRequest } from '../../features/requests/RequestActions';
 
 
 
@@ -16,6 +20,17 @@ const SellerPage7 = ({setCount}) => {
       const [state, setState] = useState('Select State');
       const [dropdown3, setDropdown3] = useState(false);
       const [city, setCity] = useState('Select City');
+      const [postal, setPostal] = useState('');
+      const [address, setAddress] = useState('');
+
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
+
+      const navigate = useNavigate();
 
 
       const countries = ['Nigeria', 'Cameroun', 'France', 'China', 'Turkey']
@@ -32,6 +47,31 @@ const SellerPage7 = ({setCount}) => {
 
       const handleCity = (item) => {
         setCity(item)
+      }
+
+      const handlePostalCode = (event) => {
+            // const newValue = parseFloat(event.target.value) || 0;
+            setPostal(event.target.value);
+          };
+
+      const handleAddress = (event) => {
+            setAddress(event.target.value);
+          };
+
+
+      
+      const handleSubmit = () => {
+            const values = {'country': country, 'state': 'state', 'city': city, 'zip_code': postal, 'address': address}
+            const userRequest = {...userRequests, ...values}
+            dispatch(setUserRequest(userRequest))
+
+            const formData = new FormData();
+            Object.keys(userRequest).forEach((key) => {
+              formData.append(key, userRequest[key]);
+            });
+            dispatch(sellerRequest(formData, setError, setCount, setLoading, navigate))
+            console.log(userRequest)
+            console.log(formData)
       }
 
     
@@ -69,7 +109,7 @@ const SellerPage7 = ({setCount}) => {
                 <p className='text-xs text-black font-light'>
                       Country
                 </p>
-                <p className='text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2'>
+                <p className={`text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2 ${country !== 'Select Country' && 'text-black font-normal'}`}>
                       {country}
                 </p>
               </div>
@@ -98,7 +138,7 @@ const SellerPage7 = ({setCount}) => {
                 <p className='text-xs text-black font-light'>
                       State
                 </p>
-                <p className='text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2'>
+                <p className={`text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2 ${state !== 'Select State' && 'text-black font-normal'}`}>
                       {state}
                 </p>
               </div>
@@ -127,7 +167,7 @@ const SellerPage7 = ({setCount}) => {
                 <p className='text-xs text-black font-light'>
                       City/town
                 </p>
-                <p className='text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2'>
+                <p className={`text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2 ${city !== 'Select City' && 'text-black font-normal'}`}>
                       {city}
                 </p>
               </div>
@@ -155,7 +195,12 @@ const SellerPage7 = ({setCount}) => {
                 <p className='text-xs w-full text-black font-light'>
                       Post Code
                 </p>
-                <input className='outline-none border-none w-full pr-4 lg:mt-2' />
+                <input className='outline-none border-none w-full pr-4 text-sm font-normal lg:mt-2 text-black' 
+                type='number'
+                value={postal}
+                onChange={handlePostalCode}
+                placeholder='000 000'
+                />
           </div>
           
     </div>
@@ -166,13 +211,25 @@ const SellerPage7 = ({setCount}) => {
           <p className='text-xs w-full text-black font-light'>
                 Address Line
           </p>
-          <input className='outline-none border-none w-full pr-4 lg:mt-2' />
+          <input className='outline-none border-none w-full pr-4 text-sm font-normal lg:mt-2 text-black' 
+          onChange={handleAddress}
+          value={address}
+          placeholder='Input Address Line'
+          />
     </div>
-    <button onClick={() => setCount(8)}
-    disabled={country === 'Select Country' || state === 'Select State' || city === 'Select City'}
-            className={`text-center text-sm font-normal text-white ${country === 'Select Country' || state === 'Select State' || city === 'Select City' ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
-                                    Next
-        </button>
+
+        <div className='text-xs text-medium text-start w-[80%] text-red-500 mt-12 mb-2 md:w-[45%] lg:w-[50%] lg:mt-14 xl:text-sm'>{error}</div>
+         <button onClick={handleSubmit}
+         disabled={country === 'Select Country' || state === 'Select State' || city === 'Select City' || postal === '' || address === ''}
+            className={`flex items-center justify-center text-sm font-normal text-white ${country === 'Select Country' || state === 'Select State' || city === 'Select City' 
+            || postal === '' || address === ''  ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] md:w-[45%] lg:w-[50%]`}>
+            { loading
+                  ?<div className="relative flex items-center justify-center w-7 h-7 border-4 border-gray-500 border-solid rounded-full">
+                     <div className="absolute w-7 h-7 border-t-4 border-white border-solid rounded-full animate-spin"></div>
+                  </div>
+                  : 'Submit Request'
+                 }
+         </button>
     </motion.div>
   )
 }

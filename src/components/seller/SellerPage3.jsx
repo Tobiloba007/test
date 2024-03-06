@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import Draggable from 'react-draggable';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 
@@ -13,15 +15,19 @@ const SellerPage3 = ({setCount}) => {
         visible: { x: 0 },
       };
 
-      const [dropdowm, setDropdown] = useState(false);
-      const [select, setSelect] = useState('Select Grade')
+      const userRequests = useSelector((state) => state.request.userRequests)
 
-      const grade = ['High-Grade', 'Medium-Grade', 'Low-Grade', 'Not Applicable']
+      const dispatch = useDispatch();
 
-      const selectCountry = (item) => {
-        setDropdown(false);
-        setSelect(item)
-  }
+      // const [dropdowm, setDropdown] = useState(false);
+      // const [select, setSelect] = useState('Select Grade')
+
+      // const grade = ['High-Grade', 'Medium-Grade', 'Low-Grade', 'Not Applicable']
+
+      // const selectCountry = (item) => {
+      //   setDropdown(false);
+      //   setSelect(item)
+      // }
 
   const [textValue, setTextValue] = useState('');
 
@@ -40,14 +46,18 @@ const SellerPage3 = ({setCount}) => {
     setDrag(Math.floor(percentageX))
     console.log('drag', drag);
 
-    // Update the position state (only updating the x-axis)
     setPosition({ x: ui.x, y: 0 });
 
-    // Display the percentage or use it as needed
-    console.log(`X Percentage: ${percentageX.toFixed(2)}%`);
-
-    console.log(position.x);
+    // console.log(`X Percentage: ${percentageX.toFixed(2)}%`);
   };
+
+
+  const handleSubmit = () => {
+    setCount(5)
+    const values = {'purity': drag.toString(), 'notes': textValue}
+    const combinedValues3= {...values, ...userRequests}
+    dispatch(setUserRequest(combinedValues3))
+  }
 
   return (
     <motion.div
@@ -59,10 +69,10 @@ const SellerPage3 = ({setCount}) => {
     >
     <div className='flex flex-col items-center justify-center w-full md:flex-row-reverse lg:justify-end'>
         <p className='text-xs text-black font-normal mb-1 md:mb-0 md:ml-4 md:text-sm'>
-               75% Complete
+               60% Complete
         </p>
         <div className='flex items-center justify-start w-[80%] h-[5px] rounded-2xl bg-[#dddddd] md:h-[7px] lg:w-[60%] xl:w-[75%]'>
-              <div className='flex items-center justify-start w-[75%] h-full rounded-full bg-green-500'></div>
+              <div className='flex items-center justify-start w-[60%] h-full rounded-full bg-green-500'></div>
         </div>
     </div>
     <div className='flex flex-col items-center justify-center w-full mt-8 md:items-start'>
@@ -102,7 +112,7 @@ const SellerPage3 = ({setCount}) => {
     </div>
 
            {/* COMPOSITION */}
-    <div className='flex flex-col items-center justify-center w-full mt-8 md:items-start'>
+    {/*<div className='flex flex-col items-center justify-center w-full mt-8 md:items-start'>
           <p className='text-base text-black font-semibold text-center mt-5  md:w-[65%] md:text-start lg:w-full lg:text-start'>
              Composition
           </p>
@@ -111,10 +121,10 @@ const SellerPage3 = ({setCount}) => {
           </p>
           <input className='h-12 w-[80%] border-[1px] rounded-lg border-[#A4A4A4] px-4 text-black text-sm mt-3 outline-black'
            />
-    </div>
+    </div>*/}
 
                {/* GRADE */}
-    <div className='relative flex flex-col items-center justify-center w-[80%] mt-5 md:items-start'>
+      {/*<div className='relative flex flex-col items-center justify-center w-[80%] mt-5 md:items-start'>
           <p className='text-base text-black font-semibold text-center mt-5  md:w-[65%] md:text-start lg:w-full lg:text-start'>
              Grade
           </p>
@@ -147,7 +157,7 @@ const SellerPage3 = ({setCount}) => {
                               })}
                     </div>
                   }
-    </div>
+    </div>*/}
 
                          {/* ADDITIONAL DETAILS */}
             <div className='flex flex-col items-center justify-center w-[80%] mt-8 md:items-start'>
@@ -171,9 +181,10 @@ const SellerPage3 = ({setCount}) => {
             </div>
 
 
-         <button onClick={() => setCount(4)}
-        disabled={select === 'Select Grade' || textValue === '' }
-            className={`text-center text-sm font-normal text-white ${select === 'Select Grade' || textValue === '' ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
+         <button onClick={handleSubmit}
+        disabled={textValue === '' }
+            className={`text-center text-sm font-normal text-white ${textValue === '' ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] 
+            lg:w-[50%] lg:mt-14`}>
                                     Next
         </button>
 

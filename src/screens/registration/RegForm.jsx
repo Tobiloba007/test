@@ -46,7 +46,7 @@ const RegForm = () => {
 
     const handleSubmit = (values) => {
        dispatch(createAccount(values, setError, navigate))
-       console.log(values.email);
+       console.log(values);
     }
 
     const { pathname } = useLocation();
@@ -222,7 +222,8 @@ const RegForm = () => {
 
 
                     <button type="submit"
-                    className={`flex items-center justify-center h-14 w-full bg-black text-white text-sm rounded-md font-medium mt-3 lg:h-14 ${!isValid &&  'bg-[#dddddd]'}`}>
+                    disabled={!isValid}
+                    className={`flex items-center justify-center h-14 w-full bg-[#2196F3] text-white text-sm rounded-md font-medium mt-3 lg:h-14 ${!isValid | loading &&  'bg-[#d5e6f5]'}`}>
                             { loading
                              ?<div className="relative flex items-center justify-center w-7 h-7 border-4 border-gray-500 border-solid rounded-full">
                                 <div className="absolute w-7 h-7 border-t-4 border-white border-solid rounded-full animate-spin"></div>
@@ -231,9 +232,9 @@ const RegForm = () => {
                             }
                     </button>
 
-                    <div className='flex items-center justify-center w-full mt-5'>
+                    <div className='flex items-center justify-center w-full mt-5 pb-10'>
                           <p className='text-xs text-[#667085] font-medium mt-2'>
-                                  Already have an account? <Link to='/login' className='text-[#D15F1E]'>Sign in</Link>
+                                  Already have an account? <Link to='/login' className='text-[#2196F3]'>Sign in</Link>
                           </p>
                     </div>
 
@@ -242,7 +243,7 @@ const RegForm = () => {
         </Formik>
         </div>
 
-        <div className='hidden lg:flex flex-1 items-start justify-center w-[50%] h-full'>
+        <div className='hidden fixed right-0 lg:flex flex-1 items-start justify-center w-[50%] h-full'>
              <img className='h-full w-full'
              src={image2} alt='signUp_image' />
         </div>

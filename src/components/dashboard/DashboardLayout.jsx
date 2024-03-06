@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoMdAdd } from "react-icons/io";
 import logo from '../../assets/images/obaLogo.svg'
 import { LuBarChart2 } from "react-icons/lu";
@@ -20,7 +20,11 @@ import SellerPurchaseRequests from './sellerDashboard/SellerPurchaseRequests';
 import SellerNotification from './sellerDashboard/SellerNotification';
 import SellerShipmentTracking from './sellerDashboard/SellerShipmentTracking';
 import SellerProfile from './sellerDashboard/SellerProfile';
-import { Link, useNavigation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from '../../features/authentication/AuthActions';
+import { setLoginToken } from '../../features/authentication/AuthSlice';
 
 
 
@@ -32,6 +36,32 @@ const DashboardLayout = () => {
         visible: { x: 0 },
       };
 
+    const [open, setOpen] = useState(false);
+    const [tab, setTab] = useState('Dashboard');
+    const [user, setUser] = useState(null);
+
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    const loginToken = useSelector((state) => state.auth.loginToken)
+
+
+      useEffect(() => {
+        const fetchUser = async () => {
+          try {
+            const getUser = await AsyncStorage.getItem('user_type');
+            setUser(getUser)
+            console.log(user, `: This user is a ${user}`)
+          } catch (error) {
+            console.log('Error retrieving data:', error);
+          }
+        };
+    
+        fetchUser();
+      }, [user]);
+
+
     const tabs = [
         {
             id: 1,
@@ -41,7 +71,7 @@ const DashboardLayout = () => {
         {
             id: 2,
             icon: <IoCartOutline className='text-white text-lg xl:text-[22px]' />,
-            name: 'My Purchase Orders',
+            name: user === 'seller' ? 'Purchase Requests' : user === 'buyer' && 'My Purchase Orders',
         },
         {
             id: 3,
@@ -61,8 +91,6 @@ const DashboardLayout = () => {
         },
     ]
 
-    const [open, setOpen] = useState(false);
-    const [tab, setTab] = useState('Dashboard');
 
     const handleTab = (item) => {
         setTab(item)
@@ -70,9 +98,20 @@ const DashboardLayout = () => {
         console.log(tab);
     }
 
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+      console.log('logout')
+      dispatch(setLoginToken(null))
+      setUser(null)
+      navigate('/')
+      console.log(loginToken, 'loggedOut');
+    }
+
+
 
   return (
-    <div className='flex flex-row items-start justify-start w-full h-full font-poppins mx-auto max-w-screen-2xl'>
+    <div className='flex flex-row items-start justify-start w-full h-full font-poppins'>
           <div onClick={()=>setOpen(false)}
           className={`fixed ${open ? 'flex' : 'hidden'} items-center justify-center h-full w-full z-30 bg-[#CCCCCC] opacity-50`}></div>
             {/*  VERTICAL BAR */}
@@ -135,9 +174,9 @@ const DashboardLayout = () => {
                                      mrmoney@gmail.com
                                </p>
                          </div>
-                         <Link to='/'>
+                         <div onClick={handleLogout}>
                              <IoIosLogOut className='text-white text-lg xl:text-[22px]' />
-                         </Link>
+                         </div>
                      </div>
 
                 </div>
@@ -154,6 +193,7 @@ const DashboardLayout = () => {
                    {
                     tab === 'Dashboard' ? 'Welcome back, Ololade'
                     : tab === 'My Purchase Orders' ? 'Purchase Orders'
+                    : tab === 'Purchase Requests' ? 'Purchase Requests'
                     : tab === 'Shipment Tracking' ? 'Shipment Tracking'
                     : tab === 'Notifications' ? 'Notifications'
                     : tab === 'My Profile' && 'My Profile'
@@ -166,12 +206,23 @@ const DashboardLayout = () => {
                 }
              </div>
 
-             <div className='flex flex-row items-center justify-center w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
+             {
+              user === 'buyer'
+              ?<div className='flex flex-row items-center justify-center w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
                  <IoMdAdd className='text-white text-xs lg:text-[13px] xl:text-sm' />
                  <p className='text-[9px] font-medium text-[#ffffff] ml-2 pt-[2px] md:text-[10px] lg:text-[11px] xl:text-xs'>
                       New Purchase Request
                  </p>
              </div>
+
+             : user === 'seller' &&
+             <div className='flex flex-row items-center justify-center w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
+                 <IoMdAdd className='text-white text-xs lg:text-[13px] xl:text-sm' />
+                 <p className='text-[9px] font-medium text-[#ffffff] ml-2 pt-[2px] md:text-[10px] lg:text-[11px] xl:text-xs'>
+                      Upload Commodity
+                 </p>
+             </div>
+             }
 
              <div onClick={()=>setOpen(!open)}
              className='absolute top-9 right-5 z-40 md:top-11 md:right-8 lg:hidden'>
@@ -187,20 +238,20 @@ const DashboardLayout = () => {
             {/* CONTENTS */}
 
               <div className='w-full lg:w-[80%] lg:pt-[100px] xl:pl-3 xl:pt-[115px]'>
-               {/*{
-                   tab === 'Dashboard' ?  <BuyerHome />
-                 : tab === 'My Purchase Orders' ?  <BuyerOrders />
-                 : tab === 'Notifications' ?  <BuyerNotifications />
-                 : tab === 'Shipment Tracking' ?  <BuyerShipTracking />
-                 : tab === 'My Profile' &&  <BuyerProfile />
-               } */}
+               {
+                   tab === 'Dashboard' && user === 'buyer' ?  <BuyerHome />
+                 : tab === 'My Purchase Orders' && user === 'buyer' ?  <BuyerOrders />
+                 : tab === 'Notifications' && user === 'buyer' ?  <BuyerNotifications />
+                 : tab === 'Shipment Tracking' && user === 'buyer' ?  <BuyerShipTracking />
+                 : tab === 'My Profile' && user === 'buyer' &&  <BuyerProfile />
+               } 
 
                {
-                   tab === 'Dashboard' ?  <SellerHome />
-                 : tab === 'My Purchase Orders' ?  <SellerPurchaseRequests />
-                 : tab === 'Notifications' ?  <SellerNotification />
-                 : tab === 'Shipment Tracking' ?  <SellerShipmentTracking />
-                 : tab === 'My Profile' &&  <SellerProfile />
+                   tab === 'Dashboard' && user === 'seller' ?  <SellerHome />
+                 : tab === 'Purchase Requests' && user === 'seller' ?  <SellerPurchaseRequests />
+                 : tab === 'Notifications' && user === 'seller' ?  <SellerNotification />
+                 : tab === 'Shipment Tracking' && user === 'seller' ?  <SellerShipmentTracking />
+                 : tab === 'My Profile' && user === 'seller' &&  <SellerProfile />
                }
               </div>
                

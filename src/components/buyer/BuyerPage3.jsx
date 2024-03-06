@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import lithium from './../../assets/images/lithium.svg'
 import lead from './../../assets/images/lead.svg'
 import zinc from './../../assets/images/zinc.svg'
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 const BuyerPage3 = ({setCount}) => {
     const slideInVariants = {
@@ -10,11 +12,20 @@ const BuyerPage3 = ({setCount}) => {
         visible: { x: 0 },
       };
 
-      const [select, setSelect] = useState(null);
+      const [select, setSelect] = useState('');
+      const dispatch = useDispatch();
+      const userRequests = useSelector((state) => state.request.userRequests)
 
       const handleSelect = (item) => {
         setSelect(item)
         console.log(select)
+      }
+
+      const handleSubmit = () => {
+        const setName = {"name" : select}
+        const combinedValue1 = {...setName, ...userRequests}
+        setCount(4)
+        dispatch(setUserRequest(combinedValue1))
       }
 
       const products = [
@@ -69,11 +80,11 @@ const BuyerPage3 = ({setCount}) => {
           <div className='flex flex-row flex-wrap items-center justify-between w-full mt-8 px-3 md:px-0'>
                {products.map((item) => {
                 return(
-                    <div onClick={()=>handleSelect(item.id)}
+                    <div onClick={()=>handleSelect(item.name)}
                     key={item.id} className='flex flex-col items-start justify-start py-3 px-3 w-[48.5%] border-[1px] border-[#A4A4A4] rounded-xl mt-4 h-[16rem] 
                     md:w-[32%] md:h-[18rem] lg:w-[32%] lg:h-[16rem] xl:h-[19rem] xl:py-5'>
                           <div className='flex items-center justify-center  h-5 w-5 rounded-full  border-[2px] border-[#A4A4A4] bg-white'>
-                               <div className={`h-4 w-5 rounded-full ${select === item.id ? 'bg-green-600' : 'bg-white'}`}></div>
+                               <div className={`h-4 w-5 rounded-full ${select === item.name ? 'bg-green-600' : 'bg-white'}`}></div>
                           </div>
                           <img className='mt-4 w-full h-full'
                           src={item.img} alt='lithium' />
@@ -90,9 +101,9 @@ const BuyerPage3 = ({setCount}) => {
 
 
 
-          <button onClick={() => setCount(4)}
-          disabled={select === null}
-                    className={`text-center text-sm font-normal text-white ${select === null ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
+          <button onClick={handleSubmit}
+          disabled={select === ''}
+                    className={`text-center text-sm font-normal text-white ${select === '' ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
                                     Next
            </button>
 

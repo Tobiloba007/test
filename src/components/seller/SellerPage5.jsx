@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 
@@ -12,12 +14,29 @@ const SellerPage5 = ({setCount}) => {
 
       const [dropdowm, setDropdown] = useState(false);
       const [select, setSelect] = useState('Select Currency')
+      const [textValue, setTextValue] = useState('')
+
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
 
       const grade = ['Nigerian Naira (NGN)', 'United States Dollar (USD)', 'Great Britain Pounds (GBP)', 'Euros (EUR)']
 
       const selectCountry = (item) => {
         setDropdown(false);
         setSelect(item)
+      }
+
+      const handleChange = (event) => {
+        // const newValue = parseFloat(event.target.value) || 0;
+        setTextValue(event.target.value)
+      };
+
+      const handleSubmit = () => {
+        setCount(7)
+        const values = {'currency': select, 'amount':  textValue}
+        const combinedValues5 = {...values, ...userRequests}
+        dispatch(setUserRequest(combinedValues5))
       }
 
 
@@ -82,7 +101,9 @@ const SellerPage5 = ({setCount}) => {
                               </p>
                               <input 
                               type='number'
-                              className='outline-none border-none w-full pr-4 lg:mt-2 xl:text-sm' />
+                              value={textValue}
+                              onChange={handleChange}
+                              className='outline-none border-none text-black w-full pr-4 lg:mt-2 xl:text-sm' />
                          </div>
                          <div className='w-[45%] lg:w-[60%]'>
                               <p className='text-xs w-full text-[#A4A4A4] font-normal ml-3 md:text-sm xl:text-base'>
@@ -92,19 +113,12 @@ const SellerPage5 = ({setCount}) => {
                   </div>
             </div>
 
-            <div className='flex flex-row items-center justify-between w-[80%] mt-10 md:w-[90%] md:mt-16 lg:w-full'>
-                  <button onClick={() => setCount(6)}
-                      disabled={select === null }
-                      className={`text-center text-sm font-normal text-black bg-white border-[1px] border-[#dddddd] rounded-sm h-11 w-[49%] mt-12 md:w-[49%] 
-                      md:h-14 lg:w-[49%] lg:mt-14`}>
-                                           Skip
-                  </button>
-                  <button onClick={() => setCount(6)}
-                      disabled={select === null }
-                      className={`text-center text-sm font-normal text-white bg-black rounded-sm h-11 w-[49%] mt-12 md:w-[49%] md:h-14 lg:w-[49%] lg:mt-14`}>
-                                           Next
-                  </button>
-            </div>
+
+            <button onClick={handleSubmit}
+            disabled={select === 'Select Currency' || textValue === '' }
+            className={`text-center text-sm font-normal text-white ${select === 'Select Currency' || textValue === '' ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-16 lg:mt-14 md:w-[45%] lg:w-[50%]`}>
+                                    Next
+         </button>
 
     </motion.div>
   )

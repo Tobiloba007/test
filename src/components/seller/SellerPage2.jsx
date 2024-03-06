@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 const SellerPage2 = ({setCount}) => {
@@ -17,6 +19,10 @@ const SellerPage2 = ({setCount}) => {
         setSelect(item)
         console.log(select)
       }
+
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
 
       const ores = [
         {
@@ -47,6 +53,13 @@ const SellerPage2 = ({setCount}) => {
         }
       }
 
+      const handleSubmit = () => {
+        setCount(4)
+        const values = {'quantity': counter.toString(), 'ore_type': select}
+        const combinedValues2 = {...values, ...userRequests}
+        dispatch(setUserRequest(combinedValues2))
+      }
+
   return (
     <motion.div
     initial="hidden"
@@ -57,10 +70,10 @@ const SellerPage2 = ({setCount}) => {
     >
         <div className='flex flex-col items-center justify-center w-full md:flex-row-reverse lg:justify-end'>
             <p className='text-xs text-black font-normal mb-1 md:mb-0 md:ml-4 md:text-sm'>
-                   65% Complete
+                   40% Complete
             </p>
             <div className='flex items-center justify-start w-[80%] h-[5px] rounded-2xl bg-[#dddddd] md:h-[7px] lg:w-[60%] xl:w-[75%]'>
-                  <div className='flex items-center justify-start w-[65%] h-full rounded-full bg-green-500'></div>
+                  <div className='flex items-center justify-start w-[40%] h-full rounded-full bg-green-500'></div>
             </div>
         </div>
         <div className='flex flex-col items-center justify-center w-full mt-8 md:items-start'>
@@ -96,10 +109,10 @@ const SellerPage2 = ({setCount}) => {
                        </p>
                        {ores.map((item) => {
                         return (
-                            <div key={item.id} onClick={()=>handleSelect(item.id)}
+                            <div key={item.id} onClick={()=>handleSelect(item.name)}
                             className='flex flex-row items-center justify-start w-full mt-4'>
                                   <div className='flex items-center justify-center  h-5 w-5 rounded-full  border-[2px] border-[#A4A4A4] bg-white'>
-                                            <div className={`h-4 w-5 rounded-full ${select === item.id ? 'bg-green-600' : 'bg-white'}`}></div>
+                                            <div className={`h-4 w-5 rounded-full ${select === item.name ? 'bg-green-600' : 'bg-white'}`}></div>
                                   </div>
                                   <p className='text-center text-base font-light text-[#667085] ml-6'>
                                        {item.name}
@@ -134,7 +147,7 @@ const SellerPage2 = ({setCount}) => {
             </div>
         }
 
-        <button onClick={() => setCount(3)}
+        <button onClick={handleSubmit}
         disabled={select === null}
             className={`text-center text-sm font-normal text-white ${select === null ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
                                     Next

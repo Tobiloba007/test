@@ -4,8 +4,8 @@ import DashboardLayout from '../../components/dashboard/DashboardLayout';
 
 const BuyerDashboard = () => {
   return (
-     <div>
-     <DashboardLayout />
+    <div className='flex flex-row items-start justify-start w-full h-full font-poppins mx-auto max-w-screen-3xl'>
+        <DashboardLayout />
      </div>
   )
 }

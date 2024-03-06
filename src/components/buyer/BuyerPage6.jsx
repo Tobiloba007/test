@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 
@@ -16,6 +18,13 @@ const BuyerPage6 = ({setCount}) => {
       const [state, setState] = useState('Select State');
       const [dropdown3, setDropdown3] = useState(false);
       const [city, setCity] = useState('Select City');
+      const [postal, setPostal] = useState('');
+      const [address, setAddress] = useState('');
+
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
+
 
 
       const countries = ['Nigeria', 'Cameroun', 'France', 'China', 'Turkey']
@@ -32,6 +41,22 @@ const BuyerPage6 = ({setCount}) => {
 
       const handleCity = (item) => {
         setCity(item)
+      }
+
+      const handlePostalCode = (event) => {
+            setPostal(event.target.value);
+          };
+
+      const handleAddress = (event) => {
+            setAddress(event.target.value);
+          };
+
+      const values = {'country': country, 'state': 'state', 'city': city, 'zip_code': postal, 'address': address}
+      
+      const handleSubmit = () => {
+            const combinedValues4 = {...userRequests, ...values}
+            dispatch(setUserRequest(combinedValues4))
+            setCount(7)
       }
 
     
@@ -69,7 +94,7 @@ const BuyerPage6 = ({setCount}) => {
                 <p className='text-xs text-black font-light'>
                       Country
                 </p>
-                <p className='text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2'>
+                <p className={`text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2 ${country !== 'Select Country' && 'text-black font-normal'}`}>
                       {country}
                 </p>
               </div>
@@ -98,7 +123,7 @@ const BuyerPage6 = ({setCount}) => {
                 <p className='text-xs text-black font-light'>
                       State
                 </p>
-                <p className='text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2'>
+                <p className={`text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2 ${state !== 'Select State' && 'text-black font-normal'}`}>
                       {state}
                 </p>
               </div>
@@ -127,7 +152,7 @@ const BuyerPage6 = ({setCount}) => {
                 <p className='text-xs text-black font-light'>
                       City
                 </p>
-                <p className='text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2'>
+                <p className={`text-sm text-[#A4A4A4] font-light mt-1 lg:mt-2 ${city !== 'Select City' && 'text-black font-normal'}`}>
                       {city}
                 </p>
               </div>
@@ -155,7 +180,11 @@ const BuyerPage6 = ({setCount}) => {
                 <p className='text-xs w-full text-black font-light'>
                       Post Code
                 </p>
-                <input className='outline-none border-none w-full pr-4 lg:mt-2' />
+                <input className='outline-none border-none w-full pr-4 text-sm font-normal lg:mt-2 text-black' 
+                value={postal}
+                onChange={handlePostalCode}
+                placeholder='000 000'
+                />
           </div>
           
     </div>
@@ -166,11 +195,17 @@ const BuyerPage6 = ({setCount}) => {
           <p className='text-xs w-full text-black font-light'>
                 Address Line
           </p>
-          <input className='outline-none border-none w-full pr-4 lg:mt-2' />
+          <input className='outline-none border-none w-full pr-4 text-sm font-normal lg:mt-2 text-black' 
+          onChange={handleAddress}
+          value={address}
+          placeholder='Input Address Line'
+          />
     </div>
-    <button onClick={() => setCount(7)}
-    disabled={country === 'Select Country' || state === 'Select State' || city === 'Select City'}
-            className={`text-center text-sm font-normal text-white ${country === 'Select Country' || state === 'Select State' || city === 'Select City' ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
+    
+    <button onClick={handleSubmit}
+    disabled={country === 'Select Country' || state === 'Select State' || city === 'Select City' || postal === '' || address === ''}
+            className={`text-center text-sm font-normal text-white ${country === 'Select Country' || state === 'Select State' || city === 'Select City' 
+            || postal === '' || address === ''  ? 'bg-[#dddddd]' : 'bg-black'} rounded-sm h-14 w-[80%] mt-12 md:w-[45%] lg:w-[50%] lg:mt-14`}>
                                     Next
         </button>
     </motion.div>

@@ -121,7 +121,8 @@ const Verification = () => {
                     <div className='text-xs text-start text-medium text-red-500 mt-8 xl:text-sm'>{error}</div>
 
                     <button onClick={handleSubmit}
-                    className='flex items-center justify-center h-14 w-full bg-black text-white text-sm rounded-md font-medium mt-3 lg:h-14'>
+                    disabled={!otp}
+                    className={`flex items-center justify-center h-14 w-full bg-[#2196F3] text-white text-sm rounded-md font-medium mt-3 lg:h-14 ${!otp | loading &&  'bg-[#d5e6f5]'}`}>
                        { loading
                         ?<div className="relative flex items-center justify-center w-7 h-7 border-4 border-gray-500 border-solid rounded-full">
                            <div className="absolute w-7 h-7 border-t-4 border-white border-solid rounded-full animate-spin"></div>

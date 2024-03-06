@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
 const SellerPage6 = ({setCount}) => {
@@ -10,6 +12,17 @@ const SellerPage6 = ({setCount}) => {
 
       const frequency = ['This a one-off purchase request', 'This a monthly purchase request', 'This is an annual purchase request', 'Monthly, but with varying requirements', 'Annually, but with varying Requirements']
 
+      const userRequests = useSelector((state) => state.request.userRequests)
+
+      const dispatch = useDispatch();
+
+
+      const handleSubmit = (selected) => {
+        setCount(8)
+        const values = {'supply_frequency': selected}
+        const combinedValues6 = {...values, ...userRequests}
+        dispatch(setUserRequest(combinedValues6))
+      }
 
   return (
     <motion.div
@@ -38,7 +51,7 @@ const SellerPage6 = ({setCount}) => {
     </div>
     {frequency.map((item, index) => {
         return(
-            <button key={index} onClick={()=>setCount(7)}
+            <button key={index} onClick={()=>handleSubmit(item)}
                     className='text-center h-12 w-[90%] border-[1px] border-[#A4A4A4] rounded-lg mt-6 px-2 text-xs font-semibold hover:bg-black hover:text-white md:h-11
                      md:w-[45%] lg:w-[70%] xl:w-[72%] xl:h-12 xl:text-sm'>
                           {item}
