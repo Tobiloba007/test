@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { BuyerProfileActions } from '../../../features/buyer/BuyerActions';
 
 const BuyerProfile = () => {
+    const [user, setUser] = useState('')
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(BuyerProfileActions(setUser))
+        console.log(user.last_name);
+
+    }, [dispatch, user])
+
   return (
-    <div className='flex flex-col items-center justify-start w-full px-5 pb-10 md:px-10 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+    <div className='flex flex-col items-center justify-start w-full px-5 pb-10 md:px-10 mt-28 lg:mt-0 lg:pt-[100px] xl:pt-[115px] xl:px-8 xl:py-8'>
 
          {/* PROFILE 1 */}
         <div className='flex flex-col items-start justify-start w-full mt-6 md:flex-row'>
@@ -22,7 +34,8 @@ const BuyerProfile = () => {
                             First name
                         </p>
                         <input className='text-[10px] text-[#101828] border-[1px] border-[#DDE1E6] rounded-md h-9 w-full pl-3 mt-1 xl:h-11 xl:text-xs'
-                        placeholder='Ololade'
+                        placeholder='First Name'
+                        value={user.first_name}
                         />
                     </div>
                     <div className='w-[47%]'>
@@ -30,7 +43,8 @@ const BuyerProfile = () => {
                             Last name
                         </p>
                         <input className='text-[10px] text-[#101828] border-[1px] border-[#DDE1E6] rounded-md h-9 w-full pl-3 mt-1 xl:h-11 xl:text-xs'
-                        placeholder='Asake'
+                        placeholder='Last Name'
+                        value={user.last_name}
                         />
                     </div>
                   </div>
@@ -40,7 +54,8 @@ const BuyerProfile = () => {
                             Gender
                         </p>
                         <input className='text-[10px] text-[#101828] border-[1px] border-[#DDE1E6] rounded-md h-9 w-full pl-3 mt-1 xl:h-11 xl:text-xs'
-                        placeholder='Male'
+                        placeholder=''
+                        value={user.gender}
                         />
                   </div>
 
@@ -50,6 +65,7 @@ const BuyerProfile = () => {
                         </p>
                         <input className='text-[10px] text-[#101828] border-[1px] border-[#DDE1E6] rounded-md h-9 w-full pl-3 mt-1 xl:h-11 xl:text-xs'
                         placeholder='08012345678'
+                        value={user.phone}
                         />
                   </div>
 
@@ -59,6 +75,8 @@ const BuyerProfile = () => {
                         </p>
                         <input className='text-[10px] text-[#101828] border-[1px] border-[#DDE1E6] rounded-md h-9 w-full pl-3 mt-1 xl:h-11 xl:text-xs'
                         placeholder='mrmoney@gmail.com'
+                        value={user.email}
+
                         />
                   </div>
 
@@ -67,7 +85,8 @@ const BuyerProfile = () => {
                             Address
                         </p>
                         <input className='text-[10px] text-[#101828] border-[1px] border-[#DDE1E6] rounded-md h-9 w-full pl-3 mt-1 xl:h-11 xl:text-xs'
-                        placeholder='2 Adebiyi Street, Gbagade, Lagos state'
+                        placeholder=''
+                        value={user.address}
                         />
                   </div>
 

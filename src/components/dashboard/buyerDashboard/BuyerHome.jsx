@@ -1,23 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoDotFill } from "react-icons/go";
 import Aluminium from '../../../assets/images/alu.svg'
 import Cobalt from '../../../assets/images/cob.svg'
+import HomeModal from '../../modals/buyer/HomeModal';
+import PaymentReciept from '../../modals/buyer/PaymentReciept';
+import { useDispatch } from 'react-redux';
+import { metricsData, purchaseRequestAction } from '../../../features/buyer/BuyerActions';
 
 
 
-const BuyerHome = () => {
-  const purchaseRequests = [
+const BuyerHome = ({setTab}) => {
+     const [openModal, setOpenModal] = useState(null)
+     const [payment, setPayment] = useState(false)
+
+
+     const [metrics, setMetrics] = useState(0);
+     const [purchaseRequestsData, setPurchaseRequestsData] = useState('');
+
+     const dispatch = useDispatch();
+
+     useEffect(() => {
+          dispatch(metricsData(setMetrics))
+          dispatch(purchaseRequestAction(setPurchaseRequestsData))
+     }, [dispatch])
+
+
+  const purchaseRequests1 = [
     {
       id: 1,
-      quantity: 'x4',
-      name: 'Aluminium',
+      quantity: `x${purchaseRequestsData.quantity}`,
+      name: purchaseRequestsData.name,
       img: Aluminium,
-      purchaseId: 'AD33342222',
+      purchaseId: purchaseRequestsData.purchase_id,
       trackingNo: '23444555-200',
       date: '12 . 09 . 2023',
       status: 'In-transit',
       initialDest: 'Lagos, Nigeria',
-      finalDest: 'Tokyo, Japan',
+      finalDest: `${purchaseRequestsData.state}, ${purchaseRequestsData.location}`,
     },
     {
       id: 2,
@@ -33,31 +52,38 @@ const BuyerHome = () => {
     },
   ]
 
+  const handleCloseBackdrop = () => {
+     setOpenModal(false)
+     setPayment(false)
+  }
+
+
   return (
-    <div className='flex flex-col items-start justify-start w-full pb-14 py-6 px-6 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+     <div className='flex flex-col items-center justify-start w-full'>
+    <div className='flex flex-col items-start justify-start w-full pb-14 py-6 px-6 mt-28 lg:mt-[100px] xl:mt-[115px] xl:px-8 xl:py-8'>
          <div className='flex flex-row items-center justify-between w-full md:justify-start'>
              <div className='flex flex-col items-start justify-center w-[48%] h-28 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-36 xl:pl-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
-                        Total purchase orders
+                       Total purchase orders
                   </p>
                   <p className='text-xl font-medium text-black my-2 xl:text-2xl xl:my-3'>
-                         134
+                      {metrics.total}
                   </p>
                   <p className='text-[9px] font-medium text-[#667085] xl:text-[11px]'>
-                         5 Completed
+                        {metrics.completed} Completed
                   </p>
              </div>
 
              <div className='flex flex-col items-start justify-center w-[48%] h-28 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] md:ml-4 xl:w-[220px] xl:h-36 
              xl:pl-5 xl:ml-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
-                        Ongoing purchase orders
+                        purchase orders
                   </p>
                   <p className='text-xl font-medium text-black my-2 xl:text-2xl xl:my-3'>
-                         2
+                      {metrics.ongoing}
                   </p>
                   <p className='text-[9px] font-medium text-[#667085] xl:text-[11px]'>
-                         5 Completed
+                         {metrics.completed} Completed
                   </p>
              </div>
          </div>
@@ -68,7 +94,7 @@ const BuyerHome = () => {
                      My Recent Purchase Requests
               </p>
 
-              {purchaseRequests.map((item) => {
+              {purchaseRequests1.map((item) => {
                 return(
               <div key={item.id}
               className='flex flex-col items-start justify-start w-full border-[1.5px] border-[#D0D5DD] shadow-md rounded-lg px-3 py-6 mt-5 md:px-7 md:flex-row md:items-center'>
@@ -108,7 +134,8 @@ const BuyerHome = () => {
 
                         </div>
 
-                        <button className='text-[10px] text-white text-normal text-center bg-[#2196F3] h-7 w-20 rounded-md'>
+                        <button onClick={()=>setOpenModal(true)}
+                        className='text-[10px] text-white text-normal text-center bg-[#2196F3] h-7 w-20 rounded-md'>
                               View Order
                         </button>
                    </div>
@@ -147,8 +174,32 @@ const BuyerHome = () => {
               })}
 
          </div>
+         
+     </div>
+            
 
-    </div>
+          {
+           openModal | payment &&
+          <div onClick={handleCloseBackdrop}
+          className='fixed w-full h-full bg-[#000000] p-5 opacity-60 z-40 lg:p-0'></div>
+          }
+
+          { 
+            openModal &&
+           <div className='absolute flex flex-col items-center justify-center w-[90%] mt-16 md:w-[80%] lg:w-[72%] xl:w-[65%]'>
+              <HomeModal data={purchaseRequestsData} setOpenModal={setOpenModal} setPayment={setPayment} setTab={setTab} />  
+           </div>
+          }
+
+          { 
+            payment &&
+           <div className='absolute flex flex-col items-center justify-center w-[90%] h-full md:w-[80%] lg:w-[72%] xl:w-[65%]'>
+             <PaymentReciept setOpenModal={setOpenModal} setPayment={setPayment}  />  
+           </div>
+          }
+          
+
+      </div>
   )
 }
 

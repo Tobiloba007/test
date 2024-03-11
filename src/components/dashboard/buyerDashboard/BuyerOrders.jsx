@@ -13,7 +13,7 @@ const BuyerOrders = () => {
   }
 
   return (
-    <div className='flex flex-col items-start justify-start w-full py-6 px-6 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+    <div className='flex flex-col items-start justify-start w-full py-6 px-6 mt-28 lg:mt-0 lg:pt-[100px] xl:px-8 xl:pt-[115px] xl:mt-10'>
           {/* TABS */}
         <div className='flex flex-row items-start justify-between w-full mt-5 md:justify-start md:mt-7'>
              <div onClick={()=>handleTab('open')}

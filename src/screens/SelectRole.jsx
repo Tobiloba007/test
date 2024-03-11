@@ -21,31 +21,29 @@ import SellerSuccessfulModal from '../components/seller/SellerSuccessfulModal';
 import SellerPage6 from '../components/seller/SellerPage6';
 import { selectRole } from '../features/authentication/AuthActions';
 import { useDispatch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SellerPage0 from '../components/seller/SellerPage0';
+import { useNavigate } from 'react-router-dom';
 
 
 const SelectRole = () => {
     const [role, setRole] = useState(null);
-    const [count, setCount] = useState(0);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleRoleSelection = (role) => {
       const userType = {"user_type": role}
         setRole(role)
-        AsyncStorage.setItem('user_type', role);
         setLoading(true)
-        dispatch(selectRole(userType, setError, setCount, count, setLoading, role))
-        setCount(count + 1)
+        dispatch(selectRole(userType, setError, navigate, setLoading, role))
         console.log(role);
+        navigate(role === 'buyer' && '/buyer-request-flow')
     }
 
     const handleBack = () => {
-        setCount(count - 1)
-        console.log(count);
+      navigate(-1)
     }
     
   return (
@@ -65,17 +63,8 @@ const SelectRole = () => {
                   </div>
               </div>
               </div>
-
-               { 
-                role === 'buyer' && count === 1 ? <BuyerPage1 setCount={setCount} /> 
-                : role === 'buyer' && count === 2 ? <BuyerPage2 setCount={setCount} /> : role === 'buyer' && count === 3 ? <BuyerPage3 setCount={setCount} />
-                : role === 'buyer' && count === 4 ? <BuyerPage4 setCount={setCount} /> : role === 'buyer' && count === 5 ? <BuyerPage5 setCount={setCount} />
-                : role === 'buyer' && count === 6 ? <BuyerPage6 setCount={setCount} /> : role === 'buyer' && count === 7 ? <BuyerPage7 setCount={setCount} />
-                : role === 'seller' && count === 1 ? <SellerPage0 setCount={setCount} /> : role === 'seller' && count === 2 ? <SellerPage1 setCount={setCount} />
-                : role === 'seller' && count === 3 ? <SellerPage2 setCount={setCount} /> : role === 'seller' && count === 4 ? <SellerPage3 setCount={setCount} />
-                : role === 'seller' && count === 5 ? <SellerPage4 setCount={setCount} /> : role === 'seller' && count === 6 ? <SellerPage5 setCount={setCount} />
-                : role === 'seller' && count === 7 ? <SellerPage6 setCount={setCount} /> : role === 'seller' && count === 8 ? <SellerPage7 setCount={setCount} /> 
-                : <div className='flex flex-col items-center justify-center w-full mt-20 xl:mt-24'>
+              
+              <div className='flex flex-col items-center justify-center w-full mt-20 xl:mt-24'>
                     <p className='text-xl font-semibold pl-2 text-center md:text-2xl xl:text-[27px]'>
                         Whom do you Identify As?
                     </p>
@@ -98,33 +87,16 @@ const SelectRole = () => {
                     }
                     <div className='text-xs text-medium text-red-500 mt-3 xl:text-sm'>{error}</div>                    
                  </div>
-               }
+               
           </div>
 
 
           <div className='hidden lg:flex items-start justify-center w-[70%] h-full z-50'>
               <div className='fixed'>
                   <img className='h-full w-full'
-                  src={role === 'seller' ? sellerImage : buyerImage} alt='select visuals' />
+                  src={buyerImage} alt='select visuals' />
                </div>
           </div>
-               
-          {/* BUYER */}
-          {
-            role === 'buyer' && count === 8 && <div className='absolute h-screen w-full bg-[#dddddd] z-40 opacity-50'></div>
-          }
-          {
-            role === 'buyer' && count === 8 && <BuyerSuccessfulModal />
-          }
-
-
-          {/* SUPPLIER */}
-          {
-            role === 'seller' && count === 9 && <div className='absolute h-screen w-full bg-[#dddddd] z-40 opacity-50'></div>
-          }
-          {
-            role === 'seller' && count === 9 && <SellerSuccessfulModal />
-          }
 
     </div>
   )

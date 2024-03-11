@@ -25,13 +25,6 @@ const SellerPage4 = ({setCount}) => {
 
       const handleFileChange = (event) => {
         setFile(event.target.files[0]);
-
-      //  if (file.type === 'application/pdf' || file.type.startsWith('image/')) {
-      //        setError('file upload successfull');
-      //        console.log('successfull');
-      //  } else {
-      //   setError('Please select a valid PDF file or image.');
-      //  }
      };
 
      const handleButtonClick = () => {
@@ -64,10 +57,10 @@ const SellerPage4 = ({setCount}) => {
          </div>
          <div className='flex flex-col items-center justify-center w-full mt-8 md:items-start'>
              <p className='text-xl font-semibold text-center md:text-2xl md:w-[65%] md:text-start lg:w-full lg:text-start xl:text-[27px]'>
-                    Choose relevant certification
+                    Choose Certificate Analysis
              </p>
              <p className='text-xs text-[#667085] font-normal text-center mt-2 md:text-xs md:w-[65%] md:text-start lg:w-full lg:text-start xl:text-sm'>
-                    Choose the relevant certifications your commodity adheres to.
+                    Choose the certificate analysis that your commodity adheres to.
              </p>
          </div>
 
@@ -95,7 +88,7 @@ const SellerPage4 = ({setCount}) => {
                       :<div className='flex flex-col items-center justify-center w-full'>
                           <BsDownload onClick={handleButtonClick} className='text-[60px] text-[#aaaaaa]' />
                           <p className='text-xs text-center font-normal text-black text mt-5 w-[80%]'>
-                              <b>upload relevant certification</b> in pdf or image format.
+                              <b>upload certificate analysis</b> in pdf or image format.
                           </p>
                           <div className='text-xs text-center text-medium text-red-500 mt-4 xl:text-sm'>{error}</div>
                       </div>

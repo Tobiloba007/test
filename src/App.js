@@ -13,6 +13,10 @@ import SellerDashboard from "./screens/dashboards/SellerDashboard";
 import RecoverPassword from "./screens/registration/RecoverPassword";
 import RecoverySuccess from "./screens/registration/RecoverySuccess";
 import ChangePassword from "./screens/registration/ChangePassword";
+import BuyerRequestFlow from "./screens/BuyerRequestFlow";
+import SellerRequestFlow from "./screens/SellerRequestFlow";
+import DashboardLayout from "./components/dashboard/DashboardLayout";
+import AdminLayout from "./screens/admin/AdminLayout";
 
 function App() {
   return (
@@ -30,8 +34,12 @@ function App() {
             <Route path="/recoverySuccess" Component={RecoverySuccess} />
             <Route path="/changePassword" Component={ChangePassword} />
             <Route path="/select-role" Component={SelectRole} />
+            <Route path="/buyer-request-flow" Component={BuyerRequestFlow} />
+            <Route path="/seller-request-flow" Component={SellerRequestFlow} />
             <Route path="/buyer-dashboard" Component={BuyerDashboard} />
             <Route path="/seller-dashboard" Component={SellerDashboard} />
+            <Route path="/dashboard-layout" Component={DashboardLayout} />
+            <Route path="/admin" Component={AdminLayout} />
          </Routes>
     </Router>
   );

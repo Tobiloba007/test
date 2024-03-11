@@ -2,7 +2,7 @@ import React from 'react'
 
 const SellerProfile = () => {
   return (
-    <div className='flex flex-col items-center justify-start w-full px-5 pb-10 md:px-10 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+    <div className='flex flex-col items-center justify-start w-full px-5 pb-10 md:px-10 mt-28 lg:mt-0 lg:pt-[120px] xl:pt-[150px] xl:px-8 xl:py-8'>
 
          {/* PROFILE 1 */}
         <div className='flex flex-col items-start justify-start w-full mt-6 md:flex-row'>

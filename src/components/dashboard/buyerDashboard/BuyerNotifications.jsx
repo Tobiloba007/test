@@ -58,7 +58,7 @@ const BuyerNotifications = () => {
     ]
 
   return (
-    <div className='flex flex-col items-center justify-start w-full px-5 md:px-10 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+    <div className='flex flex-col items-center justify-start w-full px-5 md:px-10 mt-28 lg:mt-0 lg:pt-[100px] xl:pt-[115px] xl:px-8 xl:py-8'>
         <div className='flex items-start justify-start w-full pt-6'>
            <p className='text-sm font-medium text-[#101828] lg:text-base xl:text-xl'>
                 You have 3 unread notifications

@@ -7,7 +7,7 @@ import { setUser } from "../authentication/AuthSlice";
 
 
     // BUYER PURCHASE REQUEST
-    export const buyerRequest = (userRequest, setError, setCount, setLoading, navigate) => async () => {
+    export const buyerRequest = (userRequest, setError, setCount, setLoading, navigate, dispatch) => async () => {
         setLoading(true)
         const user = await AsyncStorage.getItem('user_type');
         const loginToken = await AsyncStorage.getItem('token');
@@ -18,7 +18,8 @@ import { setUser } from "../authentication/AuthSlice";
         try{
           const response = await axios.post(`${BASE_URL}/buyer/purchase-request`, userRequest, { headers });
           if (response.status === 201) {
-            console.log(response);
+            console.log(response.data.data.user.user_type);
+            dispatch(setUser(response.data.data.user))
             console.log('purchase request made successfully')
             console.log(user);
             setCount(8)

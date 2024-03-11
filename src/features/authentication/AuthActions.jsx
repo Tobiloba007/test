@@ -101,19 +101,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     // LOGIN
     export const login = (values, setError, navigate) => async (dispatch) => {
         dispatch(setLoading(true));
-        const roleSelected = await AsyncStorage.getItem('selectRole');
-        const user = await AsyncStorage.getItem('user_type');
+        // const roleSelected = await AsyncStorage.getItem('selectRole');
+        // const user = await AsyncStorage.getItem('user_type');
         try{
           const response = await axios.post(`${BASE_URL}/auth/login`, values);
           if (response.status === 200) {
-            console.log(response);
-            console.log('Login successfull')
+            console.log(response.data.data.user.user_type, 'Hello');
+            dispatch(setUser(response.data.data.user))
             const Token = response.data.data.access_token
-            console.log(Token);
-            console.log(roleSelected);
+            AsyncStorage.setItem('token', Token);
             dispatch(setLoginToken(Token))
-            await AsyncStorage.setItem('token', Token);
-            navigate(roleSelected && user === 'buyer' ? '/buyer-dashboard' : roleSelected && user === 'seller' ? '/seller-dashboard' : '/select-role')
+            navigate(response.data.data.user.user_type === 'buyer' && response.data.data.user.is_onboarding_complete === true  ? '/buyer-dashboard' 
+                     : response.data.data.user.user_type === 'seller' && response.data.data.user.is_onboarding_complete === true ? '/seller-dashboard' 
+                     : response.data.data.user.is_onboarding_complete === false && '/select-role')
           } else if (response.status !== 200) {
             console.log('Login failed with status code:', response.status);
           } 
@@ -202,7 +202,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
     // SELECT ROLE
-    export const selectRole = (userType, setError, setCount, count, setLoading, role) => async (dispatch) => {
+    export const selectRole = (userType, setError, navigate, setLoading, role) => async (dispatch) => {
         const loginToken = await AsyncStorage.getItem('token');
         const headers = {
           'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
         try{
           const response = await axios.post(`${BASE_URL}/user/select-type`, userType, { headers });
           if (response.status === 200) {
-            setCount(count + 1)
+            navigate(role === 'buyer' ? '/buyer-request-flow' : role === 'seller' && '/seller-request-flow')
             console.log(response);
             dispatch(setUser(role));
             console.log('user type selected successfully')

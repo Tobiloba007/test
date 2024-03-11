@@ -19,7 +19,7 @@ const BuyerShipTracking = () => {
       };
 
   return (
-    <div className='flex flex-col items-center justify-start w-full px-5 pb-12 md:px-10 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+    <div className='flex flex-col items-center justify-start w-full px-5 pb-12 md:px-8 mt-28 lg:pt-[20px] xl:py-8'>
          <div className='flex flex-col items-start justify-start w-full mt-6'>
             <p className='text-xs font-light text-[#344054] w-[85%] md:w-[50%] md:leading-5 lg:w-[55%] xl:w-[45%] xl:text-sm'>
                 Insert your tracking Number and check for IRT status for deliveries En-route to You!

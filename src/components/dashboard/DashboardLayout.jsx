@@ -38,28 +38,27 @@ const DashboardLayout = () => {
 
     const [open, setOpen] = useState(false);
     const [tab, setTab] = useState('Dashboard');
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState('');
+    // const [loading, setLoading] = useState(null);
 
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     const loginToken = useSelector((state) => state.auth.loginToken)
+    const userData = useSelector((state) => state.auth.user)
 
 
       useEffect(() => {
         const fetchUser = async () => {
           try {
-            const getUser = await AsyncStorage.getItem('user_type');
-            setUser(getUser)
-            console.log(user, `: This user is a ${user}`)
+            setUser(userData)
+            console.log(user);
           } catch (error) {
             console.log('Error retrieving data:', error);
           }
         };
     
         fetchUser();
-      }, [user]);
+      }, [user, userData]);
 
 
     const tabs = [
@@ -71,7 +70,7 @@ const DashboardLayout = () => {
         {
             id: 2,
             icon: <IoCartOutline className='text-white text-lg xl:text-[22px]' />,
-            name: user === 'seller' ? 'Purchase Requests' : user === 'buyer' && 'My Purchase Orders',
+            name: user.user_type === 'seller' ? 'Purchase Requests' : user.user_type === 'buyer' && 'My Purchase Orders',
         },
         {
             id: 3,
@@ -109,18 +108,27 @@ const DashboardLayout = () => {
     }
 
 
+    const handlePurchaseRequest = () => {
+      navigate('/buyer-request-flow')
+    }
+
+    const handleUploadRequest = () => {
+      navigate('/seller-request-flow')
+    }
+
+
 
   return (
     <div className='flex flex-row items-start justify-start w-full h-full font-poppins'>
           <div onClick={()=>setOpen(false)}
-          className={`fixed ${open ? 'flex' : 'hidden'} items-center justify-center h-full w-full z-30 bg-[#CCCCCC] opacity-50`}></div>
+          className={`fixed ${open ? 'flex' : 'hidden'} items-center justify-center h-full w-full z-30 bg-[#000000] opacity-50`}></div>
             {/*  VERTICAL BAR */}
           <motion.div 
           initial="hidden"
           animate="visible"
           variants={open ? slideInVariants : ''}
-          transition={{ ease: 'easeOut', duration: 0.4 }}
-          className={`${open ? 'absolute' : 'hidden'} lg:flex flex-col items-start justify-start w-[55%] h-screen z-50 bg-[#101828] px-3 pt-6 md:w-[30%] 
+          transition={{ ease: 'easeOut', duration: 0.5 }}
+          className={`${open ? 'fixed' : 'hidden'} lg:flex flex-col items-start justify-start w-[55%] h-screen z-50 bg-[#101828] px-3 pt-6 md:w-[30%] 
           lg:fixed lg:w-[20%] xl:px-5 xl:w-[21%]`}>
                <div className='flex flex-row justify-start items-center'>
                    <img className='w-12 h-12'
@@ -187,7 +195,7 @@ const DashboardLayout = () => {
           <div className='flex flex-col items-end justify-start w-full h-full'>
           {/* TOP BAR */}
           <div className='flex flex-col items-start justify-center w-full fixed px-5 bg-white shadow-md border-b-[1px] z-30 border-[#dddddd] h-[100px] md:h-28 md:px-8 lg:flex-row 
-          lg:items-center lg:justify-between lg:px-7 lg:h-24 lg:w-[80%] xl:h-28'>
+          lg:items-center lg:justify-between lg:px-7 lg:h-24 lg:w-[80%] xl:h-28 xl:px-16'>
              <div className='flex flex-col items-start justify-center'>
                  <p className='text-base font-medium text-[#101828] lg:text-xl xl:text-2xl'>
                    {
@@ -207,16 +215,18 @@ const DashboardLayout = () => {
              </div>
 
              {
-              user === 'buyer'
-              ?<div className='flex flex-row items-center justify-center w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
+              user.user_type === 'buyer'
+              ?<div onClick={handlePurchaseRequest}
+              className='flex flex-row items-center justify-center cursor-pointer w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
                  <IoMdAdd className='text-white text-xs lg:text-[13px] xl:text-sm' />
                  <p className='text-[9px] font-medium text-[#ffffff] ml-2 pt-[2px] md:text-[10px] lg:text-[11px] xl:text-xs'>
                       New Purchase Request
                  </p>
              </div>
 
-             : user === 'seller' &&
-             <div className='flex flex-row items-center justify-center w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
+             : user.user_type === 'seller' &&
+             <div onClick={handleUploadRequest}
+             className='flex flex-row items-center justify-center cursor-pointer w-36 h-7 mt-2 bg-[#2196F3] rounded-md md:h-8 md:w-[155px] lg:w-44 xl:h-10 xl:w-48'>
                  <IoMdAdd className='text-white text-xs lg:text-[13px] xl:text-sm' />
                  <p className='text-[9px] font-medium text-[#ffffff] ml-2 pt-[2px] md:text-[10px] lg:text-[11px] xl:text-xs'>
                       Upload Commodity
@@ -237,21 +247,21 @@ const DashboardLayout = () => {
 
             {/* CONTENTS */}
 
-              <div className='w-full lg:w-[80%] lg:pt-[100px] xl:pl-3 xl:pt-[115px]'>
+              <div className='w-full lg:w-[80%] xl:w-[80%] xl:px-8'>
                {
-                   tab === 'Dashboard' && user === 'buyer' ?  <BuyerHome />
-                 : tab === 'My Purchase Orders' && user === 'buyer' ?  <BuyerOrders />
-                 : tab === 'Notifications' && user === 'buyer' ?  <BuyerNotifications />
-                 : tab === 'Shipment Tracking' && user === 'buyer' ?  <BuyerShipTracking />
-                 : tab === 'My Profile' && user === 'buyer' &&  <BuyerProfile />
+                   tab === 'Dashboard' && user.user_type === 'buyer' ?  <BuyerHome setTab={setTab} />
+                 : tab === 'My Purchase Orders' && user.user_type === 'buyer' ?  <BuyerOrders />
+                 : tab === 'Notifications' && user.user_type === 'buyer' ?  <BuyerNotifications />
+                 : tab === 'Shipment Tracking' && user.user_type === 'buyer' ?  <BuyerShipTracking />
+                 : tab === 'My Profile' && user.user_type === 'buyer' &&  <BuyerProfile />
                } 
 
                {
-                   tab === 'Dashboard' && user === 'seller' ?  <SellerHome />
-                 : tab === 'Purchase Requests' && user === 'seller' ?  <SellerPurchaseRequests />
-                 : tab === 'Notifications' && user === 'seller' ?  <SellerNotification />
-                 : tab === 'Shipment Tracking' && user === 'seller' ?  <SellerShipmentTracking />
-                 : tab === 'My Profile' && user === 'seller' &&  <SellerProfile />
+                   tab === 'Dashboard' && user.user_type === 'seller' ?  <SellerHome />
+                 : tab === 'Purchase Requests' && user.user_type === 'seller' ?  <SellerPurchaseRequests />
+                 : tab === 'Notifications' && user.user_type === 'seller' ?  <SellerNotification />
+                 : tab === 'Shipment Tracking' && user.user_type === 'seller' ?  <SellerShipmentTracking />
+                 : tab === 'My Profile' && user.user_type === 'seller' &&  <SellerProfile />
                }
               </div>
                

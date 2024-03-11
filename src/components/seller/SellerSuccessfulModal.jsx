@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const SellerSuccessfulModal = () => {
   return (
-    <div className='absolute flex flex-row items-center justify-center w-full h-full z-50 px-8 pt-60 md:pt-0'>
+    <div className='absolute top-[3%] flex flex-row items-center justify-center w-full h-full z-50 px-8'>
 
             <div className='flex flex-col items-center justify-start w-full bg-white shadow-lg rounded-lg pt-10 px-4 pb-4 md:w-[50%] lg:w-[40%] lg:px-5 xl:w-[28%]'>
                   <GoCheckCircleFill className='text-[40px] text-[#09D945]' />

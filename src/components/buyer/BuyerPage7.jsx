@@ -32,7 +32,7 @@ const BuyerPage7 = ({setCount}) => {
       const handleSubmit = () => {
         const userRequest = {...userRequests, ...values}
         dispatch(setUserRequest(userRequest))
-        dispatch(buyerRequest(userRequest, setError, setCount, setLoading, navigate))
+        dispatch(buyerRequest(userRequest, setError, setCount, setLoading, navigate, dispatch))
         console.log(userRequest);
       }
 

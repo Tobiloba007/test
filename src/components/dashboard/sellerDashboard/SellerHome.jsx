@@ -78,7 +78,7 @@ const SellerHome = () => {
       }
 
   return (
-    <div className='flex flex-col items-start justify-start w-full py-6  px-6 mt-28 lg:mt-0 xl:px-8 xl:py-8'>
+    <div className='flex flex-col items-start justify-start w-full py-6  px-6 mt-28 lg:mt-0 lg:pt-[120px] xl:pt-[150px] xl:px-8 xl:py-8'>
          <div className='flex flex-row items-center justify-between w-full md:justify-start'>
              <div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-28 xl:pl-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
