@@ -48,9 +48,9 @@ const HomeSection4 = () => {
             </div>
 
             <div className='flex flex-row flex-wrap items-center justify-between w-full mt-5 md:justify-start lg:items-start lg:w-full lg:justify-end'>
-                {metals.map((item) => {
+                {metals.map((item, index) => {
                     return (
-                <div className='flex flex-col items-center justify-start mt-5 md:mx-5 lg:mx-2 xl:mt-8'>
+                <div key={index} className='flex flex-col items-center justify-start mt-5 md:mx-5 lg:mx-2 xl:mt-8'>
                     <div className='relative flex flex-col items-center justify-center'>  
                         <img className='h-16 w-16 lg:h-[58px] lg:w-[58px] xl:h-20 xl:w-20'
                         src={circle} alt="ring" />

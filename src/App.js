@@ -16,6 +16,7 @@ import ChangePassword from "./screens/registration/ChangePassword";
 import BuyerRequestFlow from "./screens/BuyerRequestFlow";
 import SellerRequestFlow from "./screens/SellerRequestFlow";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import AdminLogin from "./screens/admin/AdminLogin";
 import AdminLayout from "./screens/admin/AdminLayout";
 
 function App() {
@@ -39,7 +40,8 @@ function App() {
             <Route path="/buyer-dashboard" Component={BuyerDashboard} />
             <Route path="/seller-dashboard" Component={SellerDashboard} />
             <Route path="/dashboard-layout" Component={DashboardLayout} />
-            <Route path="/admin" Component={AdminLayout} />
+            <Route path="/admin" Component={AdminLogin} />
+            <Route path="/admin-Layout" Component={AdminLayout} />
          </Routes>
     </Router>
   );

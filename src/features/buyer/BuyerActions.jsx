@@ -75,10 +75,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
           'Authorization': `Bearer ${loginToken}`,
         };
         try{
-          const response = await axios.get(`${BASE_URL}/buyer/purchase-request/1`, { headers });
+          const response = await axios.get(`${BASE_URL}/buyer/purchase-request`, { headers });
           if (response.status === 200) {
-            console.log(response.data.data.purchase_request)
-            setPurchaseRequestsData(response.data.data.purchase_request)
+            // console.log(response.data.data.purchase_request.data, 'Hello world')
+            setPurchaseRequestsData(response.data.data.purchase_request.data)
           } else if (response.status !== 200) {
             console.log('request failed status code:', response.status);
           } 
@@ -94,6 +94,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         
         //   setLoading(false)
       };
+
 
 
 
@@ -125,3 +126,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         
         //   setLoading(false)
       };
+
+
+    // SEARCH COMMODITY
+    export const SearchCommodity = (setSearchResults, searchTerm) => async () => {
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${loginToken}`,
+        };
+        try {
+          const response = await axios.get(`${BASE_URL}/buyer/purchase-request?limit=2&page=1&filter=open&sort=asc&search=${searchTerm}`, { headers },{
+              params: {
+                  limit: 2,
+                  page: 1,
+                  filter: 'open',
+                  sort: 'asc',
+                  search: searchTerm,
+                }
+          });
+          setSearchResults(response.data.data.purchase_request.data);
+          console.log(response.data.data.purchase_request.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+    };

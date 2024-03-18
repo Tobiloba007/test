@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoDotFill } from "react-icons/go";
 import AdminChart from './AdminChart';
 import RecentPurchaseTable from './RecentPurchaseTable';
+import { useDispatch } from 'react-redux';
+import { RecentPurchaseRequestAction, adminCommodityMetrics, adminMetricsData } from '../../features/admin/AdminActions';
 
 
 const AdminHome = () => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [metrics, setMetrics] = useState([]);
+    const [commodityMetrics, setCommodityMetrics] = useState([]);
+    const [recetPurchaseRequest, setRecetPurchaseRequest] = useState([]);
+
+
+    const dispatch = useDispatch();
+
+
+     useEffect(() => {
+          dispatch(adminMetricsData(setMetrics, setLoading, setError))
+          dispatch(adminCommodityMetrics(setCommodityMetrics, setLoading, setError))
+          dispatch(RecentPurchaseRequestAction(setRecetPurchaseRequest, setLoading, setError))
+     }, [dispatch])
+
+
+
   return (
     <div className='flex flex-col items-start justify-start w-full pb-14 py-6 px-6 mt-24 lg:mt-[100px] xl:mt-[115px] xl:px-8 xl:py-8'>
        <div className='flex flex-col items-start justify-start w-full md:flex-row'>
@@ -14,14 +34,14 @@ const AdminHome = () => {
                             Overall customer count                   
                      </p>
                      <p className='text-xl font-medium text-black my-3 xl:text-2xl xl:my-4'>
-                            396,655
+                            {metrics.total_users}
                      </p>
                      <div className='flex items-center justify-start'>
                          <p className='text-[10px] font-medium text-black xl:text-xs'>
-                             170,000 <span className='text-[9px] text-[#667085] xl:text-[10px]'> Off-takers</span>
+                            {metrics.total_buyers} <span className='text-[9px] text-[#667085] xl:text-[10px]'> Off-takers</span>
                          </p>
                          <p className='text-[10px] font-medium text-black pl-3 xl:text-xs'>
-                             126,655 <span className='text-[9px] text-[#667085] xl:text-[10px]'> Suppliers</span>
+                            {metrics.total_sellers} <span className='text-[9px] text-[#667085] xl:text-[10px]'> Suppliers</span>
                          </p>
                      </div>
                  </div>
@@ -31,14 +51,14 @@ const AdminHome = () => {
                             Overall commodity trades                  
                      </p>
                      <p className='text-xl font-medium text-black my-3 xl:text-2xl xl:my-4'>
-                            64,167
+                            {commodityMetrics.total_commodity}
                      </p>
                      <div className='flex items-center justify-start'>
                          <p className='text-[10px] font-medium text-black xl:text-xs'>
-                              44,100 <span className='text-[9px] text-[#667085] xl:text-[10px]'> Completed</span>
+                            {commodityMetrics.total_completed_commodity} <span className='text-[9px] text-[#667085] xl:text-[10px]'> Completed</span>
                          </p>
                          <p className='text-[10px] font-medium text-black pl-3 xl:text-xs'>
-                              20,067 <span className='text-[9px] text-[#667085] xl:text-[10px]'> Pending</span>
+                            {commodityMetrics.total_pending_commodity} <span className='text-[9px] text-[#667085] xl:text-[10px]'> Pending</span>
                          </p>
                      </div>
                  </div>
@@ -76,7 +96,7 @@ const AdminHome = () => {
 
 
        <div className='flex items-start justify-center w-full mt-2'>
-            <RecentPurchaseTable />
+            <RecentPurchaseTable recetPurchaseRequest={recetPurchaseRequest} />
        </div>
 
     </div>

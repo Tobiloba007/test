@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoginToken } from '../../features/authentication/AuthSlice';
 import AdminHome from '../../components/admin/AdminHome';
 import ManageCommodities from '../../components/admin/ManageCommodities';
+import Customers from '../../components/admin/customers/Customers';
+import Broadcasts from './Broadcasts';
 
 
 
@@ -96,7 +98,7 @@ const AdminLayout = () => {
 
 
   return (
-    <div className='flex flex-row items-start justify-start w-full h-full font-poppins'>
+    <div className='flex flex-row items-start justify-start w-full h-full font- no-scrollbar'>
           <div onClick={()=>setOpen(false)}
           className={`fixed ${open ? 'flex' : 'hidden'} items-center justify-center h-full w-full z-30 bg-[#000000] opacity-50`}></div>
             {/*  VERTICAL BAR */}
@@ -165,7 +167,7 @@ const AdminLayout = () => {
           <div className='flex flex-col items-end justify-start w-full h-full'>
           {/* TOP BAR */}
           <div className='flex flex-col items-start justify-center w-full fixed px-5 bg-white shadow-md border-b-[1px] z-30 border-[#dddddd] h-[85px] md:px-8 lg:flex-row 
-          lg:items-center lg:justify-between lg:px-7 lg:w-[80%] xl:h-[100px] xl:px-16'>
+          lg:items-center lg:justify-between lg:px-7 lg:w-[80%] xl:h-[100px] xl:px-12'>
              <div className='flex flex-col items-start justify-center'>
                  <p className='text-base font-medium text-[#101828] lg:text-xl xl:text-2xl'>
                    {
@@ -199,10 +201,12 @@ const AdminLayout = () => {
 
             {/* CONTENTS */}
 
-              <div className='w-full lg:w-[80%] xl:w-[80%] xl:px-8'>
+              <div className='w-full lg:w-[80%] xl:w-[80%]'>
                {
                    tab === 'Dashboard' ? <AdminHome  />
-                  :tab === 'Manage Commodities' && <ManageCommodities  />
+                  :tab === 'Manage Commodities' ? <ManageCommodities  />
+                  :tab === 'Customers' ? <Customers />
+                  :tab === 'Broadcast' && <Broadcasts />
                } 
               </div>
                

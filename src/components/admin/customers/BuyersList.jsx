@@ -2,36 +2,30 @@ import React, { useEffect, useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { HiSortDescending } from "react-icons/hi";
 import { IoFilterSharp } from "react-icons/io5";
-import metal2 from '../../assets/images/Metal2.svg'
 import { MdOutlineFileCopy } from "react-icons/md";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { useDispatch } from 'react-redux';
-import { adminPurchaseRequestAction, adminSearchCommodity, updateCommodityStatus } from '../../features/admin/AdminActions';
+import { buyerCustomerDetails, buyersListAction, searchBuyer } from '../../../features/admin/AdminActions';
+import { CiEdit } from "react-icons/ci";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 
 
 
-const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
+const BuyersList = ({setOpenModal, setData, setCustomerDetails}) => {
       const dispatch = useDispatch();
 
-      const [purchaseRequestsData, setPurchaseRequestsData] = useState([]);
+      const [buyersData, setBuyersData] = useState([]);
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState(false);
 
-      const [dropdown, setDropdown] = useState(null);
 
       const [searchTerm, setSearchTerm] = useState('');
       const [searchResults, setSearchResults] = useState([]);
       const [search, setSearch] = useState(false);      
-
-      const handleDropdown = (item) => {
-        setDropdown((prevState) => (prevState === item ? null : item));
-      }
-
       
       const itemsPerPage = 5; // Number of items to display per page
-      const totalPages = Math.ceil(purchaseRequestsData.length / itemsPerPage); // Calculate total pages
+      const totalPages = Math.ceil(buyersData.length / itemsPerPage); // Calculate total pages
       const [currentPage, setCurrentPage] = useState(1); // Current page state
     
       // Function to handle page changes
@@ -44,17 +38,18 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
       const endIndex = startIndex + itemsPerPage;
     
       // Get current page items
-      const currentPageItems = purchaseRequestsData.slice(startIndex, endIndex);
+      const currentPageItems = buyersData.slice(startIndex, endIndex);
 
       const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
       };
 
       useEffect(() => {
-        dispatch(adminPurchaseRequestAction(setPurchaseRequestsData, setLoading, setError))
+        dispatch(buyersListAction(setBuyersData, setLoading, setError))
+
 
         if (searchTerm !== '') {
-            dispatch(adminSearchCommodity(setSearchResults, searchTerm))
+            dispatch(searchBuyer(setSearchResults, searchTerm))
             setSearch(true)
           } else {
             setSearchResults([]);
@@ -63,17 +58,18 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
 
       }, [dispatch, searchTerm])
 
-
-      const handleStatusChange = async (itemId, newStatus) => {
-        setDropdown(false)
-        dispatch(updateCommodityStatus(newStatus, itemId, setLoading))
-      };
-
       const handleModal = (item) => {
         setOpenModal(item)
         setData(item)
         console.log(item);
       }
+
+      const handleOpenDetails = (item) => {
+          dispatch(buyerCustomerDetails(item, setCustomerDetails))
+      }
+
+      
+
 
   return (
     <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-3 mb-12 py-2 pb-5 md:h-[27.5rem] 
@@ -114,11 +110,11 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
              <thead className='border-separate border-b border-slate-[#dddddd]'>
              <tr tr className='w-full mb-1'>
                  <td className='text-[9px] text-[#667085] xl:text-[10px] pl-4'>S/N</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Commodity</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Metric tons</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Purchase ID</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Date/Time</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px] pr-4'>Status</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Name</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Email Address</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Phone number</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Request/Orders</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Customer Since</td>
              </tr>
              </thead>
 
@@ -127,144 +123,104 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
              ?<tbody className='w-full'>
                   {currentPageItems.map((item, index) => {
                     return(
-                  <tr key={item.id} className='h-14 w-full'>
-
-                      <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
-
-                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-5 md:pr-6 xl:pr-20">
-                           <img className='w-9 rounded-lg'
-                           src={metal2} alt='metal' />
-                           <p className='pl-4'>{item.name}</p>
-                      </td>
-
-                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
-
-                      <td class="border-b text-[10px] font-medium">
-                          <div className='flex items-center justify-start'>
-                             <p className=''>{item.purchase_id}</p>
-                             <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
-                          </div>
-                      </td>
-
-                      <td class="border-b text-[10px] font-medium">
-                           <div className='flex flex-row items-start justify-start w-full'>
-                              <p className='text-[#6E7079] text-[10px] mr-1'>{item.created_at.slice(0, 10)}</p>
-                              <p className='text-[#6E7079] text-[10px]'> - {item.created_at.slice(12, 16)}</p>
-                           </div>
-                      </td>
-
-
-                      <td class="relative border-b text-[10px] font-medium">
-                           <div onClick={()=>handleDropdown(item.id)} 
-                           className='flex justify-center items-center h-7 px-1 w-20 border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
-                                  <p className='text-[9px] text-light text-[#667085] pl-1'>{item.status}</p>
-                                  {dropdown === item.id
-                                  ?<MdKeyboardArrowUp className='text-[#000000] ml-1 text-sm' />
-                                  :<MdKeyboardArrowDown className='text-[#000000] ml-1 text-sm' />
-                                  }
-                           </div>
-
-                           {dropdown === item.id &&
-                           <div className='absolute mt-1 right-1 flex flex-col items-start justify-start w-full rounded-md shadow-lg z-50 bg-white border-[1px] border-[#D0D5DD] py-3'>
-                                 <p onClick={()=>handleStatusChange(item.id, 'completed')}
-                                 className='text-[#000000] text-[10px] text-center px-2'>Completed</p>
-
-                                 <div className='border-[1px] border-[#D0D5DD] w-full my-2'></div>
-                                 
-                                 <p onClick={()=>handleStatusChange(item.id, 'In-transit')}
-                                 className='text-[#000000] text-[10px] text-center px-2'>In-transit</p>
-                           </div>
-                           }
-                      </td>
-
-                      <td class="border-b text-[10px] font-medium">
-                                 <div onClick={()=>handleModal(item)}
-                                 className='flex justify-center items-center cursor-pointer h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
-                                        <p className='text-[#101828]'>View Request</p>
-                                 </div>
-                      </td>
-
-                  </tr>
-                  )
-                  })}
-             </tbody>
-             :<tbody className='w-full'>
-                  {searchResults.map((item, index) => {
-                    return(
                   <tr key={item.id} className='h-14'>
 
                       <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
-                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-5 md:pr-6 xl:pr-20">
-                           <img className='w-9 rounded-lg'
-                           src={metal2} alt='metal' />
-                           <p className='pl-4'>{item.name}</p>
+                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-8">
+                           <p className=''>{item.first_name} {item.last_name}</p>
                       </td>
-
-                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
 
                       <td class="border-b text-[10px] font-medium">
                           <div className='flex items-center justify-start'>
-                             <p className=''>{item.purchase_id}</p>
+                             <p className=''>{item.email}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
                       <td class="border-b text-[9px] font-medium">
                           <div className='flex items-center justify-start'>
-                             <p className=''>{item.tracking_number == null ? item.tracking_status : item.tracking_number}</p>
+                             <p className=''>{item.phone}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
+                      <td class="border-b text-[10px] font-medium">{item.buyer_purchase_request_count}</td>
+
                       <td class="border-b text-[10px] font-medium">
-                           <div className='flex flex-row items-start justify-start w-full'>
-                              <p className='text-[#6E7079] text-[10px]'>{item.created_at.slice(0, 10)}</p>
-                              <p className='text-[#6E7079] text-[10px]'> - {item.created_at.slice(12, 16)}</p>
+                           <div className='flex flex-col items-start justify-start w-full'>
+                              <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(0, 10)}</p>
+                              <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(12, 16)}</p>
                            </div>
                       </td>
 
-
-                      <td class="relative border-b text-[10px] font-medium">
-                           <div onClick={()=>handleDropdown(item.id)} 
-                           className='flex justify-center items-center h-7 px-1 w-24 border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
-                                  <p className='text-[9px] text-light text-[#667085] pl-1'>{item.status}</p>
-                                  {dropdown === item.id
-                                  ?<MdKeyboardArrowUp className='text-[#000000] ml-1 text-sm' />
-                                  :<MdKeyboardArrowDown className='text-[#000000] ml-1 text-sm' />
-                                  }
-                           </div>
-
-                           {dropdown === item.id &&
-                           <div className='absolute mt-1 right-1 flex flex-col items-start justify-start w-full rounded-md shadow-lg z-50 bg-white border-[1px] border-[#D0D5DD] py-3'>
-                                 <p onClick={()=>handleStatusChange(item.id, 'completed')}
-                                 className='text-[#000000] text-[10px] text-center px-2'>Completed</p>
-
-                                 <div className='border-[1px] border-[#D0D5DD] w-full my-2'></div>
-                                 
-                                 <p onClick={()=>handleStatusChange(item.id, 'In-transit')}
-                                 className='text-[#000000] text-[10px] text-center px-2'>In-transit</p>
-                           </div>
-                           }
+                      <td onClick={()=>handleOpenDetails(item.id)}
+                      class="border-b text-[10px] font-medium w-12">
+                           <CiEdit className='text-lg' />
                       </td>
 
-
-                      <td class="border-b text-[10px] font-medium">
-                                 <div className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
-                                        <p className='text-[#101828]'>View Request</p>
-                                 </div>
+                      <td class="border-b text-[10px] font-medium w-10">
+                           <RiDeleteBin6Line className='text-base text-red-600' />
                       </td>
 
                   </tr>
                   )
                   })}
              </tbody>
-             }
+            :<tbody className='w-full'>
+                  {searchResults.map((item, index) => {
+                    return(
+                  <tr key={item.id} className='h-14'>
+
+                      <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
+
+                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-8">
+                           <p className=''>{item.first_name} {item.last_name}</p>
+                      </td>
+
+                      <td class="border-b text-[10px] font-medium">
+                          <div className='flex items-center justify-start'>
+                             <p className=''>{item.email}</p>
+                             <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
+                          </div>
+                      </td>
+
+                      <td class="border-b text-[9px] font-medium">
+                          <div className='flex items-center justify-start'>
+                             <p className=''>{item.phone}</p>
+                             <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
+                          </div>
+                      </td>
+
+                      <td class="border-b text-[10px] font-medium">{item.buyer_purchase_request_count}</td>
+
+                      <td class="border-b text-[10px] font-medium">
+                           <div className='flex flex-col items-start justify-start w-full'>
+                              <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(0, 10)}</p>
+                              <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(12, 16)}</p>
+                           </div>
+                      </td>
+
+                      <td onClick={()=>handleOpenDetails(item.id)}
+                      class="border-b text-[10px] font-medium w-12">
+                           <CiEdit className='text-lg' />
+                      </td>
+
+                      <td class="border-b text-[10px] font-medium w-10">
+                           <RiDeleteBin6Line className='text-base text-red-600' />
+                      </td>
+
+                  </tr>
+                  )
+                  })}
+             </tbody>
+            }
+             
          </table>
          </div>
 
                {/* PAGINATION */}
-               <div className='absolute bottom-5 flex flex-row iems-center justify-between w-full px-5 mt-3'>
+               <div className='absolute bottom-5 flex flex-row iems-center justify-between bg-white pt-3 w-full px-5 mt-3'>
                     <div onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}
                     className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
                          <IoIosArrowRoundBack className='text-[#344054] text-lg' />
@@ -295,4 +251,4 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
   )
 }
 
-export default PurchaseRequest
+export default BuyersList

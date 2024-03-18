@@ -101,8 +101,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     // LOGIN
     export const login = (values, setError, navigate) => async (dispatch) => {
         dispatch(setLoading(true));
-        // const roleSelected = await AsyncStorage.getItem('selectRole');
-        // const user = await AsyncStorage.getItem('user_type');
         try{
           const response = await axios.post(`${BASE_URL}/auth/login`, values);
           if (response.status === 200) {

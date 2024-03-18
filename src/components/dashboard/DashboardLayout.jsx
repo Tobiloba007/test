@@ -20,10 +20,8 @@ import SellerPurchaseRequests from './sellerDashboard/SellerPurchaseRequests';
 import SellerNotification from './sellerDashboard/SellerNotification';
 import SellerShipmentTracking from './sellerDashboard/SellerShipmentTracking';
 import SellerProfile from './sellerDashboard/SellerProfile';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logout } from '../../features/authentication/AuthActions';
 import { setLoginToken } from '../../features/authentication/AuthSlice';
 
 
