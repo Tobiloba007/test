@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import SellerBroadcastTable from './SellerBroadcastTable';
 import SellerBroadcastDetails from './SellerBroadcastDetails';
+import SellerBroadcastAll from './SellerBroadcastAll';
+import BroadcastResponseTab from './BroadcastResponseTab';
 
 
 
 
 const SellerBroadcasts = () => {
   const [broadcastDetails, setBroadcastDetails] = useState(false);
-  const [selected, setSelected] = useState('all');
+  const [selected, setSelected] = useState('request');
 
   const handleTab = (item) => {
     setSelected(item)
@@ -33,36 +34,33 @@ const SellerBroadcasts = () => {
 
 
         {/* TABS */}
-        <div className='flex flex-row items-start justify-between w-full mt-5 md:justify-start md:mt-7'>
-             <div onClick={()=>handleTab('all')}
+        <div className='flex flex-row items-start justify-start w-full mt-5 md:justify-start md:mt-7'>
+             <div onClick={()=>handleTab('request')}
              className='flex flex-col items-start cursor-pointer md:items-center'>
-                <p className={`text-[10px] font-normal ${selected === 'all' ? 'text-[#2196F3]' : 'text-[#999898]'} md:text-xs`}>
-                      All Supply Request
+                <p className={`text-[10px] font-normal ${selected === 'request' ? 'text-[#2196F3]' : 'text-[#999898]'} md:text-xs`}>
+                      All Broadcast Request
                 </p>
-                <div className={`flex w-[75%] border-[1px] ${selected === 'all' ? 'border-[#2196F3] ' : 'border-[#FFFFFF] '} mt-[6px] md:w-full`}></div>
+                <div className={`flex w-full border-[1px] ${selected === 'request' ? 'border-[#2196F3] ' : 'border-[#FFFFFF] '} mt-[6px] md:w-full`}></div>
              </div>
 
-             <div onClick={()=>handleTab('active')}
-             className='flex flex-col items-start md:ml-9 cursor-pointer md:items-center'>
-                <p className={`text-[10px] font-normal ${selected === 'active' ? 'text-[#2196F3]' : 'text-[#999898]'} md:text-xs`}>
-                      Active Supply Requests
+             <div onClick={()=>handleTab('response')}
+             className='flex flex-col items-start ml-9 cursor-pointer md:ml-12 md:items-center xl:ml-16'>
+                <p className={`text-[10px] font-normal ${selected === 'response' ? 'text-[#2196F3]' : 'text-[#999898]'} md:text-xs`}>
+                      Broadcast Responses
                 </p>
-                <div className={`flex w-[75%] border-[1px] ${selected === 'active' ? 'border-[#2196F3] ' : 'border-[#FFFFFF] '} mt-[6px] md:w-full`}></div>
-             </div>
-
-             <div onClick={()=>handleTab('fulfilled')}
-             className='flex flex-col items-start md:ml-9 cursor-pointer md:items-center'>
-                <p className={`text-[10px] font-normal ${selected === 'fulfilled' ? 'text-[#2196F3]' : 'text-[#999898]'} md:text-xs`}>
-                      Fulfilled Supply Requests
-                </p>
-                <div className={`flex w-[75%] border-[1px] ${selected === 'fulfilled' ? 'border-[#2196F3] ' : 'border-[#FFFFFF] '} mt-[6px] md:w-full`}></div>
+                <div className={`flex w-full border-[1px] ${selected === 'response' ? 'border-[#2196F3] ' : 'border-[#FFFFFF] '} mt-[6px] md:w-full`}></div>
              </div>
 
         </div>
 
+
+
      
         <div className='w-full mt-5 md:mt-4'>
-              <SellerBroadcastTable setBroadcastDetails={setBroadcastDetails}  /> 
+              {
+               selected === 'request' ? <SellerBroadcastAll setBroadcastDetails={setBroadcastDetails}  /> 
+              :selected === 'response' && <BroadcastResponseTab setBroadcastDetails={setBroadcastDetails}  /> 
+             }
         </div>
 
         </div>

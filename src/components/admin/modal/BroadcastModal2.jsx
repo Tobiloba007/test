@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import { VscClose } from "react-icons/vsc";
-import 'react-datepicker/dist/react-datepicker.css';
 import Image from '../../../assets/images/broadcastImg.svg'
 import { GoDotFill } from "react-icons/go";
 import { useSelector } from 'react-redux';

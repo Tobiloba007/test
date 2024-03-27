@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { HiSortDescending } from "react-icons/hi";
+import { GoDotFill } from "react-icons/go";
 import { IoFilterSharp } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
@@ -15,7 +16,7 @@ import { getBroadcasts, searchBroadcastList } from "../../../features/buyer/Buye
 
 
 
-const SellerBroadcastTable = ({setBroadcastDetails}) => {
+const BroadcastResponseTab = ({setBroadcastDetails}) => {
     const [activeRequest, setActiveRequest] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -109,8 +110,8 @@ const SellerBroadcastTable = ({setBroadcastDetails}) => {
                  <td className='text-[10px] text-[#667085] xl:text-[11px]'>Commodity</td>
                  <td className='text-[10px] text-[#667085] xl:text-[11px]'>Reference Number</td>
                  <td className='text-[10px] text-[#667085] xl:text-[11px]'>Quantity(Metric tons)</td>
-                 <td className='text-[10px] text-[#667085] xl:text-[11px]'>Price Per Ton</td>
-                 <td className='text-[10px] text-[#667085] xl:text-[11px]'>Progress</td>
+                 <td className='text-[10px] text-[#667085] xl:text-[11px]'>Counter Offer</td>
+                 <td className='text-[10px] text-[#667085] xl:text-[11px]'>status</td>
                  <td className='text-[10px] text-[#667085] xl:text-[11px] pr-4'>Date/Time</td>
                  <td className='text-[10px] text-[#667085] xl:text-[11px] pr-4'>Action</td>
              </tr>
@@ -145,12 +146,12 @@ const SellerBroadcastTable = ({setBroadcastDetails}) => {
                       </td>
 
                       <td class="border-b text-[10px] font-medium">
-                           <div className="flex flex-row items-center justify-start">
-                                <div className="flex items-center justify-start h-[5px] bg-[#F2F4F7] rounded-xl w-[85px]">
-                                      <div className={`bg-[#2196F3] w-[${item.submission_rate}%] h-full rounded-full`}></div>
-                                </div>
-                                <p className="text-[10px] ml-2">{item.submission_rate}%</p>
-                           </div>
+                         <div className='flex items-center justify-center w-[125px] py-[3px] rounded-lg bg-[#FFFAEB]'>
+                             <GoDotFill className={`text-[10px] text-[#F79009]`} />
+                             <p className={`text-[9px] font-normal  text-[#F79009]`}>
+                                  pending verification
+                             </p>
+                         </div>
                       </td>
 
                       <td class="border-b text-[10px] font-medium">
@@ -162,8 +163,6 @@ const SellerBroadcastTable = ({setBroadcastDetails}) => {
 
                       <td class="border-b text-[10px] font-medium">
                            <div className='flex flex-row items-center justify-start w-full'>
-                              <IoEyeOutline className="text-lg" />
-                              <LuPencil className="text-lg mx-4" />
                               <RiDeleteBin6Line className="text-lg text-[#E86F6F]" />
                            </div>
                       </td>
@@ -215,8 +214,6 @@ const SellerBroadcastTable = ({setBroadcastDetails}) => {
 
                       <td class="border-b text-[10px] font-medium">
                            <div className='flex flex-row items-center justify-start w-full'>
-                              <IoEyeOutline className="text-lg" />
-                              <LuPencil className="text-lg mx-4" />
                               <RiDeleteBin6Line className="text-lg text-[#E86F6F]" />
                            </div>
                       </td>
@@ -261,4 +258,4 @@ const SellerBroadcastTable = ({setBroadcastDetails}) => {
   )
 }
 
-export default SellerBroadcastTable
+export default BroadcastResponseTab
