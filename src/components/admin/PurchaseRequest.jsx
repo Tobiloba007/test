@@ -8,6 +8,8 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { useDispatch } from 'react-redux';
 import { adminPurchaseRequestAction, adminSearchCommodity, updateCommodityStatus } from '../../features/admin/AdminActions';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
@@ -72,13 +74,15 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
       const handleModal = (item) => {
         setOpenModal(item)
         setData(item)
-        console.log(item);
+        // console.log(item);
       }
 
   return (
-    <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-3 mb-12 py-2 pb-5 md:h-[27.5rem] 
+    <>
+    {!loading
+    ?<div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-3 mb-12 py-2 pb-5 md:h-[27.5rem] 
                     lg:h-[27.1rem] xl:h-[27.6rem]'>
-               <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between'>
+               <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between]'>
                    <div className='relative w-full'>
                        <input 
                        className='h-9 w-full z-20 rounded-md border-[1px] border-[#DDE1E6] pl-9 text-xs font-light outline-[#2196F3] md:w-[80%] lg:h-8 xl:h-10 xl:w-[65%] xl:text-sm'
@@ -109,15 +113,15 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
 
                </div>
 
-               <div className='w-full mt-4 overflow-x-auto no-scrollbar'>
-               <table className='w-[800px] px-5 md:w-full'>
+               <div className={`w-full overflow-x-auto no-scrollbar mt-4`}>
+               <table className='w-[625px] px-5 md:w-full'>
              <thead className='border-separate border-b border-slate-[#dddddd]'>
              <tr tr className='w-full mb-1'>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px] pl-4'>S/N</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px] pl-6'>S/N</td>
                  <td className='text-[9px] text-[#667085] xl:text-[10px]'>Commodity</td>
                  <td className='text-[9px] text-[#667085] xl:text-[10px]'>Metric tons</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Purchase ID</td>
-                 <td className='text-[9px] text-[#667085] xl:text-[10px]'>Date/Time</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px] md:pl-4'>Purchase ID</td>
+                 <td className='text-[9px] text-[#667085] xl:text-[10px] md:pl-4'>Date/Time</td>
                  <td className='text-[9px] text-[#667085] xl:text-[10px] pr-4'>Status</td>
              </tr>
              </thead>
@@ -127,36 +131,35 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
              ?<tbody className='w-full'>
                   {currentPageItems.map((item, index) => {
                     return(
-                  <tr key={item.id} className='h-14 w-full'>
+                  <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
 
-                      <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
+                      <td className="border-b text-[10px] pl-6 font-medium md:pr-4 lg:pr-6">{index + 1}</td>
 
-                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-5 md:pr-6 xl:pr-20">
+                      <td className="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-5 md:pr-12 lg:pr-24 xl:pr-36">
                            <img className='w-9 rounded-lg'
                            src={metal2} alt='metal' />
                            <p className='pl-4'>{item.name}</p>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
+                      <td className="border-b text-[10px] font-medium">{item.quantity}</td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium md:pl-4">
                           <div className='flex items-center justify-start'>
                              <p className=''>{item.purchase_id}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium md:pl-4">
                            <div className='flex flex-row items-start justify-start w-full'>
                               <p className='text-[#6E7079] text-[10px] mr-1'>{item.created_at.slice(0, 10)}</p>
                               <p className='text-[#6E7079] text-[10px]'> - {item.created_at.slice(12, 16)}</p>
                            </div>
                       </td>
 
-
-                      <td class="relative border-b text-[10px] font-medium">
+                      <td className="relative border-b text-[10px] font-medium w-24 pr-3 md:pr-0">
                            <div onClick={()=>handleDropdown(item.id)} 
-                           className='flex justify-center items-center h-7 px-1 w-20 border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
+                           className='flex justify-center items-center h-7 px-1  border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
                                   <p className='text-[9px] text-light text-[#667085] pl-1'>{item.status}</p>
                                   {dropdown === item.id
                                   ?<MdKeyboardArrowUp className='text-[#000000] ml-1 text-sm' />
@@ -165,7 +168,7 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
                            </div>
 
                            {dropdown === item.id &&
-                           <div className='absolute mt-1 right-1 flex flex-col items-start justify-start w-full rounded-md shadow-lg z-50 bg-white border-[1px] border-[#D0D5DD] py-3'>
+                           <div className='absolute mt-1 right-1 flex flex-col items-start justify-start w-full rounded-md shadow-lg z-50 bg-white border-[1px] border-[#D0D5DD] py-1'>
                                  <p onClick={()=>handleStatusChange(item.id, 'completed')}
                                  className='text-[#000000] text-[10px] text-center px-2'>Completed</p>
 
@@ -177,7 +180,7 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
                            }
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium md:pl-5">
                                  <div onClick={()=>handleModal(item)}
                                  className='flex justify-center items-center cursor-pointer h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
                                         <p className='text-[#101828]'>View Request</p>
@@ -191,33 +194,33 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
              :<tbody className='w-full'>
                   {searchResults.map((item, index) => {
                     return(
-                  <tr key={item.id} className='h-14'>
+                  <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
 
-                      <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
+                      <td className="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
-                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-5 md:pr-6 xl:pr-20">
+                      <td className="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-5 md:pr-6 xl:pr-20">
                            <img className='w-9 rounded-lg'
                            src={metal2} alt='metal' />
                            <p className='pl-4'>{item.name}</p>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
+                      <td className="border-b text-[10px] font-medium">{item.quantity}</td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium">
                           <div className='flex items-center justify-start'>
                              <p className=''>{item.purchase_id}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
-                      <td class="border-b text-[9px] font-medium">
+                      <td className="border-b text-[9px] font-medium">
                           <div className='flex items-center justify-start'>
                              <p className=''>{item.tracking_number == null ? item.tracking_status : item.tracking_number}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium">
                            <div className='flex flex-row items-start justify-start w-full'>
                               <p className='text-[#6E7079] text-[10px]'>{item.created_at.slice(0, 10)}</p>
                               <p className='text-[#6E7079] text-[10px]'> - {item.created_at.slice(12, 16)}</p>
@@ -225,9 +228,9 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
                       </td>
 
 
-                      <td class="relative border-b text-[10px] font-medium">
+                      <td className="relative border-b text-[10px] font-medium w-24 pr-3 md:pr-0">
                            <div onClick={()=>handleDropdown(item.id)} 
-                           className='flex justify-center items-center h-7 px-1 w-24 border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
+                           className='flex justify-center items-center h-7 px-1 border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
                                   <p className='text-[9px] text-light text-[#667085] pl-1'>{item.status}</p>
                                   {dropdown === item.id
                                   ?<MdKeyboardArrowUp className='text-[#000000] ml-1 text-sm' />
@@ -249,8 +252,9 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
                       </td>
 
 
-                      <td class="border-b text-[10px] font-medium">
-                                 <div className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
+                      <td className="border-b text-[10px] font-medium">
+                                 <div onClick={()=>handleModal(item)}
+                                 className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
                                         <p className='text-[#101828]'>View Request</p>
                                  </div>
                       </td>
@@ -292,6 +296,14 @@ const PurchaseRequest = ({setOpenModal, openModal, setData}) => {
                </div>
 
         </div>
+        :<div className='justify-start w-full h-[29.5rem] rounded-lg mt-10 md:h-[27.5rem] 
+                         lg:h-[27.1rem] xl:h-[27.6rem]'>  
+           <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+           <Skeleton height="65%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+           <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+       </div>
+         }
+        </>
   )
 }
 

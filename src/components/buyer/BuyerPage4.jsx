@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserRequest } from '../../features/requests/RequestSlice';
 
 
-const BuyerPage4 = ({setCount}) => {
+const BuyerPage4 = ({setCount, data}) => {
     const slideInVariants = {
         hidden: { x: '-100%' },
         visible: { x: 0 },
@@ -21,27 +21,10 @@ const BuyerPage4 = ({setCount}) => {
 
       const handleSelect = (item) => {
         setSelect(item)
-        console.log(select)
+        // console.log(select)
       }
 
-      const ores = [
-        {
-            id: 1,
-            name: 'Igneous',
-        },
-        {
-            id: 2,
-            name: 'Sedimentary',
-        },
-        {
-            id: 3,
-            name: 'Metamorphic',
-        },
-        {
-            id: 4,
-            name: 'Hydrothermal',
-        },
-      ]
+      const ores = data.ore_type
 
       const handleIncreaseCount = () => {
         setCounter(counter + 1)
@@ -59,6 +42,7 @@ const BuyerPage4 = ({setCount}) => {
         const combinedValues2 = {...values, ...userRequests}
         dispatch(setUserRequest(combinedValues2))
       }
+
 
   return (
     <motion.div
@@ -107,15 +91,15 @@ const BuyerPage4 = ({setCount}) => {
                        <p className='text-center text-base font-semibold text-black mb-2'>
                              Select the Ore type 
                        </p>
-                       {ores.map((item) => {
+                       {ores.map((item, index) => {
                         return (
-                            <div key={item.id} onClick={()=>handleSelect(item.name)}
+                            <div key={index} onClick={()=>handleSelect(item)}
                             className='flex flex-row items-center justify-start w-full mt-4'>
                                   <div className='flex items-center justify-center  h-5 w-5 rounded-full  border-[2px] border-[#A4A4A4] bg-white'>
-                                            <div className={`h-4 w-5 rounded-full ${select === item.name ? 'bg-green-600' : 'bg-white'}`}></div>
+                                            <div className={`h-4 w-5 rounded-full ${select === item ? 'bg-green-600' : 'bg-white'}`}></div>
                                   </div>
                                   <p className='text-center text-base font-light text-[#667085] ml-6'>
-                                       {item.name}
+                                       {item}
                                  </p>
                             </div>
                         )

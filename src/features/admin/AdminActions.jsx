@@ -2,6 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLoginToken } from "../authentication/AuthSlice";
+import { setBroadcast } from "./AdminSlice";
 
 
 
@@ -11,7 +12,7 @@ import { setLoginToken } from "../authentication/AuthSlice";
       try{
         const response = await axios.post(`${BASE_URL}/auth/admin/login`, values);
         if (response.status === 200) {
-          console.log(response.data.data.message, 'Hello');
+          // console.log(response.data.data, 'Hello Admin');
           const Token = response.data.data.access_token
           AsyncStorage.setItem('token', Token);
           dispatch(setLoginToken(Token))
@@ -35,10 +36,39 @@ import { setLoginToken } from "../authentication/AuthSlice";
     };
 
 
+    // TOTAL USERS BREAKDOWN
+    export const adminUsersBreakdown = (setChart, setLoading) => async () => {
+      setLoading(true)
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+      try{
+        const response = await axios.get(`${BASE_URL}/admin/user/breakdown`, { headers });
+        if (response.status === 200) {
+          setChart(response.data)
+          // console.log(response.data, 'Hellos')
+        } else if (response.status !== 200) {
+          console.log('request failed status code:', response.status);
+        } 
+      } catch(error) {
+          if (error.response.data.message) {
+              console.log(error.response)
+              console.error('API Error:',error.response.status);
+          } else if (error.request) {
+            console.log(error.response.data.data.message);
+            // setError('Please check your internet connection...')
+          } 
+        };
+      
+        setLoading(false)
+    };
+
+
 
     // HOME PAGE METRICS
-    export const adminMetricsData = (setMetrics, setLoading, setError) => async () => {
-        setLoading(true)
+    export const adminMetricsData = (setMetrics, setLoadData, setError) => async () => {
+      setLoadData(true)
         const loginToken = await AsyncStorage.getItem('token');
         const headers = {
           'Authorization': `Bearer ${loginToken}`,
@@ -60,13 +90,13 @@ import { setLoginToken } from "../authentication/AuthSlice";
               setError('Please check your internet connection...')
             } 
           };
-          setLoading(false)
+          setLoadData(false)
         
       };
 
 
-    export const adminCommodityMetrics = (setMetrics, setLoading, setError) => async () => {
-        setLoading(true)
+    export const adminCommodityMetrics = (setMetrics, setLoadMetrics, setError) => async () => {
+      setLoadMetrics(true)
         const loginToken = await AsyncStorage.getItem('token');
         const headers = {
           'Authorization': `Bearer ${loginToken}`,
@@ -88,15 +118,15 @@ import { setLoginToken } from "../authentication/AuthSlice";
               setError('Please check your internet connection...')
             } 
           };
-          setLoading(false)
+          setLoadMetrics(false)
         
       };
 
 
 
       // RECENT PURCHASE REQUESTS
-    export const RecentPurchaseRequestAction = (setRecetPurchaseRequest, setLoading, setError) => async () => {
-        setLoading(true)
+    export const RecentPurchaseRequestAction = (setRecetPurchaseRequest, setLoadRequest, setError) => async () => {
+        setLoadRequest(true)
         const loginToken = await AsyncStorage.getItem('token');
         const headers = {
           'Authorization': `Bearer ${loginToken}`,
@@ -119,7 +149,7 @@ import { setLoginToken } from "../authentication/AuthSlice";
             } 
           };
         
-          setLoading(false)
+          setLoadRequest(false)
       };
 
 
@@ -164,8 +194,8 @@ import { setLoginToken } from "../authentication/AuthSlice";
         try{
           const response = await axios.get(`${BASE_URL}/admin/commodity/purchase-request`, { headers });
           if (response.status === 200) {
-            // console.log(response.data.data.purchase_request.data, 'Hello')
             setPurchaseRequestsData(response.data.data.purchase_request.data)
+            // console.log(response.data.data.purchase_request.data, 'Hello')
           } else if (response.status !== 200) {
             console.log('request failed status code:', response.status);
           } 
@@ -221,7 +251,8 @@ import { setLoginToken } from "../authentication/AuthSlice";
           const response = await axios.get(`${BASE_URL}/admin/commodity/supply-request`, { headers });
           if (response.status === 200) {
             setPurchaseRequestsData(response.data.data.supply_request.data)
-            console.log(response.data.data.supply_request.data, 'Hello world')
+            setLoading(false)
+            // console.log(response.data.data.supply_request.data, 'Hello world')
           } else if (response.status !== 200) {
             console.log('request failed status code:', response.status);
           } 
@@ -438,4 +469,160 @@ import { setLoginToken } from "../authentication/AuthSlice";
         };
       
         // setLoading(false)
+    };
+
+
+
+    export const sendBroadcastRequest = (values, setError, setLoading, setBroadcastModal2) => async (dispatch) => {
+      setLoading(true)
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+      try{
+        const response = await axios.post(`${BASE_URL}/admin/broadcast`, values, { headers });
+        if (response.status === 201) {
+          setBroadcastModal2(true)
+          dispatch(setBroadcast(response.data.data.broadcast))
+          console.log(response.data)
+          console.log('Broadcast created successfully')
+        } else if (response.status !== 201) {
+          console.log('Registration failed with status code:', response.status);
+        } 
+      } catch(error) {
+          if (error.response) {
+            // The server responded with an error (e.g., HTTP status code 4xx or 5xx)
+            setError(error.message)
+            setError(error.response.data.data.message.email[0])
+            console.log(error.response.data.data.message.email[0])
+            console.error('API Error:', error.response.status);
+          } else if (error.request) {
+            // The request was made but no response was received (e.g., network issue)
+            setError('Please check your internet connection...')
+            console.error('Network Error:', error.request);
+          } 
+        };
+      
+        setLoading(false)
+    };
+
+
+
+    // ACTIVE BROADCAST EVENT
+    export const activeBroadcastEvent = (setActiveRequest, setLoadData, setError) => async () => {
+      setLoadData(true)
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+      try{
+        const response = await axios.get(`${BASE_URL}/admin/broadcast/`, { headers });
+        if (response.status === 200) {
+          setActiveRequest(response.data.data)
+           // console.log(response.data.data)
+        } else if (response.status !== 200) {
+          console.log('request failed status code:', response.status);
+        } 
+      } catch(error) {
+          if (error.response.data.message) {
+              console.log(error.response)
+              console.error('API Error:',error.response.status);
+          } else if (error.request) {
+            console.log(error.response.data.data.message);
+            setError('Please check your internet connection...')
+          } 
+        };
+        setLoadData(false)
+    };
+
+
+
+    // SELLER SEARCH
+    export const searchActiveBroadcast = (setSearchResults, searchTerm) => async () => {
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${loginToken}`,
+        };
+        try {
+          const response = await axios.get(`${BASE_URL}/admin/broadcast?start_date=2024-02-01&end_date=2024-03-28&search=${searchTerm}`, { headers },{
+              params: {
+                  limit: 2,
+                  page: 1,
+                  filter: 'open',
+                  sort: 'asc',
+                  search: searchTerm,
+                  start_date: '2024-02-01',
+                  end_date: '2024-03-28',
+                }
+          });
+          setSearchResults(response.data.data);
+          // console.log(response.data.data.buyer.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+    };
+
+
+
+    //BROADCAST DETAILS
+    export const broadcastDetails = (setBroadcastDetails, setError, item) => async () => {
+      // setLoading(true)
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+      try{
+        const response = await axios.get(`${BASE_URL}/admin/broadcast/${item}`, { headers });
+        if (response.status === 200) {
+          setBroadcastDetails(response.data.data)
+          // console.log(response.data.data, 'Hello world1')
+        } else if (response.status !== 200) {
+          console.log('request failed status code:', response.status);
+        } 
+      } catch(error) {
+          if (error.response.data.message) {
+              console.log(error.response)
+              console.error('API Error:',error.response.status);
+          } else if (error.request) {
+            console.log(error.response.data.data.message);
+            setError('Please check your internet connection...')
+          } 
+        };
+      
+        // setLoading(false)
+    };
+
+
+
+    // SEND OFFER REQUEST
+    export const createOfferRequest = (values, setOpenModal, setLoading, setBroadcastDetails) => async () => {
+      setLoading(true)
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+      try{
+        const response = await axios.post(`${BASE_URL}/seller/broadcast-response`, values, { headers });
+        if (response.status === 201) {
+          setOpenModal(false)
+          setBroadcastDetails(false)
+          console.log('offer created successfull');
+          // console.log(response);
+        } else if (response.status !== 201) {
+          console.log('Registration failed with status code:', response.status);
+        } 
+      } catch(error) {
+          if (error.response) {
+            // The server responded with an error (e.g., HTTP status code 4xx or 5xx)
+            console.log(error.response)
+            console.error('API Error:', error.response.status);
+          } else if (error.request) {
+            // The request was made but no response was received (e.g., network issue)
+            // setError('Please check your internet connection...')
+            console.error('Network Error:', error.request);
+          } 
+        };
+      
+        setLoading(false)
     };

@@ -121,7 +121,8 @@ const AdminLayout = () => {
                    {tabs.map((item) => {
                     return(
                         <div onClick={()=>handleTab(item.name)} 
-                        key={item.id} className={`${tab === item.name && 'bg-[#344054]'} flex flex-row justify-start items-center px-1 h-10 w-[100%] cursor-pointer rounded-md mt-2 xl:h-12 xl:px-3`}>
+                        key={item.id} className={`${tab === item.name && 'bg-[#344054]'} hover:bg-[#344054] flex flex-row justify-start items-center px-1 h-10 w-[100%] cursor-pointer 
+                                                 rounded-md mt-2 xl:h-12 xl:px-3`}>
                            {item.icon}
                            <p className='text-[11px] font-normal text-[#ffffff] ml-[10px] leading-3 xl:text-[13px]'>
                                 {item.name}
@@ -151,7 +152,7 @@ const AdminLayout = () => {
                                     Ololade Asake
                                </p>
                               <p className='text-[10px] font-normal text-[#475467] xl:text-[13px] xl:font-semibold'>
-                                     mrmoney@gmail.com
+                                     Admin@gmail.com
                                </p>
                          </div>
                          <div onClick={handleLogout}>

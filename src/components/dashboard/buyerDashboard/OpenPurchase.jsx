@@ -8,13 +8,16 @@ import { GoDotFill } from "react-icons/go";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { SearchCommodity, purchaseRequestAction } from '../../../features/buyer/BuyerActions';
 import { useDispatch } from 'react-redux';
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
 const OpenPurchase = () => {
 
       const dispatch = useDispatch();
+
+      const [loading, setLoading] = useState(false)
 
       const [searchTerm, setSearchTerm] = useState('');
       const [searchResults, setSearchResults] = useState([]);
@@ -46,7 +49,7 @@ const OpenPurchase = () => {
 
 
       useEffect(() => {
-        dispatch(purchaseRequestAction(setPurchaseRequestsData))
+        dispatch(purchaseRequestAction(setPurchaseRequestsData, setLoading))
 
         if (searchTerm !== '') {
             dispatch(SearchCommodity(setSearchResults, searchTerm))
@@ -61,7 +64,16 @@ const OpenPurchase = () => {
 
 
   return (
-    <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
+     <div className='w-full'>
+     {loading
+      ?<div className='justify-start w-full h-[29.5rem] rounded-lg mt-10 md:h-[27.5rem] 
+      lg:h-[27.1rem] xl:h-[27.6rem]'>  
+         <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         <Skeleton height="65%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+     </div>
+     
+    :<div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
                     lg:h-[27.1rem] xl:h-[27.6rem]'>
                <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between'>
                    <div className='relative w-full'>
@@ -94,7 +106,7 @@ const OpenPurchase = () => {
 
                </div>
 
-               <div className='w-full mt-4 overflow-x-auto'>
+               <div className='w-full mt-4 overflow-x-auto no-scrollbar'>
                <table className='w-[800px] px-5 md:w-full'>
                    <thead className='border-separate border-b border-slate-[#dddddd]'>
                    <tr tr className='w-full mb-1'>
@@ -109,11 +121,11 @@ const OpenPurchase = () => {
 
                    {!search  
                    ?<tbody className='w-full'>
-                        {currentPageItems.map((item) => {
+                        {currentPageItems.map((item, index) => {
                           return(
-                        <tr key={item.id} className='h-14'>
+                        <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
                         
-                            <td class="border-b text-[10px] pl-6 font-medium">{item.id}</td>
+                            <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
                             <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-14">
                                  <img className='w-9 rounded-lg'
@@ -135,13 +147,17 @@ const OpenPurchase = () => {
                                  </div>
                             </td>
 
-                            <td class="border-b text-[10px] font-medium w-32">
-                                 <div className='flex items-center justify-start py-[3px] w-14 rounded-lg bg-[#FFFAEB]'>
-                                       <GoDotFill className={`text-[10px] text-[#F79009]`} />
-                                       <p className={`text-[9px] font-normal ml-1  text-[#F79009]`}>
-                                            {item.status}
-                                       </p>
-                                 </div>
+                            <td class="border-b text-[10px] font-medium">
+                                 <div className={`flex items-center justify-center w-24 rounded-lg h-5
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'bg-[#FFFAEB]' : item.status === 'completed' && 'bg-[#ECFDF3]' }`}>
+                                    <GoDotFill className={`text-[9px] xl:text-[10px] 
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#12B76A]' }`} />
+
+                                    <p className={`text-[9px] font-medium ml-1 xl:text-[10px] 
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#027A48]' }`}>
+                                      {item.status}
+                                    </p>
+                                </div>
                             </td>
 
                             <td class="border-b text-[9px] font-medium">
@@ -164,7 +180,7 @@ const OpenPurchase = () => {
                    :<tbody className='w-full'>
                         {searchResults.map((item) => {
                           return(
-                        <tr key={item.id} className='h-14'>
+                        <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
                         
                             <td class="border-b text-[10px] pl-6 font-medium">{item.id}</td>
 
@@ -189,12 +205,16 @@ const OpenPurchase = () => {
                             </td>
 
                             <td class="border-b text-[10px] font-medium w-32">
-                                 <div className='flex items-center justify-start py-[3px] w-14 rounded-lg bg-[#FFFAEB]'>
-                                       <GoDotFill className={`text-[10px] text-[#F79009]`} />
-                                       <p className={`text-[9px] font-normal ml-1  text-[#F79009]`}>
-                                            {item.status}
-                                       </p>
-                                 </div>
+                               <div className={`flex items-center justify-center w-24 rounded-lg h-5
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'bg-[#FFFAEB]' : item.status === 'completed' && 'bg-[#ECFDF3]' }`}>
+                                    <GoDotFill className={`text-[9px] xl:text-[10px] 
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#12B76A]' }`} />
+
+                                    <p className={`text-[9px] font-medium ml-1 xl:text-[10px] 
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#027A48]' }`}>
+                                      {item.status}
+                                    </p>
+                               </div>
                             </td>
 
                             <td class="border-b text-[9px] font-medium">
@@ -246,6 +266,8 @@ const OpenPurchase = () => {
 
                </div>
 
+        </div>
+           }
         </div>
   )
 }

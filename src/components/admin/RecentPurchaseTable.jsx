@@ -38,7 +38,8 @@ const RecentPurchaseTable = ({recetPurchaseRequest}) => {
 
 
          {/*  TABLE */}
-         <div className='relative flex flex-col items-center justify-start w-full overflow-x-auto no-scrollbar border-[1px] border-[#dddddd] rounded-lg mt-5 py-2 pb-1 md:w-full'>
+         <div className='relative flex flex-col items-center justify-start w-full h-[21rem] overflow-x-auto no-scrollbar border-[1px] border-[#dddddd] rounded-lg mt-5 py-2 pb-1 md:w-full
+                         xl:h-[21rem]'>
 
          <div className='w-full mt-4'>
          <table className='w-[800px] px-5 md:w-full'>
@@ -57,33 +58,33 @@ const RecentPurchaseTable = ({recetPurchaseRequest}) => {
              <tbody className='w-full'>
                   {data.map((item, index) => {
                     return(
-                  <tr key={item.id} className='h-14'>
+                  <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
 
-                      <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
+                      <td className="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
-                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-14">
+                      <td className="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-14">
                            <img className='w-9 rounded-lg'
                            src={metal3} alt='metal' />
                            <p className='pl-4'>{item.name}</p>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
+                      <td className="border-b text-[10px] font-medium">{item.quantity}</td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium">
                           <div className='flex items-center justify-start'>
                              <p className=''>{item.purchase_id}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
-                      <td class="border-b text-[9px] font-medium">
+                      <td className="border-b text-[9px] font-medium">
                           <div className='flex items-center justify-start'>
                              <p className=''>{item.tracking_number == null ? item.tracking_status : item.tracking_number}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium">
                            <div className='flex flex-col items-start justify-start w-full'>
                               <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(0, 10)}</p>
                               <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(12, 16)}</p>
@@ -91,7 +92,7 @@ const RecentPurchaseTable = ({recetPurchaseRequest}) => {
                       </td>
 
 
-                      <td class="relative border-b text-[10px] font-medium w-24">
+                      <td className="relative border-b text-[10px] font-medium w-20 pr-5 cursor-pointer">
                            <div onClick={()=>handleDropdown(item.id)} 
                            className='flex justify-center items-center h-7 px-2 border-[#D0D5DD] border-[1px] bg-[#FFFFFF] rounded-full'>
                                   <p className='text-[9px] text-light text-[#667085] pl-1'>{item.status}</p>
@@ -102,7 +103,7 @@ const RecentPurchaseTable = ({recetPurchaseRequest}) => {
                            </div>
 
                            {dropdown === item.id &&
-                           <div className='absolute mt-1 right-1 flex flex-col items-start justify-start w-full rounded-md shadow-lg z-50 bg-white border-[1px] border-[#D0D5DD] py-1'>
+                           <div className='absolute mt-1 right-1 flex flex-col items-start justify-start rounded-md shadow-lg z-50 bg-white border-[1px] border-[#D0D5DD] py-1'>
                                   <p onClick={()=>handleStatusChange(item.id, 'completed')}
                                   className='text-[#000000] text-[10px] text-center px-2'>Completed</p>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { HiSortDescending } from "react-icons/hi";
 import { IoFilterSharp } from "react-icons/io5";
@@ -6,18 +6,64 @@ import { IoEyeOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineFileCopy } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { activeBroadcastEvent, broadcastDetails, searchActiveBroadcast } from "../../../features/admin/AdminActions";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 
 
 
 
-const Completed = () => {
 
-    const [searchTerm, setSearchTerm] = useState('')
+const Completed = ({setBroadcastDetails}) => {
+    const [completeRequest, setActiveRequest] = useState([]);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleInputChange = (e) => [
-        setSearchTerm(e.target.value)
-    ]
+    const [searchTerm, setSearchTerm] = useState('');
+      const [searchResults, setSearchResults] = useState([]);
+      const [search, setSearch] = useState(false);   
 
+
+      const dispatch = useDispatch();
+
+
+      const itemsPerPage = 5; // Number of items to display per page
+      const totalPages = Math.ceil(completeRequest.length / itemsPerPage); // Calculate total pages
+      const [currentPage, setCurrentPage] = useState(1); // Current page state
+    
+      // Function to handle page changes
+      const handlePageChange = (page) => {
+        setCurrentPage(page);
+      };
+    
+      // Calculate start and end index of items for current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+    
+      // Get current page items
+      const currentPageItems = completeRequest.slice(startIndex, endIndex);
+
+      const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+      };
+
+
+    // useEffect(()=>{
+    //     dispatch(activeBroadcastEvent(setActiveRequest, setLoading, setError))
+    //     if (searchTerm !== '') {
+    //         dispatch(searchActiveBroadcast(setSearchResults, searchTerm))
+    //         setSearch(true)
+    //       } else {
+    //         setSearchResults([]);
+    //         setSearch(false)
+    //       }
+    // },[dispatch, searchTerm, completeRequest])
+
+
+    const handleBroadcast = (item) => {
+        dispatch(broadcastDetails(setBroadcastDetails, setLoading, setError, item))
+        console.log(item)
+    }
 
 
   return (
@@ -70,28 +116,32 @@ const Completed = () => {
              </thead>
 
 
-             <tbody className='w-full'>
-                  <tr className='h-14'>
+             {!search
+             ?<tbody className='w-full'>
+               {currentPageItems.map((item, index) => {
+                return(
+                  <tr key={index} onClick={()=>handleBroadcast(item.id)}
+                  className='h-14'>
 
-                      <td class="border-b text-[10px] pl-6 font-medium">1</td>
+                      <td className="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
-                      <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-8">Cobalt</td>
+                      <td className="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-8">{item.product_name}</td>
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td className="border-b text-[10px] font-medium">
                           <div className='flex items-center justify-start'>
-                             <p className=''>AD33342222</p>
+                             <p className=''>{item.reference_number}</p>
                              <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                           </div>
                       </td>
 
-                      <td class="border-b text-[10px] font-medium">13,000</td>
+                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
 
-                      <td class="border-b text-[10px] font-medium">$ 220.23</td>
+                      <td class="border-b text-[10px] font-medium">{item.currency}{item.amount}</td>
 
                       <td class="border-b text-[10px] font-medium">
                            <div className="flex flex-row items-center justify-start">
                                 <div className="flex items-center justify-start h-[5px] bg-[#F2F4F7] rounded-xl w-[85px]">
-                                      <div className={`bg-[#159600] w-[100%] h-full rounded-full`}></div>
+                                      <div className={`bg-[#159600] w-[60%] h-full rounded-full`}></div>
                                 </div>
                                 <p className="text-[10px] ml-2">60%</p>
                            </div>
@@ -99,8 +149,8 @@ const Completed = () => {
 
                       <td class="border-b text-[10px] font-medium">
                            <div className='flex flex-col items-start justify-start w-full'>
-                              <p className='text-[10px] font-medium'>03/09/23</p>
-                              <p className='text-[#6E7079] text-[9px]'>12:45pm</p>
+                              <p className='text-[10px] font-medium'>{item.created_at.slice(0, 10)}</p>
+                              <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(12, 16)}</p>
                            </div>
                       </td>
 
@@ -113,13 +163,64 @@ const Completed = () => {
                       </td>
 
                   </tr>
+                  )
+                })}
              </tbody>
+             :<tbody className='w-full'>
+               {searchResults.map((item, index) => {
+                return(
+                  <tr key={index} onClick={()=>handleBroadcast(item.id)} className='h-14'>
+
+                      <td className="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
+
+                      <td className="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-8">{item.product_name}</td>
+
+                      <td className="border-b text-[10px] font-medium">
+                          <div className='flex items-center justify-start'>
+                             <p className=''>{item.reference_number}</p>
+                             <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
+                          </div>
+                      </td>
+
+                      <td class="border-b text-[10px] font-medium">{item.quantity}</td>
+
+                      <td class="border-b text-[10px] font-medium">{item.currency}{item.amount}</td>
+
+                      <td class="border-b text-[10px] font-medium">
+                           <div className="flex flex-row items-center justify-start">
+                                <div className="flex items-center justify-start h-[5px] bg-[#F2F4F7] rounded-xl w-[85px]">
+                                      <div className={`bg-[#2196F3] w-[60%] h-full rounded-full`}></div>
+                                </div>
+                                <p className="text-[10px] ml-2">60%</p>
+                           </div>
+                      </td>
+
+                      <td class="border-b text-[10px] font-medium">
+                           <div className='flex flex-col items-start justify-start w-full'>
+                              <p className='text-[10px] font-medium'>{item.created_at.slice(0, 10)}</p>
+                              <p className='text-[#6E7079] text-[9px]'>{item.created_at.slice(12, 16)}</p>
+                           </div>
+                      </td>
+
+                      <td class="border-b text-[10px] font-medium">
+                           <div className='flex flex-row items-center justify-start w-full'>
+                              <IoEyeOutline className="text-lg" />
+                              <LuPencil className="text-lg mx-4" />
+                              <RiDeleteBin6Line className="text-lg text-[#E86F6F]" />
+                           </div>
+                      </td>
+
+                  </tr>
+                  )
+                })}
+             </tbody>
+             }
          </table>
          </div>
 
                {/* PAGINATION */}
                <div className='absolute bottom-5 flex flex-row iems-center justify-between w-full px-5 mt-3'>
-                  {/*   <div onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}
+                  <div onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}
                     className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
                          <IoIosArrowRoundBack className='text-[#344054] text-lg' />
                          <p className='text-[#344054] text-[10px] ml-1 font-medium'>Previous</p>
@@ -141,7 +242,7 @@ const Completed = () => {
                     className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
                          <p className='text-[#344054] text-[10px] font-medium'>Next</p>
                          <IoIosArrowRoundForward className='text-[#344054] text-lg ml-1' />
-                    </div>  */}
+                    </div> 
 
                </div>
 

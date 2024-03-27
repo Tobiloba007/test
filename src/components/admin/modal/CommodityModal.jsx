@@ -9,13 +9,11 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 
 
 
-const CommodityModal = ({setOpenModal, data}) => {
+const CommodityModal = ({setOpenModal, data, setBroadcastModal}) => {
     const slideInVariants = {
         hidden: { y: '100%' },
         visible: { y: 0 },
       };
-
-      const [user, setUser] = useState('')
 
 
 
@@ -26,7 +24,7 @@ const CommodityModal = ({setOpenModal, data}) => {
         },
         {
             name: 'Requested by:',
-            details: `${user.last_name} ${user.first_name}`
+            details: `${data.buyer.last_name} ${data.buyer.first_name}`
         },
         {
             name: 'Request date:',
@@ -38,9 +36,13 @@ const CommodityModal = ({setOpenModal, data}) => {
         },
         {
             name: 'Request status:',
-            details: <div className='flex items-center justify-center px-3 rounded-lg h-5 bg-[#FFFAEB]'>
-                          <GoDotFill className='text-[9px] text-[#F79009] xl:text-[10px]' />
-                          <p className='text-[9px] text-[#F79009] font-medium ml-1 xl:text-[10px]'>
+            details: <div className={`flex items-center justify-center px-3 rounded-lg h-5
+                                     ${data.status === 'pending_verification' || data.status === 'In-transit' ? 'bg-[#FFFAEB]' : data.status === 'completed' && 'bg-[#ECFDF3]' }`}>
+                          <GoDotFill className={`text-[9px] xl:text-[10px] 
+                                     ${data.status === 'pending_verification' || data.status === 'In-transit' ? 'text-[#F79009]' : data.status === 'completed' && 'text-[#12B76A]' }`} />
+
+                          <p className={`text-[9px] font-medium ml-1 xl:text-[10px] 
+                             ${data.status === 'pending_verification' || data.status === 'In-transit' ? 'text-[#F79009]' : data.status === 'completed' && 'text-[#027A48]' }`}>
                               {data.status}
                           </p>
                       </div>
@@ -104,6 +106,12 @@ const CommodityModal = ({setOpenModal, data}) => {
         },
     ]
 
+    const openBroadcast = () => {
+        setOpenModal(false)
+        setBroadcastModal(true)
+        console.log(data)
+    }
+
 
   return (
     <motion.div
@@ -111,8 +119,8 @@ const CommodityModal = ({setOpenModal, data}) => {
       animate="visible"
       variants={slideInVariants}
       transition={{ ease: 'easeOut', duration: 0.5 }}
-      className='absolute top-28 bottom-0 mb-3 flex flex-col items-center justify-start bg-white w-[90%] rounded-2xl overflow-y-auto no-scrollbar py-7 pb-20 md:w-[90%]
-                  md:top-32 md:pb-10 lg:w-[70%] lg:pb-16 xl:top-32 xl:pb-16'>
+      className='absolute top-28 bottom-0 mb-3 flex flex-col items-center justify-start bg-white w-[90%] z-50 rounded-2xl overflow-y-auto no-scrollbar py-7 pb-10 md:w-[90%]
+                  md:top-32 md:pb-10 lg:w-[70%] lg:pb-10 xl:top-32 xl:pb-16'>
            {/* HEADER */}
          <div className='flex items-start justify-between w-full px-4 md:px-8 xl:px-10'>
              <div className='flex flex-col items-start justify-start md:flex-row md:items-center'>
@@ -260,7 +268,14 @@ const CommodityModal = ({setOpenModal, data}) => {
               </div>
 
 
+                <button onClick={openBroadcast}
+                className='text-center border-[2px] border-[#dddddd] h-10 w-full mt-10 rounded-md shadow-md bg-[#F2F2F2] text-[#101828] text-xs font-medium 
+                md:w-[90%] md:ml-1 lg:mt-12 lg:ml-2 lg:w-[92%] xl:mt-16 xl:h-12 xl:text-base xl:w-[87%]'>
+                     Create Broadcast Request
+                </button>
+
               </div>
+
 
          </div>
          </div>

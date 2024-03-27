@@ -1,90 +1,75 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { HiSortDescending } from "react-icons/hi";
 import { IoFilterSharp } from "react-icons/io5";
 import metal1 from '../../../assets/images/Metal1.svg'
-import metal2 from '../../../assets/images/Metal2.svg'
-import metal3 from '../../../assets/images/Metal3.svg'
 import { MdOutlineFileCopy } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import { SearchCommodity, purchaseRequestAction } from '../../../features/buyer/BuyerActions';
+import { useDispatch } from 'react-redux';
 
 
 
 
 const ClosedPurchase = () => {
-    const openData = [
-        {
-          id: 1,
-          sn: 1,
-          image: metal1,
-          name: 'Nickel',
-          purchaseId: 'AD33342222',
-          trackingNo: '23555332-119',
-          status: 'Completed',
-          date: '03/09/23',
-          time: '02:25pm',
-        },
-        {
-          id: 2,
-          sn: 2,
-          image: metal2,
-          name: 'Nickel',
-          purchaseId: 'AD33342222',
-          trackingNo: '23555332-119',
-          status: 'Completed',
-          date: '03/09/23',
-          time: '02:25pm',
-        },
-        {
-          id: 3,
-          sn: 3,
-          image: metal3,
-          name: 'Nickel',
-          purchaseId: 'AD33342222',
-          trackingNo: '23555332-119',
-          status: 'Completed',
-          date: '03/09/23',
-          time: '02:25pm',
-        },
-        {
-          id: 4,
-          sn: 4,
-          image: metal1,
-          name: 'Nickel',
-          purchaseId: 'AD33342222',
-          trackingNo: '23555332-119',
-          status: 'Completed',
-          date: '03/09/23',
-          time: '02:25pm',
-        },
-        {
-          id: 4,
-          sn: 5,
-          image: metal2,
-          name: 'Nickel',
-          purchaseId: 'AD33342222',
-          trackingNo: '23555332-119',
-          status: 'Completed',
-          date: '03/09/23',
-          time: '02:25pm',
-        },
-      ]
 
-      const [page, setPage] = useState(1)
+      const dispatch = useDispatch();
 
-      const handlePagination = (item) => {
-          setPage(item)
-          console.log(page);
-      }
+      const [searchTerm, setSearchTerm] = useState('');
+      const [searchResults, setSearchResults] = useState([]);
+      const [search, setSearch] = useState(false);
+
+      const [closedPurchase, setClosedPurchase] = useState([]);
+
+
+      const itemsPerPage = 5; // Number of items to display per page
+      const totalPages = Math.ceil(closedPurchase.length / itemsPerPage); // Calculate total pages
+      const [currentPage, setCurrentPage] = useState(1); // Current page state
+    
+      // Function to handle page changes
+      const handlePageChange = (page) => {
+        setCurrentPage(page);
+      };
+    
+      // Calculate start and end index of items for current page
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+    
+      // Get current page items
+      const currentPageItems = closedPurchase.slice(startIndex, endIndex);
+
+    
+      const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+      };
+
+
+    //   useEffect(() => {
+    //     dispatch(purchaseRequestAction(closedPurchase))
+
+    //     if (searchTerm !== '') {
+    //         dispatch(SearchCommodity(setSearchResults, searchTerm))
+    //         setSearch(true)
+    //       } else {
+    //         setSearchResults([]);
+    //         setSearch(false)
+    //       }
+
+    //   }, [dispatch, searchTerm])
+
+
 
   return (
-    <div className='flex flex-col items-center justify-start w-full border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5'>
+    <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
+                    lg:h-[27.1rem] xl:h-[27.6rem]'>
                <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between'>
                    <div className='relative w-full'>
                        <input 
                        className='h-9 w-full z-20 rounded-md border-[1px] border-[#DDE1E6] pl-9 text-xs font-light outline-[#2196F3] md:w-[80%] lg:h-8 xl:h-10 xl:w-[65%] xl:text-sm'
                        placeholder='Search'
+                       value={searchTerm}
+                       onChange={handleInputChange}
                        />
                        <CiSearch className='absolute top-[11px] left-3 text-base text-[#818181] xl:text-xl' />
                    </div>
@@ -109,7 +94,7 @@ const ClosedPurchase = () => {
 
                </div>
 
-               <div className='w-full mt-4 overflow-x-auto'>
+               <div className='w-full mt-4 overflow-x-auto no-scrollbar'>
                <table className='w-[800px] px-5 md:w-full'>
                    <thead className='border-separate border-b border-slate-[#dddddd]'>
                    <tr tr className='w-full mb-1'>
@@ -118,50 +103,55 @@ const ClosedPurchase = () => {
                        <td className='text-[11px] text-[#667085]'>Purchase ID</td>
                        <td className='text-[11px] text-[#667085]'>Tracking Number</td>
                        <td className='text-[11px] text-[#667085]'>Status</td>
-                       <td className='text-[11px] text-[#667085]'>Date/Time </td>
+                       <td className='text-[11px] text-[#667085]'>Date/Time</td>
                    </tr>
                    </thead>
 
-                   <tbody className='w-full'>
-                        {openData.map((item) => {
+                   {!search  
+                   ?<tbody className='w-full'>
+                        {currentPageItems.map((item) => {
                           return(
-                        <tr key={item.id} className='h-14'>
-
-                            <td class="border-b text-[10px] pl-6 font-medium">{item.sn}</td>
+                        <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
+                        
+                            <td class="border-b text-[10px] pl-6 font-medium">{item.id}</td>
 
                             <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-14">
                                  <img className='w-9 rounded-lg'
-                                 src={item.image} alt='metal' />
+                                 src={metal1} alt='metal' />
                                  <p className='pl-4'>{item.name}</p>
                             </td>
 
                             <td class="border-b text-[10px] font-medium">
                                  <div className='flex items-center justify-start'>
-                                 <p className=''>{item.purchaseId}</p>
+                                 <p className=''>AD33342222</p>
                                      <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                                  </div>
                             </td>
 
                             <td class="border-b text-[10px] font-medium">
                                  <div className='flex items-center justify-start'>
-                                 <p className=''>{item.trackingNo}</p>
+                                 <p className=''>{item.tracking_status}</p>
                                      <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
                                  </div>
                             </td>
 
-                            <td class="border-b text-[10px] font-medium">
-                                 <div className='flex items-center justify-start py-[3px] w-[55%] rounded-lg bg-[#ECFDF3]'>
-                                       <GoDotFill className={`text-[10px] text-[#027A48] ml-1`} />
-                                       <p className={`text-[9px] font-normal ml-1  text-[#027A48]`}>
-                                            {item.status}
-                                       </p>
-                                 </div>
+                            <td class="border-b text-[10px] font-medium w-32">
+                                <div className={`flex items-center justify-center w-24 rounded-lg h-5
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'bg-[#FFFAEB]' : item.status === 'completed' && 'bg-[#ECFDF3]' }`}>
+                                    <GoDotFill className={`text-[9px] xl:text-[10px] 
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#12B76A]' }`} />
+
+                                    <p className={`text-[9px] font-medium ml-1 xl:text-[10px] 
+                                     ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#027A48]' }`}>
+                                      {item.status}
+                                    </p>
+                               </div>
                             </td>
 
                             <td class="border-b text-[9px] font-medium">
                                  <div className='flex flex-col items-start justify-start w-14'>
-                                        <p className=''>{item.date}</p>
-                                        <p className='text-[#989ba0] text-[8px]'>{item.time}</p>
+                                        <p className=''>{item.created_at.slice(0, 10)}</p>
+                                        <p className='text-gray-400'>{item.created_at.slice(12, 16)}</p>
                                  </div>
                             </td>
 
@@ -174,41 +164,98 @@ const ClosedPurchase = () => {
                         </tr>
                         )
                         })}
-                        </tbody>
-                        </table>
+                   </tbody>
+                   :<tbody className='w-full'>
+                        {searchResults.map((item) => {
+                          return(
+                        <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
+                        
+                            <td class="border-b text-[10px] pl-6 font-medium">{item.id}</td>
+
+                            <td class="flex items-center justify-start h-14 border-b text-[10px] font-medium pr-14">
+                                 <img className='w-9 rounded-lg'
+                                 src={metal1} alt='metal' />
+                                 <p className='pl-4'>{item.name}</p>
+                            </td>
+
+                            <td class="border-b text-[10px] font-medium">
+                                 <div className='flex items-center justify-start'>
+                                 <p className=''>AD33342222</p>
+                                     <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
+                                 </div>
+                            </td>
+
+                            <td class="border-b text-[10px] font-medium">
+                                 <div className='flex items-center justify-start'>
+                                 <p className=''>{item.tracking_status}</p>
+                                     <MdOutlineFileCopy className='text-[#D0D5DD] ml-2 text-xs' />
+                                 </div>
+                            </td>
+
+                            <td class="border-b text-[10px] font-medium w-32">
+                                  <div className={`flex items-center justify-center w-24 rounded-lg h-5
+                                       ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'bg-[#FFFAEB]' : item.status === 'completed' && 'bg-[#ECFDF3]' }`}>
+                                      <GoDotFill className={`text-[9px] xl:text-[10px] 
+                                       ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#12B76A]' }`} />
+
+                                      <p className={`text-[9px] font-medium ml-1 xl:text-[10px] 
+                                       ${item.status === 'pending_verification' || item.status === 'In-transit' ? 'text-[#F79009]' : item.status === 'completed' && 'text-[#027A48]' }`}>
+                                        {item.status}
+                                      </p>
+                                 </div>
+                            </td>
+
+                            <td class="border-b text-[9px] font-medium">
+                                 <div className='flex flex-col items-start justify-start w-14'>
+                                        <p className=''>{item.created_at.slice(0, 10)}</p>
+                                        <p className='text-gray-400'>{item.created_at.slice(12, 16)}</p>
+                                 </div>
+                            </td>
+
+                            <td class="border-b text-[10px] font-medium">
+                                 <div className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
+                                        <p className='text-[#2196F3]'>View Order</p>
+                                 </div>
+                            </td>
+
+                        </tr>
+                        )
+                        })}
+                   </tbody>
+                    }
+               </table>
+               </div>
+
+               {/* PAGINATION */}
+               <div className='absolute bottom-5 flex flex-row iems-center justify-between w-full px-5 mt-3'>
+                    <div onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}
+                    className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
+                         <IoIosArrowRoundBack className='text-[#344054] text-lg' />
+                         <p className='text-[#344054] text-[10px] ml-1 font-medium'>Previous</p>
                     </div>
 
+                    <div className='flex flex-row items-center justify-center'>
+                      {Array.from({ length: totalPages }, (_, index) => (
+                        <button key={index + 1} onClick={() => handlePageChange(index + 1)} disabled={currentPage === index + 1}
+                        className={`flex items-center justify-center cursor-pointer bg-[${currentPage === index + 1 ? '#F3D7C7' : '#FFFFFF'}] h-6 w-6 rounded-md mx-1 
+                                    text-[${currentPage === index + 1 ? '#2196F3' : '#667085'}] text-[10px] font-medium pt-[2px]`}
+                        >
+                          {index + 1}
+                        </button>
+                       ))}
 
-                     {/* PAGINATION */}
-               <div className='flex flex-row iems-center justify-between w-full px-5 mt-3'>
-                      <div className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
-                           <IoIosArrowRoundBack className='text-[#344054] text-lg' />
-                           <p className='text-[#344054] text-[10px] ml-1 font-medium'>Previous</p>
-                      </div>
+                    </div>
 
-                      <div className='flex flex-row items-center justify-center'>
-                           <div onClick={()=>handlePagination(1)}
-                           className={`flex items-center justify-center cursor-pointer ${page === 1 ? 'bg-[#F3D7C7]' : 'bg-[#FFFFFF]' } h-6 w-6 rounded-md mx-1`}>
-                               <p className={` ${page === 1 ? 'text-[#2196F3]' : 'text-[#667085'} text-[10px] font-medium pt-[2px]`}>1</p>
-                           </div>
-                           <div onClick={()=>handlePagination(2)}
-                           className={`flex items-center justify-center cursor-pointer ${page === 2 ? 'bg-[#F3D7C7]' : 'bg-[#FFFFFF]' } h-6 w-6 rounded-md mx-1`}>
-                               <p className={` ${page === 2 ? 'text-[#2196F3]' : 'text-[#667085'} text-[10px] font-medium pt-[2px]`}>2</p>
-                           </div>
-                           <div onClick={()=>handlePagination(3)}
-                           className={`flex items-center justify-center cursor-pointer ${page === 3 ? 'bg-[#F3D7C7]' : 'bg-[#FFFFFF]' } h-6 w-6 rounded-md mx-1`}>
-                               <p className={` ${page === 3 ? 'text-[#2196F3]' : 'text-[#667085'} text-[10px] font-medium pt-[2px]`}>3</p>
-                           </div>
-                      </div>
-
-                      <div className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
-                           <p className='text-[#344054] text-[10px] font-medium'>Next</p>
-                           <IoIosArrowRoundForward className='text-[#344054] text-lg ml-1' />
-                      </div>
+                    <div onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}
+                    className='flex flex-row items-center border-[#dddddd] border-[1px] rounded-md h-7 px-2'>
+                         <p className='text-[#344054] text-[10px] font-medium'>Next</p>
+                         <IoIosArrowRoundForward className='text-[#344054] text-lg ml-1' />
+                    </div>
 
                </div>
-                        
+
         </div>
   )
 }
+
 export default ClosedPurchase

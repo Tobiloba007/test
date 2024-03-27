@@ -6,11 +6,14 @@ import { MdOutlineFileCopy } from "react-icons/md";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 import { useDispatch } from 'react-redux';
 import { adminSearchSupplyCommodity, adminSupplyRequestAction } from '../../features/admin/AdminActions';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
 
-const SupplyRequest = ({setOpenModal, openModal, setData}) => {
+
+const SupplyRequest = ({setOpenSellerModal, openSellerModal, setData}) => {
   const dispatch = useDispatch();
 
       const [supplyRequestsData, setSupplyRequestsData] = useState([]);
@@ -62,14 +65,16 @@ const SupplyRequest = ({setOpenModal, openModal, setData}) => {
       // };
 
       const handleModal = (item) => {
-        setOpenModal(item)
+        setOpenSellerModal(item)
         setData(item)
-        console.log(item);
+        // console.log(item);
       }
 
 
   return (
-    <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
+    <>
+    {!loading
+     ?<div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
                     lg:h-[27.1rem] xl:h-[27.6rem]'>
                <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between'>
                    <div className='relative w-full'>
@@ -120,7 +125,7 @@ const SupplyRequest = ({setOpenModal, openModal, setData}) => {
               ?<tbody className='w-full'>
                   {currentPageItems.map((item, index) => {
                     return(
-                  <tr key={item.id} className='h-14'>
+                  <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
 
                       <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
@@ -149,7 +154,7 @@ const SupplyRequest = ({setOpenModal, openModal, setData}) => {
                       </td>
 
 
-                      <td class="border-b text-[10px] font-medium">
+                      <td class="border-b text-[10px] font-medium cursor-pointer">
                                  <div onClick={()=>handleModal(item)}
                                  className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
                                         <p className='text-[#101828]'>View Request</p>
@@ -163,7 +168,7 @@ const SupplyRequest = ({setOpenModal, openModal, setData}) => {
              :<tbody className='w-full'>
                   {searchResults.map((item, index) => {
                     return(
-                  <tr key={item.id} className='h-14'>
+                  <tr key={item.id} className='h-14 hover:bg-[#EEEEEE]'>
 
                       <td class="border-b text-[10px] pl-6 font-medium">{index + 1}</td>
 
@@ -192,9 +197,8 @@ const SupplyRequest = ({setOpenModal, openModal, setData}) => {
                       </td>
 
 
-                      <td class="border-b text-[10px] font-medium">
-                                 <div onClick={()=>handleModal(item)}
-                                 className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
+                      <td class="border-b text-[10px] font-medium cursor-pointer">
+                                 <div className='flex justify-center items-center h-7 w-20 border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
                                         <p className='text-[#101828]'>View Request</p>
                                  </div>
                       </td>
@@ -236,6 +240,14 @@ const SupplyRequest = ({setOpenModal, openModal, setData}) => {
                </div>
 
         </div>
+        :<div className='justify-start w-full h-[29.5rem] rounded-lg mt-10 md:h-[27.5rem] 
+                         lg:h-[27.1rem] xl:h-[27.6rem]'>  
+           <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+           <Skeleton height="65%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+           <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         </div>
+         }
+        </>
   )
 }
 

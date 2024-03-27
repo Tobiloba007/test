@@ -6,7 +6,8 @@ import HomeModal from '../../modals/buyer/HomeModal';
 import PaymentReciept from '../../modals/buyer/PaymentReciept';
 import { useDispatch } from 'react-redux';
 import { metricsData, purchaseRequestAction } from '../../../features/buyer/BuyerActions';
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 const BuyerHome = ({setTab}) => {
@@ -25,7 +26,7 @@ const BuyerHome = ({setTab}) => {
      const dispatch = useDispatch();
 
      useEffect(() => {
-          dispatch(metricsData(setMetrics))
+          dispatch(metricsData(setMetrics, setLoading))
           dispatch(purchaseRequestAction(setPurchaseRequestsData, setLoading))
      }, [dispatch])
 
@@ -45,12 +46,11 @@ const BuyerHome = ({setTab}) => {
 
   return (
      <div className={`flex flex-col items-center justify-start w-full h-full`}>
-     {loading ? (
-          <p className='mt-96'>Loading...</p>
-        ) : (
+    
     <div className='flex flex-col items-start justify-start w-full pb-5 py-6 px-6 mt-28 lg:mt-[100px] xl:mt-[115px] xl:px-8 xl:py-8'>
          <div className='flex flex-row items-center justify-between w-full md:justify-start'>
-             <div className='flex flex-col items-start justify-center w-[48%] h-28 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-36 xl:pl-5'>
+            {!loading
+             ?<div className='flex flex-col items-start justify-center w-[48%] h-28 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-36 xl:pl-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
                        Total purchase orders
                   </p>
@@ -61,8 +61,13 @@ const BuyerHome = ({setTab}) => {
                         {metrics.completed} Completed
                   </p>
              </div>
+            : <div className='w-[48%] h-28 rounded-md md:w-[170px] xl:w-[220px] xl:h-36'>  
+                  {loading && <Skeleton height="100%" baseColor="#ebebeb" count={1} />}
+             </div>
+            }
 
-             <div className='flex flex-col items-start justify-center w-[48%] h-28 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] md:ml-4 xl:w-[220px] xl:h-36 
+            {!loading
+             ?<div className='flex flex-col items-start justify-center w-[48%] h-28 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] md:ml-4 xl:w-[220px] xl:h-36 
              xl:pl-5 xl:ml-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
                         purchase orders
@@ -74,14 +79,26 @@ const BuyerHome = ({setTab}) => {
                          {metrics.completed} Completed
                   </p>
              </div>
+             : <div className='w-[48%] h-28 rounded-md md:w-[170px] md:ml-4 xl:w-[220px] xl:h-36 xl:ml-5'>  
+                  {loading && <Skeleton height="100%" baseColor="#ebebeb" count={1} />}
+             </div>
+            }
          </div>
 
 
          <div className='flex flex-col items-start justify-start w-full mt-10 xl:mt-12'>
-              <p className='text-base font-medium text-[#101828] xl:text-xl '>
+             {!loading
+              ?<p className='text-base font-medium text-[#101828] xl:text-xl'>
                      My Recent Purchase Requests
               </p>
+              : <p className='text-base font-medium w-full md:w-[60%] xl:text-xl'>  
+                  <Skeleton height="100%" baseColor="#ebebeb" count={1} />
+              </p>
+              }
 
+
+              {!loading 
+               ?<div className='w-full'>
               {data.map((item) => {
                 return(
               <div key={item.id}
@@ -110,7 +127,7 @@ const BuyerHome = ({setTab}) => {
 
                             <div className='flex flex-row items-center justify-start mt-2'>
                                <p className='text-[11px] font-normal text-[#667085]'>
-                                    12 . 09 . 2023
+                                    {item.created_at.slice(0, 10)}
                                </p>
                                <div className={`flex items-center justify-start py-[3px] px-1 rounded-lg ${item.status === 'Completed' ? 'bg-[#ECFDF3]' : (item.status === 'In-transit' || 'pending_verification') && 'bg-[#FFFAEB]'} ml-4`}>
                                     <GoDotFill className={`text-xs ${item.status === 'Completed' ? 'text-[#159600]' : (item.status === 'In-transit' || 'pending_verification') && 'text-[#F79009]'}`} />
@@ -130,7 +147,7 @@ const BuyerHome = ({setTab}) => {
 
                        {/* PROGRESS CONTAINER */}
                    <div className='flex items-center justify-start w-full h-[5px] mt-3 rounded-lg bg-[#D0D5DD]'>
-                       <div className={`h-full rounded-full ${item.status === 'Completed' ? 'bg-[#159600] w-full' : (item.status === 'In-transit' || 'pending_verification') && 'bg-[#F79009] w-[70%]'} `}></div>
+                       <div className={`h-full rounded-full ${item.status === 'Completed' ? 'bg-[#159600] w-full' : (item.status === 'In-transit' || 'pending_verification') && 'bg-[#F79009] w-[45%]'} `}></div>
                    </div>
 
 
@@ -160,11 +177,17 @@ const BuyerHome = ({setTab}) => {
               </div>
               )
               })}
+              </div>
+
+              :<div className=' w-full h-44 rounded-lg mt-5'>
+                      <Skeleton height="100%" borderRadius="8px" baseColor="#ebebeb" count={2} />
+               </div>
+              }
 
          </div>
          
      </div>
-        )}
+     
             
 
           {

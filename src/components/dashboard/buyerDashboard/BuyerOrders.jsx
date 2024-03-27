@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import OpenPurchase from './OpenPurchase';
 import ClosedPurchase from './ClosedPurchase';
+import HomeModal from '../../modals/buyer/HomeModal';
 
 
 
 const BuyerOrders = () => {
   const [active, setActive] = useState('open');
+  const [openModal, setOpenModal] = useState(false);
 
   const handleTab = (item) => {
     setActive(item)
     console.log(active);
   }
+
+  const handleCloseBackdrop = () => {
+    setOpenModal(false)
+ }
 
   return (
     <div className='flex flex-col items-start justify-start w-full py-6 px-6 mt-28 lg:mt-0 lg:pt-[100px] xl:px-8 xl:pt-[115px] xl:mt-10'>
@@ -34,6 +40,20 @@ const BuyerOrders = () => {
         </div>
 
         {active === 'open' ? <OpenPurchase /> : active === 'closed' && <ClosedPurchase />}
+
+
+        {/*{
+          openModal  && 
+         <div onClick={handleCloseBackdrop}
+         className='fixed w-full h-full justify-center items-center bg-[#000000] p-5 lg:w-[80%] opacity-50 xl:w-[80%]'>
+         </div>
+         }
+
+         {openModal &&
+              <div className='absolute top-32 flex flex-col items-center justify-start w-[90%] z-20 md:w-[80%] lg:w-[70%] xl:w-[65%]'>
+               <HomeModal data={modalData} setOpenModal={setOpenModal} setPayment={setPayment} setTab={setTab} />  
+            </div>
+         } */}
 
 
     </div>

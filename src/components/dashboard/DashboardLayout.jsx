@@ -16,14 +16,14 @@ import BuyerNotifications from './buyerDashboard/BuyerNotifications';
 import BuyerShipTracking from './buyerDashboard/BuyerShipTracking';
 import BuyerProfile from './buyerDashboard/BuyerProfile';
 import SellerHome from './sellerDashboard/SellerHome';
-import SellerPurchaseRequests from './sellerDashboard/SellerPurchaseRequests';
+import SellerPurchaseRequests from './sellerDashboard/SupplyRequests';
 import SellerNotification from './sellerDashboard/SellerNotification';
 import SellerShipmentTracking from './sellerDashboard/SellerShipmentTracking';
 import SellerProfile from './sellerDashboard/SellerProfile';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginToken } from '../../features/authentication/AuthSlice';
-
+import SellerBroadcasts from './sellerDashboard/SellerBroadcasts';
 
 
 
@@ -39,25 +39,30 @@ const DashboardLayout = () => {
     const [user, setUser] = useState('');
     // const [loading, setLoading] = useState(null);
 
+
     const dispatch = useDispatch();
 
     const loginToken = useSelector((state) => state.auth.loginToken)
-    const userData = useSelector((state) => state.auth.user)
+    // const userData = useSelector((state) => state.auth.user)
 
 
       useEffect(() => {
-        const fetchUser = async () => {
-          try {
-            setUser(userData)
-            console.log(user);
-          } catch (error) {
-            console.log('Error retrieving data:', error);
+        // Retrieve data from local storage when component mounts
+        const fetchDataFromLocalStorage = () => {
+          const data = localStorage.getItem('userData');
+          if (data) {
+            // If data is found, parse it from JSON string to object
+            setUser(JSON.parse(data));
+            // console.log(user, 'lOCAL STORAGE STORED DATA');
           }
         };
-    
-        fetchUser();
-      }, [user, userData]);
+        fetchDataFromLocalStorage();
+      }, []);
 
+      
+
+
+      
 
     const tabs = [
         {
@@ -68,23 +73,29 @@ const DashboardLayout = () => {
         {
             id: 2,
             icon: <IoCartOutline className='text-white text-lg xl:text-[22px]' />,
-            name: user.user_type === 'seller' ? 'Purchase Requests' : user.user_type === 'buyer' && 'My Purchase Orders',
-        },
-        {
-            id: 3,
-            icon: <MdLocationSearching className='text-white text-lg xl:text-[22px]' />,
-            name: 'Shipment Tracking',
+            name: user.user_type === 'seller' ? 'Supply Requests' : user.user_type === 'buyer' && 'My Purchase Orders',
         },
         {
             id: 4,
-            icon: <IoIosNotificationsOutline className='text-white text-lg xl:text-[22px]' />,
-            name: 'Notifications',
-            no: 3,
+            icon: <MdLocationSearching className='text-white text-lg xl:text-[22px]' />,
+            name: user.user_type === 'seller' ? 'Broadcast' : user.user_type === 'buyer' && 'Shipment Tracking',
         },
         {
             id: 5,
+            icon: <IoIosNotificationsOutline className='text-white text-lg xl:text-[22px]' />,
+            name: user.user_type === 'seller' ? 'Shipment Tracking' : user.user_type === 'buyer' && 'Notifications',
+            no: user.user_type === 'buyer' && 3,
+        },
+        {
+            id: 6,
             icon: <HiOutlineUser className='text-white text-lg xl:text-[22px]' />,
-            name: 'My Profile',
+            name: user.user_type === 'seller' ? 'Notifications' : user.user_type === 'buyer' && 'My Profile',
+            no: user.user_type === 'seller' && 3,
+        },
+        {
+            id: 7,
+            icon: user.user_type === 'seller' && <HiOutlineUser className='text-white text-lg xl:text-[22px]' />,
+            name: user.user_type === 'seller' && 'My Profile',
         },
     ]
 
@@ -140,7 +151,7 @@ const DashboardLayout = () => {
                    {tabs.map((item) => {
                     return(
                         <div onClick={()=>handleTab(item.name)} 
-                        key={item.id} className={`${tab === item.name && 'bg-[#344054]'} flex flex-row justify-start items-center px-1 h-11 w-[100%] cursor-pointer rounded-md mt-2 xl:h-12 xl:px-3`}>
+                        key={item.id} className={`${tab === item.name && 'bg-[#344054]'} hover:bg-[#344054] flex flex-row justify-start items-center px-1 h-11 w-[100%] cursor-pointer rounded-md mt-2 xl:h-12 xl:px-3`}>
                            {item.icon}
                            <p className='text-[11px] font-normal text-[#ffffff] ml-[10px] leading-3 xl:text-[13px]'>
                                 {item.name}
@@ -174,10 +185,10 @@ const DashboardLayout = () => {
                      <div className='flex flex-row justify-between items-center px-1 h-11 w-[100%] hover:bg-[#344054] rounded-md mt-3'>
                          <div className='flex flex-col items-start justify-center'>
                               <p className='text-[11px] font-medium text-[#ffffff] xl:text-[14px]'>
-                                    Ololade Asake
+                                    {user.first_name} {user.last_name}
                                </p>
                               <p className='text-[10px] font-normal text-[#475467] xl:text-[13px] xl:font-semibold'>
-                                     mrmoney@gmail.com
+                                     {user.email}
                                </p>
                          </div>
                          <div onClick={handleLogout}>
@@ -197,12 +208,13 @@ const DashboardLayout = () => {
              <div className='flex flex-col items-start justify-center'>
                  <p className='text-base font-medium text-[#101828] lg:text-xl xl:text-2xl'>
                    {
-                    tab === 'Dashboard' ? 'Welcome back, Ololade'
+                    tab === 'Dashboard' ? `Welcome back, ${user.first_name}`
                     : tab === 'My Purchase Orders' ? 'Purchase Orders'
-                    : tab === 'Purchase Requests' ? 'Purchase Requests'
+                    : tab === 'Supply Requests' ? 'Supply Requests'
                     : tab === 'Shipment Tracking' ? 'Shipment Tracking'
                     : tab === 'Notifications' ? 'Notifications'
-                    : tab === 'My Profile' && 'My Profile'
+                    : tab === 'My Profile' ? 'My Profile'
+                    : tab === 'Broadcast' && 'Broadcast'
                    }
                  </p>
                  {tab === 'Dashboard' &&
@@ -256,10 +268,11 @@ const DashboardLayout = () => {
 
                {
                    tab === 'Dashboard' && user.user_type === 'seller' ?  <SellerHome />
-                 : tab === 'Purchase Requests' && user.user_type === 'seller' ?  <SellerPurchaseRequests />
+                 : tab === 'Supply Requests' && user.user_type === 'seller' ?  <SellerPurchaseRequests />
                  : tab === 'Notifications' && user.user_type === 'seller' ?  <SellerNotification />
                  : tab === 'Shipment Tracking' && user.user_type === 'seller' ?  <SellerShipmentTracking />
-                 : tab === 'My Profile' && user.user_type === 'seller' &&  <SellerProfile />
+                 : tab === 'My Profile' && user.user_type === 'seller' ?  <SellerProfile />
+                 : tab === 'Broadcast' && user.user_type === 'seller' &&  <SellerBroadcasts />
                }
               </div>
                

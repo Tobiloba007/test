@@ -104,9 +104,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
         try{
           const response = await axios.post(`${BASE_URL}/auth/login`, values);
           if (response.status === 200) {
-            console.log(response.data.data.user.user_type, 'Hello');
-            dispatch(setUser(response.data.data.user))
+            localStorage.setItem('userData', JSON.stringify(response.data.data.user));
             const Token = response.data.data.access_token
+            console.log(response.data.data.user, 'Hello world');
             AsyncStorage.setItem('token', Token);
             dispatch(setLoginToken(Token))
             navigate(response.data.data.user.user_type === 'buyer' && response.data.data.user.is_onboarding_complete === true  ? '/buyer-dashboard' 

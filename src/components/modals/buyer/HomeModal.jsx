@@ -41,11 +41,11 @@ const HomeModal = ({setOpenModal, setTab, setPayment, data}) => {
         },
         {
             name: 'Request date:',
-            details: '2024-03-04'
+            details: data.created_at.slice(0, 10),
         },
         {
             name: 'Request Time:',
-            details: '12:45 PM'
+            details: data.created_at.slice(12, 16),
         },
         {
             name: 'Request status:',

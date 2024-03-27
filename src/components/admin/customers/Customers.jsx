@@ -5,6 +5,10 @@ import CommodityModal from '.././modal/CommodityModal';
 import { useDispatch } from 'react-redux';
 import { adminMetricsData } from '../../../features/admin/AdminActions';
 import CustomerDetails from './CustomerDetails';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+
 
 
 const Customers = () => {
@@ -36,7 +40,9 @@ const Customers = () => {
             Summary
          </p>
 
-         <div className='flex flex-col items-center justify-center w-[50%] h-full border-[1px] border-[#D0D5DD] rounded-[8px] mt-4 p-5 md:flex-row md:w-[65%] lg:mt-5 lg:p-8 lg:w-[75%] xl:mt-6 xl:p-9'>
+         <>
+         {!loading
+         ?<div className='flex flex-col items-center justify-center w-[50%] h-full border-[1px] border-[#D0D5DD] rounded-[8px] mt-4 p-5 md:flex-row md:w-[65%] lg:mt-5 lg:p-8 lg:w-[75%] xl:mt-6 xl:p-9'>
               <div className='flex flex-col items-start w-full'>
                    <p className='text-[10px] text-[#667085] lg:text-xs xl:text-sm'>
                        Overall count
@@ -70,6 +76,11 @@ const Customers = () => {
                    </div>
               </div>
          </div>
+         :<div className='w-[50%] h-72 mt-4 md:h-28 md:w-[65%] lg:mt-5 lg:w-[75%] lg:h-36 xl:mt-6 xl:h-[155px]'>  
+           <Skeleton height="100%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         </div>
+         }
+        </>
 
 
           <CustomersTable 

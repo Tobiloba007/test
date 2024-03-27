@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import Speaker from '../../assets/icons/megaphone.svg'
-import CommodityModal from '../../components/admin/modal/CommodityModal';
-import NewRequest from '../../components/admin/modal/NewRequest';
 import Active from '../../components/admin/broadcasts/Active';
 import Completed from '../../components/admin/broadcasts/Completed';
+import BroadcastDetails from '../../components/admin/broadcasts/BroadcastDetails';
 
 
 
@@ -11,23 +9,24 @@ import Completed from '../../components/admin/broadcasts/Completed';
 const Broadcasts = () => {
   const [tab, setTab] = useState('active');
 
-  const [openModal, setOpenModal] = useState(false);
-  const [newRequest, setNewRequest] = useState(false);
-  const [data, setData] = useState([]);
+//   const [broadcastModal, setBroadcastModal] = useState(false);
+  const [broadcastDetails, setBroadcastDetails] = useState(false);
+
 
   const handleTab = (item) => {
     setTab(item)
     console.log(tab)
   }
 
-  const closeBackdrop = () => {
-     setOpenModal(false)
-     setNewRequest(false)
-  }
+//   const closeBackdrop = () => {
+//      setBroadcastModal(false)
+//   }
 
   return (
-    <div className='flex flex-col items-center justify-start w-full'>
-     <div className='flex flex-col items-center justify-start w-full py-6 px-6 mt-24 md:mt-20 lg:mt-0 lg:pt-[100px] xl:px-14 xl:pt-[75px] xl:mt-10'>
+    <div className='flex flex-col items-center justify-start w-full h-full'>
+    {
+     broadcastDetails ? <BroadcastDetails setBroadcastDetails={setBroadcastDetails} broadcastDetails={broadcastDetails} />
+     :<div className='flex flex-col items-center justify-start w-full py-6 px-6 mt-24 md:mt-20 lg:mt-0 lg:pt-[100px] xl:px-14 xl:pt-[75px] xl:mt-10'>
           {/* TABS */}
         <div className='flex flex-col items-center justify-start w-full md:flex-row md:justify-between'>
             <div className='flex flex-row items-start justify-start w-full mt-5 md:justify-start md:mt-7'>
@@ -48,34 +47,36 @@ const Broadcasts = () => {
                  </div>
             </div>
 
-            <div className='flex items-center justify-start w-full mt-6 md:justify-end'>
-                 <div onClick={()=>setNewRequest(true)}
+            {/*<div className='flex items-center justify-start w-full mt-6 md:justify-end'>
+                 <div onClick={()=>setBroadcastModal(true)}
                  className='flex items-center justify-center px-4 h-8 rounded-md cursor-pointer bg-[#2196F3] md:h-8 lg:h-9 xl:h-10'>
                       <img className='w-4 h-4' src={Speaker} alt='speaker' />
                       <p className={`text-[10px] font-normal ml-2 text-white xl:text-xs`}>
                             New Broadcast Request
                       </p>
                  </div>
-            </div>
+            </div>*/}
         </div>
 
-        </div>
-
-        <div className='w-full px-6 xl:px-14'>
+     
+        <div className='w-full'>
             {
                tab === 'active' 
-               ? <Active setOpenModal={setOpenModal} openModal={openModal} setData={setData} /> 
-               : tab === 'complete' && <Completed  setOpenModal={setOpenModal} openModal={openModal} setData={setData} />
+               ? <Active setBroadcastDetails={setBroadcastDetails}  /> 
+               : tab === 'complete' && <Completed  setBroadcastDetails={setBroadcastDetails} />
             } 
         </div>
 
-        {openModal && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
+        </div>
+     }
 
-        {newRequest && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
 
-        { openModal && <CommodityModal setOpenModal={setOpenModal} data={data} /> }
+        {/*
+        {broadcastModal && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
 
-        { newRequest && <NewRequest setNewRequest={setNewRequest} /> }
+        {broadcastModal && <BroadcastModal setBroadcastModal={setBroadcastModal} />}
+         */}
+
 
 
     </div>

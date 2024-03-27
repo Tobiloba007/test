@@ -4,6 +4,8 @@ import PurchaseRequest from './PurchaseRequest';
 import SupplyRequest from './SupplyRequest';
 import CommodityModal from './modal/CommodityModal';
 import NewRequest from './modal/NewRequest';
+import BroadcastModal from './modal/BroadcastModal';
+import SupplyRequestModal from './modal/SupplyRequestModal';
 
 
 
@@ -12,8 +14,10 @@ const ManageCommodities = () => {
   const [active, setActive] = useState('purchase');
 
   const [openModal, setOpenModal] = useState(false);
+  const [openSellerModal, setOpenSellerModal] = useState(false);
   const [newRequest, setNewRequest] = useState(false);
   const [data, setData] = useState([]);
+  const [broadcastModal, setBroadcastModal] = useState(false);
 
   const handleTab = (item) => {
     setActive(item)
@@ -23,6 +27,7 @@ const ManageCommodities = () => {
   const closeBackdrop = () => {
      setOpenModal(false)
      setNewRequest(false)
+     setOpenSellerModal(false)
   }
 
   return (
@@ -65,17 +70,28 @@ const ManageCommodities = () => {
             {
                active === 'purchase' 
                ? <PurchaseRequest setOpenModal={setOpenModal} openModal={openModal} setData={setData} /> 
-               : active === 'Supply' && <SupplyRequest setOpenModal={setOpenModal} openModal={openModal} setData={setData} />
+               : active === 'Supply' && <SupplyRequest setOpenSellerModal={setOpenSellerModal} openSellerModal={openSellerModal} setData={setData} />
           }
         </div>
 
         {openModal && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
 
+        {openModal && <CommodityModal setOpenModal={setOpenModal} data={data} setBroadcastModal={setBroadcastModal} />}
+
+
+        {openSellerModal && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
+
+        {openSellerModal && <SupplyRequestModal setOpenSellerModal={setOpenSellerModal} data={data} setBroadcastModal={setBroadcastModal} />}
+
+        
         {newRequest && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
 
-        { openModal && <CommodityModal setOpenModal={setOpenModal} data={data} /> }
+        {newRequest && <NewRequest setNewRequest={setNewRequest} />}
 
-        { newRequest && <NewRequest setNewRequest={setNewRequest} /> }
+
+        {broadcastModal && <div onClick={closeBackdrop} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
+
+        {broadcastModal && <BroadcastModal setBroadcastModal={setBroadcastModal} data={data} />}
 
 
     </div>

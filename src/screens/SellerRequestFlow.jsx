@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 
 const SellerRequestFlow = () => {
     const [count, setCount] = useState(1);
+    const [ore, setOre] = useState('');
 
     const user = useSelector((state) => state.auth.user)
 
@@ -46,8 +47,8 @@ const SellerRequestFlow = () => {
               </div>
 
                {
-                 count === 1 ? <SellerPage0 setCount={setCount} /> : count === 2 ? <SellerPage1 setCount={setCount} />
-                : count === 3 ? <SellerPage2 setCount={setCount} /> : count === 4 ? <SellerPage3 setCount={setCount} />
+                 count === 1 ? <SellerPage0 setCount={setCount} /> : count === 2 ? <SellerPage1 setCount={setCount} setOre={setOre} />
+                : count === 3 ? <SellerPage2 setCount={setCount} data={ore} /> : count === 4 ? <SellerPage3 setCount={setCount} />
                 : count === 5 ? <SellerPage4 setCount={setCount} /> : count === 6 ? <SellerPage5 setCount={setCount} />
                 : count === 7 ? <SellerPage6 setCount={setCount} /> : count === 8 && <SellerPage7 setCount={setCount} />
               }
