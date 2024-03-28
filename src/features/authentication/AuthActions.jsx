@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { setLoading, setLoginToken, setUser } from './AuthSlice';
-import { BASE_URL } from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+
+const BASE_URL = process.env.REACT_APP_API_URL
 
     // CREATE ACCOUNT
     export const createAccount = (values, setError, navigate) => async (dispatch) => {

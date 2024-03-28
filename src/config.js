@@ -1,1 +1,0 @@
-export const BASE_URL = 'https://oat-backend.onrender.com/api/v1';

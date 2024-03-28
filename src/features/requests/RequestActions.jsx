@@ -1,9 +1,10 @@
 import axios from "axios";
-import { BASE_URL } from "../../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setUser } from "../authentication/AuthSlice";
 
 
+
+const BASE_URL = process.env.REACT_APP_API_URL
 
 
     // BUYER PURCHASE REQUEST

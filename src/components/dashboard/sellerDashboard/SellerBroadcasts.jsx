@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import SellerBroadcastDetails from './SellerBroadcastDetails';
 import SellerBroadcastAll from './SellerBroadcastAll';
 import BroadcastResponseTab from './BroadcastResponseTab';
+import SellerResponseDetails from './SellerResponseDetails';
 
 
 
@@ -20,7 +21,8 @@ const SellerBroadcasts = () => {
   return (
     <div className='flex flex-col items-center justify-start w-full h-full'>
     {
-     broadcastDetails ? <SellerBroadcastDetails setBroadcastDetails={setBroadcastDetails} broadcastDetails={broadcastDetails} />
+       broadcastDetails && selected === 'request' ? <SellerBroadcastDetails setBroadcastDetails={setBroadcastDetails} broadcastDetails={broadcastDetails} />
+     : broadcastDetails && selected === 'response' ? <SellerResponseDetails setBroadcastDetails={setBroadcastDetails} broadcastDetails={broadcastDetails} />
      :<div className='flex flex-col items-center justify-start w-full py-6 px-6 mt-24 md:mt-20 lg:mt-0 lg:pt-[100px] lg:px-8 xl:px-8 xl:pt-[75px] xl:mt-10'>
           {/* TABS */}
         <div className='flex flex-col items-start justify-start w-full mt-6 md:mt-12'>

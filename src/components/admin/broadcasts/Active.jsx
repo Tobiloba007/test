@@ -58,7 +58,7 @@ const Active = ({setBroadcastDetails}) => {
             setSearchResults([]);
             setSearch(false)
           }
-    },[dispatch, searchTerm, activeRequest])
+    },[dispatch, searchTerm])
 
 
     const handleBroadcast = (item) => {
@@ -69,7 +69,7 @@ const Active = ({setBroadcastDetails}) => {
 
   return (
     <>
-    {!loadData
+    {loadData
       ?<div className='justify-start w-full h-[29.5rem] rounded-lg mt-10 md:h-[27.5rem] 
                          lg:h-[27.1rem] xl:h-[27.6rem]'>  
            <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />

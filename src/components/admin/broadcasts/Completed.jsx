@@ -7,10 +7,10 @@ import { LuPencil } from "react-icons/lu";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineFileCopy } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { activeBroadcastEvent, broadcastDetails, searchActiveBroadcast } from "../../../features/admin/AdminActions";
+import { broadcastDetails } from "../../../features/admin/AdminActions";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
@@ -67,7 +67,15 @@ const Completed = ({setBroadcastDetails}) => {
 
 
   return (
-    <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-3 mb-12 py-2 pb-5 md:h-[27.5rem] 
+    <>
+    {loading
+      ?<div className='justify-start w-full h-[29.5rem] rounded-lg mt-10 md:h-[27.5rem] 
+                         lg:h-[27.1rem] xl:h-[27.6rem]'>  
+           <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+           <Skeleton height="65%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+           <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         </div>
+    :<div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-3 mb-12 py-2 pb-5 md:h-[27.5rem] 
                     lg:h-[27.1rem] xl:h-[27.6rem]'>
                <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between'>
                    <div className='relative w-full'>
@@ -247,6 +255,8 @@ const Completed = ({setBroadcastDetails}) => {
                </div>
 
         </div>
+        }
+        </>
   )
 }
 

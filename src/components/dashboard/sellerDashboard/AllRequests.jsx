@@ -5,9 +5,10 @@ import { IoFilterSharp } from "react-icons/io5";
 import metal2 from '../../../assets/images/Metal2.svg'
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-import { sellerRecentPurchaseRequest, sellerSearchCommodity } from '../../../features/seller/SellerAction';
+import { recentSupplyRequestAction, sellerSearchCommodity } from '../../../features/seller/SellerAction';
 import { useDispatch } from 'react-redux';
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
@@ -18,11 +19,11 @@ const AllRequests = ({recetPurchaseRequest}) => {
      const [searchResults, setSearchResults] = useState([]);
      const [search, setSearch] = useState(false);
 
-     const [purchaseRequestsData, setRecetPurchaseRequest] = useState([]);
+     const [recentSupplyRequest, setRecetSupplyRequest] = useState([]);
 
 
      const itemsPerPage = 5; // Number of items to display per page
-     const totalPages = Math.ceil(purchaseRequestsData.length / itemsPerPage); // Calculate total pages
+     const totalPages = Math.ceil(recentSupplyRequest.length / itemsPerPage); // Calculate total pages
      const [currentPage, setCurrentPage] = useState(1); // Current page state
    
      // Function to handle page changes
@@ -35,7 +36,7 @@ const AllRequests = ({recetPurchaseRequest}) => {
      const endIndex = startIndex + itemsPerPage;
    
      // Get current page items
-     const currentPageItems = purchaseRequestsData.slice(startIndex, endIndex);
+     const currentPageItems = recentSupplyRequest.slice(startIndex, endIndex);
 
    
      const handleInputChange = (event) => {
@@ -46,7 +47,7 @@ const AllRequests = ({recetPurchaseRequest}) => {
 
 
      useEffect(() => {
-       dispatch(sellerRecentPurchaseRequest(setRecetPurchaseRequest, setLoading, setLoading, setError))
+       dispatch(recentSupplyRequestAction(setRecetSupplyRequest, setLoading, setLoading, setError))
 
        if (searchTerm !== '') {
            dispatch(sellerSearchCommodity(setSearchResults, searchTerm))
@@ -61,7 +62,15 @@ const AllRequests = ({recetPurchaseRequest}) => {
 
 
   return (
-    <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
+     <div className='w-full'>
+     {loading
+      ?<div className='justify-start w-full h-[29.5rem] rounded-lg mt-10 md:h-[27.5rem] 
+      lg:h-[27.1rem] xl:h-[27.6rem]'>  
+         <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         <Skeleton height="65%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+         <Skeleton height="15%" baseColor="#ebebeb" borderRadius="8px" count={1} />
+     </div>
+    :<div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
                     lg:h-[27.1rem] xl:h-[27.6rem]'>
                <div className='flex flex-col items-center w-full bg-[#F9FAFB] px-3 py-2 md:flex-row md:justify-between'>
                    <div className='relative w-full'>
@@ -229,6 +238,8 @@ const AllRequests = ({recetPurchaseRequest}) => {
 
                </div>
 
+        </div>
+     }
         </div>
   )
 }

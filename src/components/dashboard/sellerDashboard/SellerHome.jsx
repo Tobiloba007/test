@@ -2,30 +2,32 @@ import React, { useEffect, useState } from 'react'
 import metal2 from '../../../assets/images/Metal2.svg'
 import { GoDotFill } from "react-icons/go";
 import { useDispatch } from 'react-redux';
-import { sellerRecentPurchaseRequest } from '../../../features/seller/SellerAction';
+import { recentSupplyRequestAction } from '../../../features/seller/SellerAction';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
-const SellerHome = () => {
+const SellerHome = ({setTab}) => {
 
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState(false);
-      const [recetPurchaseRequest, setRecetPurchaseRequest] = useState([]);
+      const [recentSupplyRequest, setRecetSupplyRequest] = useState([]);
 
 
     const dispatch = useDispatch();
 
 
      useEffect(() => {
-          dispatch(sellerRecentPurchaseRequest(setRecetPurchaseRequest, setLoading, setError))
+          dispatch(recentSupplyRequestAction(setRecetSupplyRequest, setLoading, setError))
      }, [dispatch])
 
-     const data = recetPurchaseRequest.slice(0, 5)
+     const data = recentSupplyRequest.slice(0, 5)
 
 
   return (
     <div className='flex flex-col items-start justify-start w-full py-6  px-6 mt-28 lg:mt-0 lg:pt-[120px] xl:pt-[150px] xl:px-8 xl:py-8'>
-         <div className='flex flex-row items-center justify-between w-full md:justify-start'>
+         <div className='flex flex-row flex-wrap items-center justify-between w-full md:justify-start'>
              <div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-28 xl:pl-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
                          Purchase orders fulfilled                   
@@ -44,20 +46,41 @@ const SellerHome = () => {
                          2
                   </p>
              </div>
+
+             <div onClick={()=>setTab('Broadcast')}
+             className='relative flex flex-col items-start justify-center w-[48%] h-24 mt-4 border-[1px] border-[#dddddd] bg-[#2196F3] hover:bg-[#58abef] cursor-pointer shadow-md rounded-md p-3 md:w-[170px] md:mt-0 md:ml-4 xl:w-[220px] xl:h-28 
+             xl:pl-5 xl:ml-5'>
+                  <p className='text-[10px] font-medium text-black xl:text-xs'>
+                        Supply offers made
+                  </p>
+                  <p className='text-xl font-medium text-black my-2 xl:text-2xl xl:my-3'>
+                         12
+                  </p>
+                  <div className='absolute -top-2 -right-2 flex items-center justify-center h-7 w-7 text-xs rounded-full bg-red-500 text-white'>
+                        8
+                  </div>
+             </div>
          </div>
 
 
          <div className='flex flex-col items-start justify-start w-full mt-12 xl:mt-14'>
-              <p className='text-base font-medium text-[#101828] xl:text-xl '>
-                  Recent Purchase Requests
-              </p>
+             {!loading
+              ?<p className='text-base font-medium text-[#101828] xl:text-xl '>
+                  Recent Supply Requests
+               </p>
+              :<p className='text-base font-medium w-full md:w-[60%] xl:text-xl'>  
+                  <Skeleton height="100%" baseColor="#ebebeb" count={1} />
+               </p>
+              }
          </div>
 
 
          {/*  TABLE */}
-         <div className='flex flex-col items-center justify-start w-full border-[1px] h-[340px] overflow-x-auto no-scrollbar border-[#dddddd] rounded-lg mt-5 
+       {!loading 
+        ?<div className='flex flex-col items-center justify-start w-full border-[1px] h-[340px] overflow-x-auto no-scrollbar border-[#dddddd] rounded-lg mt-5 
                          md:w-full xl:h-[340px]'>
 
+                       
          <div className='w-full mt-4'>
          <table className='w-[800px] px-5 md:w-full'>
              <thead className='border-separate border-b border-slate-[#dddddd]'>
@@ -119,6 +142,11 @@ const SellerHome = () => {
          </div>
 
   </div>
+  :<div className=' w-full h-44 rounded-lg mt-5'>
+       <Skeleton height="40%" borderRadius="8px" baseColor="#ebebeb" count={1} />
+       <Skeleton height="16rem" borderRadius="8px" baseColor="#ebebeb" count={1} />
+   </div>
+   }
 
     </div>
   )

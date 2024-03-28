@@ -267,7 +267,7 @@ const DashboardLayout = () => {
                } 
 
                {
-                   tab === 'Dashboard' && user.user_type === 'seller' ?  <SellerHome />
+                   tab === 'Dashboard' && user.user_type === 'seller' ?  <SellerHome setTab={setTab} />
                  : tab === 'Supply Requests' && user.user_type === 'seller' ?  <SellerPurchaseRequests />
                  : tab === 'Notifications' && user.user_type === 'seller' ?  <SellerNotification />
                  : tab === 'Shipment Tracking' && user.user_type === 'seller' ?  <SellerShipmentTracking />

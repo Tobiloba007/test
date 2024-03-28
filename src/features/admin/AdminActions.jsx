@@ -1,10 +1,11 @@
 import axios from "axios";
-import { BASE_URL } from "../../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLoginToken } from "../authentication/AuthSlice";
 import { setBroadcast } from "./AdminSlice";
 
 
+
+const BASE_URL = process.env.REACT_APP_API_URL
 
      // LOGIN
     export const adminLogin = (values, setError, setLoading, navigate) => async (dispatch) => {
@@ -576,7 +577,7 @@ import { setBroadcast } from "./AdminSlice";
         const response = await axios.get(`${BASE_URL}/admin/broadcast/${item}`, { headers });
         if (response.status === 200) {
           setBroadcastDetails(response.data.data)
-          // console.log(response.data.data, 'Hello world1')
+          console.log(response.data.data, 'Hello world1')
         } else if (response.status !== 200) {
           console.log('request failed status code:', response.status);
         } 

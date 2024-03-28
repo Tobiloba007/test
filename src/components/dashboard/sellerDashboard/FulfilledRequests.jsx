@@ -6,7 +6,7 @@ import metal1 from '../../../assets/images/Metal1.svg'
 import { MdOutlineFileCopy } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-import { sellerRecentPurchaseRequest, sellerSearchCommodity } from '../../../features/seller/SellerAction';
+import { recentSupplyRequestAction, sellerSearchCommodity } from '../../../features/seller/SellerAction';
 import { useDispatch } from 'react-redux';
 
 
@@ -19,11 +19,11 @@ const FulfilledRequests = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [search, setSearch] = useState(false);
 
-    const [purchaseRequestsData, setRecetPurchaseRequest] = useState([]);
+    const [recentSupplyRequest, setRecetSupplyRequest] = useState([]);
 
 
     const itemsPerPage = 5; // Number of items to display per page
-    const totalPages = Math.ceil(purchaseRequestsData.length / itemsPerPage); // Calculate total pages
+    const totalPages = Math.ceil(recentSupplyRequest.length / itemsPerPage); // Calculate total pages
     const [currentPage, setCurrentPage] = useState(1); // Current page state
   
     // Function to handle page changes
@@ -36,7 +36,7 @@ const FulfilledRequests = () => {
     const endIndex = startIndex + itemsPerPage;
   
     // Get current page items
-    const currentPageItems = purchaseRequestsData.slice(startIndex, endIndex);
+    const currentPageItems = recentSupplyRequest.slice(startIndex, endIndex);
 
   
     const handleInputChange = (event) => {
@@ -47,7 +47,7 @@ const FulfilledRequests = () => {
 
 
     useEffect(() => {
-      dispatch(sellerRecentPurchaseRequest(setRecetPurchaseRequest, setLoading, setLoading, setError))
+     //  dispatch(recentSupplyRequestAction(setRecetSupplyRequest, setLoading, setLoading, setError))
 
       if (searchTerm !== '') {
           dispatch(sellerSearchCommodity(setSearchResults, searchTerm))
@@ -58,6 +58,7 @@ const FulfilledRequests = () => {
         }
 
     }, [dispatch, searchTerm])
+
 
   return (
     <div className='relative flex flex-col items-center justify-start w-full h-[29.5rem] border-[1px] border-[#dddddd] rounded-lg mt-10 py-2 pb-5 md:h-[27.5rem] 
