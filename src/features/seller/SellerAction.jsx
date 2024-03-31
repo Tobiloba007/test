@@ -33,8 +33,40 @@ const BASE_URL = process.env.REACT_APP_API_URL
 
 
 
+
+          // HOME PAGE METRICS
+    export const metricsData = (setMetrics, setLoadMetrics) => async () => {
+      setLoadMetrics(true)
+      const loginToken = await AsyncStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${loginToken}`,
+      };
+      try{
+        const response = await axios.get(`${BASE_URL}/seller/supply-request/metrics`, { headers });
+        if (response.status === 200) {
+          // console.log(response.data.data)
+          setMetrics(response.data.data)
+        } else if (response.status !== 200) {
+          console.log('request failed status code:', response.status);
+        } 
+      } catch(error) {
+          if (error.response.data.message) {
+              console.log(error.response)
+              console.error('API Error:',error.response.status);
+          } else if (error.request) {
+            console.log(error.response.data.data.message);
+          //   setError('Please check your internet connection...')
+          } 
+        };
+      
+        setLoadMetrics(false)
+    };
+
+
+
           // SEARCH COMMODITY
-    export const sellerSearchCommodity = (setSearchResults, searchTerm) => async () => {
+    export const sellerSearchCommodity = (setSearchResults, searchTerm, setLoadSearch) => async () => {
+      setLoadSearch(true)
         const loginToken = await AsyncStorage.getItem('token');
         const headers = {
           'Content-Type': 'application/json',
@@ -57,6 +89,7 @@ const BASE_URL = process.env.REACT_APP_API_URL
           } catch (error) {
             console.error('Error fetching data:', error);
           }
+          setLoadSearch(false)
       };
 
 

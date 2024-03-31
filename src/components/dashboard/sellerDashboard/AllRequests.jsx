@@ -18,6 +18,7 @@ const AllRequests = ({recetPurchaseRequest}) => {
      const [searchTerm, setSearchTerm] = useState('');
      const [searchResults, setSearchResults] = useState([]);
      const [search, setSearch] = useState(false);
+     const [loadSearch, setLoadSearch] = useState(false);
 
      const [recentSupplyRequest, setRecetSupplyRequest] = useState([]);
 
@@ -49,8 +50,11 @@ const AllRequests = ({recetPurchaseRequest}) => {
      useEffect(() => {
        dispatch(recentSupplyRequestAction(setRecetSupplyRequest, setLoading, setLoading, setError))
 
+     }, [dispatch])
+
+     useEffect(() => {
        if (searchTerm !== '') {
-           dispatch(sellerSearchCommodity(setSearchResults, searchTerm))
+           dispatch(sellerSearchCommodity(setSearchResults, searchTerm, setLoadSearch))
            setSearch(true)
          } else {
            setSearchResults([]);

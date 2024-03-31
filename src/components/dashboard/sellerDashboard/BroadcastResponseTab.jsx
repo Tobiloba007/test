@@ -50,6 +50,9 @@ const BroadcastResponseTab = ({setBroadcastDetails}) => {
 
     useEffect(()=>{
         dispatch(getBroadcasts(setActiveRequest, setLoading, setError))
+    },[dispatch])
+
+    useEffect(()=>{
         if (searchTerm !== '') {
             dispatch(searchBroadcastList(setSearchResults, searchTerm))
             setSearch(true)

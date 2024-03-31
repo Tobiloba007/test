@@ -51,6 +51,9 @@ const OpenPurchase = () => {
       useEffect(() => {
         dispatch(purchaseRequestAction(setPurchaseRequestsData, setLoading))
 
+      }, [dispatch])
+
+      useEffect(() => {
         if (searchTerm !== '') {
             dispatch(SearchCommodity(setSearchResults, searchTerm))
             setSearch(true)

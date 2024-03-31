@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import metal2 from '../../../assets/images/Metal2.svg'
 import { GoDotFill } from "react-icons/go";
 import { useDispatch } from 'react-redux';
-import { recentSupplyRequestAction } from '../../../features/seller/SellerAction';
+import { metricsData, recentSupplyRequestAction } from '../../../features/seller/SellerAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -11,14 +11,19 @@ import 'react-loading-skeleton/dist/skeleton.css'
 const SellerHome = ({setTab}) => {
 
       const [loading, setLoading] = useState(false);
+      const [loadMetrics, setLoadMetrics] = useState(false);
       const [error, setError] = useState(false);
       const [recentSupplyRequest, setRecetSupplyRequest] = useState([]);
+
+      
+     const [metrics, setMetrics] = useState(0);
 
 
     const dispatch = useDispatch();
 
 
      useEffect(() => {
+          dispatch(metricsData(setMetrics, setLoadMetrics))
           dispatch(recentSupplyRequestAction(setRecetSupplyRequest, setLoading, setError))
      }, [dispatch])
 
@@ -28,38 +33,53 @@ const SellerHome = ({setTab}) => {
   return (
     <div className='flex flex-col items-start justify-start w-full py-6  px-6 mt-28 lg:mt-0 lg:pt-[120px] xl:pt-[150px] xl:px-8 xl:py-8'>
          <div className='flex flex-row flex-wrap items-center justify-between w-full md:justify-start'>
-             <div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-28 xl:pl-5'>
+         {!loadMetrics
+             ?<div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-28 xl:pl-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
-                         Purchase orders fulfilled                   
+                         Purchase orders fulfilled                 
                   </p>
                   <p className='text-xl font-medium text-black my-2 xl:text-2xl xl:my-3'>
-                         134
+                         {metrics.completed}
                   </p>
-             </div>
+              </div>
+             :<div className='w-[48%] h-[90px] rounded-md md:w-[170px] xl:w-[220px] lg:h-24 xl:h-[110px]'>  
+                  {loadMetrics && <Skeleton height="100%" baseColor="#ebebeb" count={1} />}
+              </div>
+          }
 
-             <div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] md:ml-4 xl:w-[220px] xl:h-28 
+          {!loadMetrics
+             ?<div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] md:ml-4 xl:w-[220px] xl:h-28 
              xl:pl-5 xl:ml-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
                         Ongoing purchase orders
                   </p>
                   <p className='text-xl font-medium text-black my-2 xl:text-2xl xl:my-3'>
-                         2
+                       {metrics.ongoing}
                   </p>
              </div>
+             :<div className='w-[48%] h-[90px] rounded-md md:w-[170px] md:ml-4 xl:w-[220px] lg:h-24 xl:h-[110px] xl:ml-5'>  
+                  {loadMetrics && <Skeleton height="100%" baseColor="#ebebeb" count={1} />}
+              </div>
+          }
 
-             <div onClick={()=>setTab('Broadcast')}
+          {!loadMetrics
+             ?<div onClick={()=>setTab('Broadcast')}
              className='relative flex flex-col items-start justify-center w-[48%] h-24 mt-4 border-[1px] border-[#dddddd] bg-[#2196F3] hover:bg-[#58abef] cursor-pointer shadow-md rounded-md p-3 md:w-[170px] md:mt-0 md:ml-4 xl:w-[220px] xl:h-28 
              xl:pl-5 xl:ml-5'>
                   <p className='text-[10px] font-medium text-black xl:text-xs'>
                         Supply offers made
                   </p>
                   <p className='text-xl font-medium text-black my-2 xl:text-2xl xl:my-3'>
-                         12
+                        {metrics.total}
                   </p>
                   <div className='absolute -top-2 -right-2 flex items-center justify-center h-7 w-7 text-xs rounded-full bg-red-500 text-white'>
                         8
                   </div>
              </div>
+             :<div className='w-[48%] h-[90px] rounded-md mt-4 md:w-[170px] md:mt-0 md:ml-4 xl:w-[220px] lg:h-24 xl:h-[110px] xl:ml-5'>  
+                  {loadMetrics && <Skeleton height="100%" baseColor="#ebebeb" count={1} />}
+              </div>
+          }
          </div>
 
 

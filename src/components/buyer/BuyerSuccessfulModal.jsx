@@ -49,7 +49,7 @@ const BuyerSuccessfulModal = () => {
                        </div>
 
                        <div className='flex flex-row items-center justify-between w-full mt-8'>
-                             <Link to='/buyer-dashboard' className='flex items-center justify-center text-[10px] h-12 w-[48.5%] bg-black text-white rounded-sm lg:text-xs lg:font-medium'>
+                             <Link to='/login' className='flex items-center justify-center text-[10px] h-12 w-[48.5%] bg-black text-white rounded-sm lg:text-xs lg:font-medium'>
                                     Go to Dashboard
                              </Link>
                              <Link to='/' className='flex items-center justify-center text-[10px] h-12 w-[48.5%] bg-white text-black rounded-sm border-[1px] border-[#A4A4A4] lg:text-xs lg:font-medium'>

@@ -5,12 +5,16 @@ import { GoDotFill } from "react-icons/go";
 import { useSelector } from 'react-redux';
 import { IoIosArrowBack } from "react-icons/io";
 import SellerBroadcastOffer from './SellerBroadcastOffer';
+import { IoChatbubblesSharp } from "react-icons/io5";
+import SellerChatModal from './SellerChatModal';
+
 
 
 
 
 const SellerResponseDetails = ({broadcastDetails, setBroadcastDetails}) => {
     const [openModal, setOpenModal] = useState(false);
+    const [openChat, setOpenChat] = useState(false);
 
     const data = broadcastDetails.broadcast
 
@@ -122,8 +126,16 @@ const SellerResponseDetails = ({broadcastDetails, setBroadcastDetails}) => {
             </p>*/}
      </div>
 
-     <div className='flex flex-col items-start justify-start w-full md:flex-row lg:mt-5 xl:mt-8'>
-          <div className='w-full mt-8'>
+     <div onClick={()=>setOpenChat(true)}
+     className='flex items-center justify-start w-full mt-8 cursor-pointer'>
+         <IoChatbubblesSharp className='text-3xl text-[#2196F3]' />
+         <p className='text-[10px] text-[#667085] font-medium ml-2 xl:text-xs'>
+            CHAT WITH ADMIN
+         </p>
+     </div>
+
+     <div className='flex flex-col items-start justify-start w-full md:flex-row lg:mt-2 xl:mt-2'>
+          <div className='w-full mt-6'>
                 <p className='text-[10px] text-[#667085] font-medium xl:text-xs'>
                      REQUEST DETAILS
                 </p>
@@ -183,7 +195,11 @@ const SellerResponseDetails = ({broadcastDetails, setBroadcastDetails}) => {
 
      {openModal && <div onClick={()=>setOpenModal(false)} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
 
-    {openModal && <SellerBroadcastOffer setOpenModal={setOpenModal} data={data} setBroadcastDetails={setBroadcastDetails} />}
+     {openModal && <SellerBroadcastOffer setOpenModal={setOpenModal} data={data} setBroadcastDetails={setBroadcastDetails} />}
+
+     {openChat && <div onClick={()=>setOpenChat(false)} className='fixed w-full h-full bg-[#000000] opacity-30'></div>}
+
+     {openChat && <SellerChatModal setOpenChat={setOpenChat} />}
 
 
     </div>
