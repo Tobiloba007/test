@@ -85,7 +85,7 @@ const BASE_URL = process.env.REACT_APP_API_URL
                   }
             });
             setSearchResults(response.data.data.purchase_request.data);
-            console.log(response.data.data.purchase_request.data);
+            // console.log(response.data.data.purchase_request.data);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -101,10 +101,10 @@ const BASE_URL = process.env.REACT_APP_API_URL
         'Authorization': `Bearer ${loginToken}`,
       };
       try{
-        const response = await axios.get(`${BASE_URL}/seller/broadcast/`, { headers });
+        const response = await axios.get(`${BASE_URL}/seller/broadcast`, { headers });
         if (response.status === 200) {
-          setActiveRequest(response.data.data)
-          // console.log(response.data.data)
+          setActiveRequest(response.data.data.broadcast.data)
+          // console.log(response.data.data.broadcast.data)
         } else if (response.status !== 200) {
           console.log('request failed status code:', response.status);
         } 

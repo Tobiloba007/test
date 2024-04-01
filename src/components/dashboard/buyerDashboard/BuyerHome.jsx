@@ -40,7 +40,6 @@ const BuyerHome = ({setTab}) => {
      setOpenModal(true)
      setModalData(item)
      console.log(modalData, 'Hello Modal')
-
   }
 
 

@@ -519,8 +519,8 @@ const BASE_URL = process.env.REACT_APP_API_URL
       try{
         const response = await axios.get(`${BASE_URL}/admin/broadcast/`, { headers });
         if (response.status === 200) {
-          setActiveRequest(response.data.data)
-           // console.log(response.data.data)
+          setActiveRequest(response.data.data.broadcast.data)
+          //  console.log(response.data.data.broadcast.data)
         } else if (response.status !== 200) {
           console.log('request failed status code:', response.status);
         } 
@@ -557,8 +557,8 @@ const BASE_URL = process.env.REACT_APP_API_URL
                   end_date: '2024-03-28',
                 }
           });
-          setSearchResults(response.data.data);
-          // console.log(response.data.data.buyer.data);
+          setSearchResults(response.data.data.broadcast.data);
+          // console.log(response.data.data.broadcast.data);
         } catch (error) {
           console.error('Error fetching data:', error);
         }
@@ -577,7 +577,7 @@ const BASE_URL = process.env.REACT_APP_API_URL
         const response = await axios.get(`${BASE_URL}/admin/broadcast/${item}`, { headers });
         if (response.status === 200) {
           setBroadcastDetails(response.data.data)
-          console.log(response.data.data, 'Hello world1')
+          // console.log(response.data.data, 'Hello world1')
         } else if (response.status !== 200) {
           console.log('request failed status code:', response.status);
         } 

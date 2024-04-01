@@ -51,6 +51,9 @@ const Active = ({setBroadcastDetails}) => {
 
     useEffect(()=>{
         dispatch(activeBroadcastEvent(setActiveRequest, setLoadData, setError))
+    },[dispatch])
+
+    useEffect(()=>{
         if (searchTerm !== '') {
             dispatch(searchActiveBroadcast(setSearchResults, searchTerm))
             setSearch(true)

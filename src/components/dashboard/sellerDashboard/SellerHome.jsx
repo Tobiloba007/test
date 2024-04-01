@@ -5,15 +5,19 @@ import { useDispatch } from 'react-redux';
 import { metricsData, recentSupplyRequestAction } from '../../../features/seller/SellerAction';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import HomeModal from '../../modals/buyer/HomeModal';
+import OrderModal from './OrderModal';
 
 
 
 const SellerHome = ({setTab}) => {
-
       const [loading, setLoading] = useState(false);
       const [loadMetrics, setLoadMetrics] = useState(false);
       const [error, setError] = useState(false);
       const [recentSupplyRequest, setRecetSupplyRequest] = useState([]);
+      const [openModal, setOpenModal] = useState(null);
+      const [modalData, setModalData] = useState(null);
+
 
       
      const [metrics, setMetrics] = useState(0);
@@ -29,9 +33,15 @@ const SellerHome = ({setTab}) => {
 
      const data = recentSupplyRequest.slice(0, 5)
 
+     const handleOpenModal = (item) => {
+          setOpenModal(true)
+          setModalData(item)
+       }
+
 
   return (
-    <div className='flex flex-col items-start justify-start w-full py-6  px-6 mt-28 lg:mt-0 lg:pt-[120px] xl:pt-[150px] xl:px-8 xl:py-8'>
+     <div className='flex flex-col items-center w-full'>
+    <div className='flex flex-col items-start justify-start w-full py-6 px-6 mt-28 lg:mt-0 lg:pt-[120px] xl:pt-[150px] xl:px-8 xl:py-8'>
          <div className='flex flex-row flex-wrap items-center justify-between w-full md:justify-start'>
          {!loadMetrics
              ?<div className='flex flex-col items-start justify-center w-[48%] h-24 border-[1px] border-[#dddddd] shadow-md rounded-md p-3 md:w-[170px] xl:w-[220px] xl:h-28 xl:pl-5'>
@@ -149,7 +159,8 @@ const SellerHome = ({setTab}) => {
 
 
                       <td class="border-b text-[10px] font-medium">
-                           <div className='flex justify-center items-center h-7 w-[72px] border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
+                           <div onClick={()=>handleOpenModal(item)}
+                           className='flex justify-center items-center h-7 w-[72px] border-[#D0D5DD] border-[1px] bg-[#F2F4F7] rounded-md'>
                                   <p className='text-[#2196F3]'>View Order</p>
                            </div>
                       </td>
@@ -167,6 +178,20 @@ const SellerHome = ({setTab}) => {
        <Skeleton height="16rem" borderRadius="8px" baseColor="#ebebeb" count={1} />
    </div>
    }
+
+
+    </div>
+
+    {openModal &&
+     <div onClick={()=>setOpenModal(false)}
+     className='fixed w-full h-full justify-center items-center bg-[#000000] p-5 lg:w-[80%] opacity-50 xl:w-[80%]'></div>
+    }
+
+    {openModal &&
+     <div className='absolute top-32 flex flex-col items-center justify-start w-[90%] z-20 md:w-[80%] lg:w-[70%] xl:w-[65%]'>
+             <OrderModal setOpenModal={setOpenModal} modalData={modalData} />  
+     </div>
+    }
 
     </div>
   )
